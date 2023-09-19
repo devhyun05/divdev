@@ -11,9 +11,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb'; 
+import {Link} from 'react-router-dom'; 
 
 const NavigationComponent = () => {
-    const pages = ['About', 'Posts', 'SignIn'];
+    const pages = [{navItem: 'About', navLink: '/about'}, {navItem: 'SignIn', navLink: '/signin'}];
+
     const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
     const [anchorElNav, setAnchorElNav] = React.useState(null); 
     const [anchorElUser, setAnchorElUser] = React.useState(null); 
@@ -32,7 +34,7 @@ const NavigationComponent = () => {
     };
     return (
         <>
-            <AppBar position="static">
+            <AppBar position="static" style={{backgroundColor: '#121212'}}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <AdbIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}} />
@@ -105,21 +107,22 @@ const NavigationComponent = () => {
                                 >
                                     Devhyun
                                 </Typography>
-                                <Box sx={{ flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
-       
+                                <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end'}}>
+                                    {pages.map((page)=> (
                                         <Button 
+                                            key={page}
                                             onClick={handleCloseNavMenu}
                                             sx={{my: 2, color: 'white', display: 'block'}}
                                         >
-                                        About
+                                            <Link to={`${page.navLink}`}>{page.navItem}</Link>
                                         </Button>
-
+                                    ))}
                                     <Box sx={{flexGrow: 0}}>
-                                        <Tooltip title="Open settings">
+                                        {/* <Tooltip title="Open settings">
                                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0}}>
                                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
                                             </IconButton>
-                                        </Tooltip>
+                                        </Tooltip> */}
                                         <Menu 
                                             sx={{ mt: '45px'}}
                                             id="menu-appbar"

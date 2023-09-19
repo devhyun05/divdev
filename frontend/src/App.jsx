@@ -5,7 +5,7 @@ import About from './pages/About';
 import Privacy from './pages/Privacy';
 import SignIn from './pages/SignIn';
 import Terms from './pages/Terms'; 
-import { Route, Routes} from "react-router-dom"; 
+import { Route, Routes } from "react-router-dom"; 
 function App() {
   return (
     <div className="App">
@@ -16,7 +16,7 @@ function App() {
           <Route path="/about" element={<About />}/>
           <Route path="/privacy" element={<Privacy />}/>
           <Route path="/signin" element={<SignIn/>}/>
-          <Route path="/terms" element={<Terms/>}/> 
+          <Route path="/terms" element={<Terms/>}/>
         </Routes>
       </div>
     </div>
