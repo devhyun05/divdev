@@ -5,7 +5,6 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/MenuIcon';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -14,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb'; 
 
 const NavigationComponent = () => {
-    const pages = ['About', 'Posts'];
+    const pages = ['About', 'Posts', 'SignIn'];
     const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
     const [anchorElNav, setAnchorElNav] = React.useState(null); 
     const [anchorElUser, setAnchorElUser] = React.useState(null); 
@@ -52,7 +51,7 @@ const NavigationComponent = () => {
                                 textDecoration: 'none',
                             }}
                             >
-                                Devhyun
+                                Divdev
                             </Typography>
                             <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                                 <IconButton
@@ -63,7 +62,7 @@ const NavigationComponent = () => {
                                     onClick={handleOpenNavMenu}
                                     color="inherit"
                                 >
-                                    <MenuIcon />
+                            
                                 </IconButton>
                                 <Menu 
                                     id="menu-appbar"
@@ -84,12 +83,8 @@ const NavigationComponent = () => {
                                         display: { xs: 'block', md: 'none'},
                                     }}
                                     >
-                                        {pages.map((page) => (
-                                            <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                                <Typography textAlign="center">{page}</Typography>
-                                            </MenuItem>
-                                        ))}
-                                    </Menu>
+                                       
+                                </Menu>
                             </Box>
                             <AdbIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}/>
                             <Typography 
@@ -111,15 +106,14 @@ const NavigationComponent = () => {
                                     Devhyun
                                 </Typography>
                                 <Box sx={{ flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
-                                    {pages.map((page)=> (
+       
                                         <Button 
-                                            key={page}
                                             onClick={handleCloseNavMenu}
                                             sx={{my: 2, color: 'white', display: 'block'}}
                                         >
-                                            {page}
+                                        About
                                         </Button>
-                                    ))}
+
                                     <Box sx={{flexGrow: 0}}>
                                         <Tooltip title="Open settings">
                                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0}}>
