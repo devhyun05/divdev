@@ -13,22 +13,42 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider} from '@mui/material/styles'; 
 
+const backend = 'http://localhost:3000'; 
+
 const Register = () => {
     const defaultTheme = createTheme({
         pageBackgroundColor: '#F0F0F0'
     });
-    const handleSubmit = (event) => {
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
+
         const data = new FormData(event.currentTarget); 
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
+        const formObject = {};
+
+        data.forEach((value, key) => {
+            formObject[key] = value; 
         });
+        console.log("s")
+        const response = await fetch(`${backend}/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formObject)
+        }).then((data) =>{
+
+            console.log(data);
+        }).catch((err) => {
+            console.log(`Error: ${err}`); 
+        })
     };
+
+
 
     return (
         <>
-                    <ThemeProvider theme={defaultTheme} >
+                <ThemeProvider theme={defaultTheme} >
                 <Container component="main" maxWidth="xs" style={{backgroundColor: '#F0F0F0', borderRadius: '10px'}}>
                     <CssBaseline/>
                     <Box 
@@ -56,7 +76,7 @@ const Register = () => {
                                 autoComplete="email"
                                 autoFocus 
                             /> 
-                                                        <TextField 
+                            <TextField 
                                 margin="normal"
                                 required
                                 fullWidth 
