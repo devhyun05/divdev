@@ -53,7 +53,7 @@ const NavigationComponent = () => {
                                 textDecoration: 'none',
                             }}
                             >
-                                Divdev
+                                {"<"}Divbug{">"}
                             </Typography>
                             <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                                 <IconButton
@@ -112,9 +112,9 @@ const NavigationComponent = () => {
                                         <Button 
                                             key={page}
                                             onClick={handleCloseNavMenu}
-                                            sx={{my: 2, color: 'white', display: 'block'}}
+                                            sx={{my: 2, display: 'block'}}
                                         >
-                                            <Link to={`${page.navLink}`}>{page.navItem}</Link>
+                                            <Link style={{textDecoration: 'none', color:'#F0F0F0'}} to={`${page.navLink}`}>{page.navItem}</Link>
                                         </Button>
                                     ))}
                                     <Box sx={{flexGrow: 0}}>

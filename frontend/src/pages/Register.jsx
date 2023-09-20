@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider} from '@mui/material/styles'; 
 
-const SignIn = () => {
+const Register = () => {
     const defaultTheme = createTheme({
         pageBackgroundColor: '#F0F0F0'
     });
@@ -25,9 +25,10 @@ const SignIn = () => {
             password: data.get('password'),
         });
     };
+
     return (
         <>
-            <ThemeProvider theme={defaultTheme} >
+                    <ThemeProvider theme={defaultTheme} >
                 <Container component="main" maxWidth="xs" style={{backgroundColor: '#F0F0F0', borderRadius: '10px'}}>
                     <CssBaseline/>
                     <Box 
@@ -42,7 +43,7 @@ const SignIn = () => {
                             <LockOutlinedIcon /> 
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Register
                         </Typography>
                         <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
                             <TextField 
@@ -55,6 +56,16 @@ const SignIn = () => {
                                 autoComplete="email"
                                 autoFocus 
                             /> 
+                                                        <TextField 
+                                margin="normal"
+                                required
+                                fullWidth 
+                                id="username"
+                                label="User/Blog name"
+                                name="username"
+                                autoComplete="username"
+                                autoFocus 
+                            /> 
                             <TextField 
                                 margin="normal"
                                 required
@@ -65,30 +76,26 @@ const SignIn = () => {
                                 id="password"
                                 autoComplete="current-password"
                              />
-                             <FormControlLabel 
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
-                            /> 
+                             <TextField 
+                                margin="normal"
+                                required 
+                                fullWidth 
+                                name="confirm-password"
+                                label="Confirm Password" 
+                                type="password"
+                                id="confirm-password"
+                                autoComplete="confirm-password"
+                            />
+                
                             <Button 
                                 type="submit"
                                 fullWidth 
                                 variant="contained"
                                 sx={{mt: 3, mb: 2}}
                             >
-                                Sign In
+                                Register
                             </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2">
-                                        Forgot password? 
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link href="/register" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
-                                </Grid>
-                            </Grid>
+                 
                         </Box>
                     </Box>
          
@@ -98,4 +105,4 @@ const SignIn = () => {
     )
 }
 
-export default SignIn; 
+export default Register;
