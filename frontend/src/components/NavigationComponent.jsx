@@ -53,7 +53,7 @@ const NavigationComponent = () => {
                                 textDecoration: 'none',
                             }}
                             >
-                                {"<"}Divbug{">"}
+                                Divdev
                             </Typography>
                             <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                                 <IconButton
