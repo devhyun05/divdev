@@ -33,42 +33,55 @@ db.once("open", function() {
     console.log("Connected successfully");
 });
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.PASSWORD 
-    }
-});
-
 const token = jwt.sign({
-    data: 'Token Data' 
-}, 'secretKey', {
-    expiresIn: '10m'
-}); 
+    data: 'Token Data',
+}, 'ourSecretKey', { expiresIn: '10m' }  
+); 
 
-const mailConfigurations = {
-    from: `${process.env.EMAIL_USERNAME}`,
-    to: '',
+app.get('/verify/:token', (req, res) => {
+    const {token} = req.params; 
 
-    subject: 'Email Verification',
-
-    // Text of email body 
-    text: `Hi! there, you have recently visited out website
-    and entered your email. Please follow the given link
-    to verify your email 
-    <form action="/login" method="POST">
-    <button>Verify Email</button>
-    </form>`
-};
-
+    // Verifying the JWT token
+    jwt.verify(token, 'ourSecretKey', function(err, decoded){
+        if (err) {
+            console.log(err);
+            res.send("Email verification failed, possibly the link is invalid or expired");
+        } else {
+            res.send("Email verified successfully"); 
+        }
+    })
+});
 
 app.post("/register", async (req, res)=> {
     console.log(req.body);
-    transporter.sendMail (mailConfigurations, function(error, info) {
-        if (error) throw Error(error);
-        console.log('Email sent successfully'); 
-        console.log(info); 
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_USERNAME,
+            pass: process.env.PASSWORD 
+        }
+    });
+    
+    const mailConfigurations = (userMail) => ({
+        from: `${process.env.EMAIL_USERNAME}`,
+        to: `${userMail}`,
+    
+        subject: 'Email Verification',
+    
+        // Text of email body 
+        text: `Hi! There, You have recently visited 
+        our website and entered your email.
+        Please follow the given link to verify your email
+        http://localhost:3000/verify/${token} 
+        Thanks`
+    });
+
+    transporter.sendMail (mailConfigurations(req.body.email), function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+
+        }
     });
 
 });
