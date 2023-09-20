@@ -3,9 +3,6 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 
-// using environment variable 
-require('dotenv').config(); 
-
 const token = jwt.sign({
     data: 'Token Data',
 }, 'ourSecretKey', { expiresIn: '10m' }  
