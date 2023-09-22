@@ -21,7 +21,7 @@ const Register = () => {
     const [email, setEmail] = React.useState(""); 
     const onSubmit = async (data) => {
         setEmail(data.email)
-        setConfirmEmailMessage(true);
+
         const response = await fetch(`${backend}/register`, {
             method: 'POST',
             headers: {
@@ -29,8 +29,9 @@ const Register = () => {
             },
             body: JSON.stringify(data)
         }).then((data) =>{
-            console.log(data);
-        }).catch((err) => {
+            setConfirmEmailMessage(true);
+        }).catch((err) => {        
+             
             console.log(`Error: ${err}`); 
         })
     }
@@ -63,7 +64,8 @@ const Register = () => {
                         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{mt: 1}}>
                             <TextField 
                                 {...register("email", {
-                                    required: "Email is required"
+                                    required: "Email is required",
+                                    // validate: (value) => value === getValues(confirmEmailMessage) || "Email already exists"
                                 })}
                                 error={!!errors.email}
                                 helperText={errors.email?.message}
@@ -95,13 +97,11 @@ const Register = () => {
                             <TextField                                
                                 {...register("password", {
                                     required: "Password is required",
-                                    minLength: {
-                                        value: 8, 
-                                        message: "Password must be at least 8 characters long."
-                                    }, 
-                                    maxLength: {
-                                        value: 128,
-                                        message: "Password can contain up to 128 characters."
+                                    pattern: {
+                                        value:
+                                        /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,16}$/,
+                                        message:
+                                        'Please use a password of 8 to 16 characters with a combination of upper and lower case letters, numbers, and special symbols'
                                     }
                                 })}
                                 error={!!errors.password}
@@ -164,7 +164,7 @@ const Register = () => {
                         Email Confirmation                          
                     </Typography>
                     <Typography variant="subtitle1">
-                        We have sent email to <Link href={`mailto:${email}`}>${email}</Link> to confirm the validity of our email address. 
+                        We have sent email to <Link href={`${email}`}>{email}</Link> to confirm the validity of our email address. 
                         After receiving the email follow the link provided to complete your registration.
                     </Typography>
                 </Box>
