@@ -3,46 +3,50 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline'; 
 import TextField from '@mui/material/TextField'; 
-import FormControlLabel from '@mui/material/FormControlLabel'; 
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box'; 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'; 
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider} from '@mui/material/styles'; 
+import { useForm } from 'react-hook-form'; 
 
 const backend = 'http://localhost:3000'; 
 
 const Register = () => {
+    const { register, handleSubmit, getValues, formState, watch } = useForm(); 
+    const { errors } = formState; 
+
+    const onSubmit = (data) => {
+        console.log(data); 
+    }
+
     const defaultTheme = createTheme({
         pageBackgroundColor: '#F0F0F0'
     });
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
 
-        const data = new FormData(event.currentTarget); 
-        const formObject = {};
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
 
-        data.forEach((value, key) => {
-            formObject[key] = value; 
-        });
-        console.log("s")
-        const response = await fetch(`${backend}/register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formObject)
-        }).then((data) =>{
+    //     const data = new FormData(event.currentTarget); 
+    //     const formObject = {};
 
-            console.log(data);
-        }).catch((err) => {
-            console.log(`Error: ${err}`); 
-        })
-    };
+    //     data.forEach((value, key) => {
+    //         formObject[key] = value; 
+    //     });
+        
+    //     const response = await fetch(`${backend}/register`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(formObject)
+    //     }).then((data) =>{
+    //         console.log(data);
+    //     }).catch((err) => {
+    //         console.log(`Error: ${err}`); 
+    //     })
+    // };
 
 
 
@@ -65,8 +69,13 @@ const Register = () => {
                         <Typography component="h1" variant="h5">
                             Register
                         </Typography>
-                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
+                        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{mt: 1}}>
                             <TextField 
+                                {...register("email", {
+                                    required: "Email is required"
+                                })}
+                                error={!!errors.email}
+                                helperText={errors.email?.message}
                                 margin="normal"
                                 required
                                 fullWidth 
@@ -75,8 +84,14 @@ const Register = () => {
                                 name="email"
                                 autoComplete="email"
                                 autoFocus 
+                                
                             /> 
                             <TextField 
+                                {...register("username", {
+                                    required: "Username is required"
+                                })}
+                                error={!!errors.username}
+                                helperText={errors.username?.message}
                                 margin="normal"
                                 required
                                 fullWidth 
@@ -86,7 +101,20 @@ const Register = () => {
                                 autoComplete="username"
                                 autoFocus 
                             /> 
-                            <TextField 
+                            <TextField                                
+                                {...register("password", {
+                                    required: "Password is required",
+                                    minLength: {
+                                        value: 8, 
+                                        message: "Password must be at least 8 characters long."
+                                    }, 
+                                    maxLength: {
+                                        value: 128,
+                                        message: "Password can contain up to 128 characters."
+                                    }
+                                })}
+                                error={!!errors.password}
+                                helperText={errors.password?.message}
                                 margin="normal"
                                 required
                                 fullWidth 
@@ -96,15 +124,22 @@ const Register = () => {
                                 id="password"
                                 autoComplete="current-password"
                              />
+   
                              <TextField 
+                                {...register("confirm_password", {
+                                    required: "Confirm password is required",
+                                    validate: (value) => value === getValues("password") || "Password are not matching"
+                                })}
+                                error={!!errors.confirm_password}
+                                helperText={errors.confirm_password?.message}
                                 margin="normal"
                                 required 
                                 fullWidth 
-                                name="confirm-password"
+                                name="confirm_password"
                                 label="Confirm Password" 
                                 type="password"
-                                id="confirm-password"
-                                autoComplete="confirm-password"
+                                id="confirm_password"
+                                autoComplete="confirm_password"
                             />
                 
                             <Button 
