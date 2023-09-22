@@ -9,15 +9,30 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider} from '@mui/material/styles'; 
 import { useForm } from 'react-hook-form'; 
+import { Link } from 'react-router-dom'; 
+import emailImage from '../assets/img/email.png'; 
 
 const backend = 'http://localhost:3000'; 
 
 const Register = () => {
-    const { register, handleSubmit, getValues, formState, watch } = useForm(); 
+    const { register, handleSubmit, getValues, formState } = useForm(); 
     const { errors } = formState; 
-
-    const onSubmit = (data) => {
-        console.log(data); 
+    const [confirmEmailMessage, setConfirmEmailMessage] = React.useState(false); 
+    const [email, setEmail] = React.useState(""); 
+    const onSubmit = async (data) => {
+        setEmail(data.email)
+        setConfirmEmailMessage(true);
+        const response = await fetch(`${backend}/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((data) =>{
+            console.log(data);
+        }).catch((err) => {
+            console.log(`Error: ${err}`); 
+        })
     }
 
     const defaultTheme = createTheme({
@@ -25,33 +40,9 @@ const Register = () => {
     });
 
 
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-
-    //     const data = new FormData(event.currentTarget); 
-    //     const formObject = {};
-
-    //     data.forEach((value, key) => {
-    //         formObject[key] = value; 
-    //     });
-        
-    //     const response = await fetch(`${backend}/register`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(formObject)
-    //     }).then((data) =>{
-    //         console.log(data);
-    //     }).catch((err) => {
-    //         console.log(`Error: ${err}`); 
-    //     })
-    // };
-
-
-
     return (
         <>
+            {!confirmEmailMessage ?
                 <ThemeProvider theme={defaultTheme} >
                 <Container component="main" maxWidth="xs" style={{backgroundColor: '#F0F0F0', borderRadius: '10px'}}>
                     <CssBaseline/>
@@ -156,6 +147,29 @@ const Register = () => {
          
                 </Container>
             </ThemeProvider>
+            : 
+            <Container sx={{display: 'flex', justifyContent: 'center', paddingTop: '10%'}}>
+                <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: '30px',
+                        paddingTop: '40px',
+                        width: 600, 
+                        height: 400,
+                        backgroundColor: '#ffffff',
+                        borderRadius: '10px'}}>
+                    <img src={emailImage} alt="" style={{width: '120px'}}/>
+                    <Typography variant='h4'>                 
+                        Email Confirmation                          
+                    </Typography>
+                    <Typography variant="subtitle1">
+                        We have sent email to <Link href={`mailto:${email}`}>${email}</Link> to confirm the validity of our email address. 
+                        After receiving the email follow the link provided to complete your registration.
+                    </Typography>
+                </Box>
+            </Container>
+            }
         </>
     )
 }
