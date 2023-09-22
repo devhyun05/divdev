@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router(); 
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
+const db = require('../lib/db'); 
 
 const token = jwt.sign({
     data: 'Token Data',
@@ -24,37 +25,40 @@ router.get('/:token', (req, res) => {
 
 
 router.post("/", async (req, res)=> {
-    console.log("a");
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_USERNAME,
-            pass: process.env.PASSWORD 
-        }
-    });
     
-    const mailConfigurations = (userMail) => ({
-        from: `${process.env.EMAIL_USERNAME}`,
-        to: `${userMail}`,
-    
-        subject: 'Email Verification',
-    
-        // Text of email body 
-        text: `Hi! There, You have recently visited 
-        our website and entered your email.
-        Please follow the given link to verify your email
-        http://localhost:3000/verify/${token} 
-        Thanks`
-    });
+    const check = await db.collection('Users').findOne(({email: req.body.email}))
+    if (check) {
+        res.status(406);
+    } else {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USERNAME,
+                pass: process.env.PASSWORD 
+            }
+        });
+        const mailConfigurations = (userMail) => ({
+            from: `${process.env.EMAIL_USERNAME}`,
+            to: `${userMail}`,
+        
+            subject: 'Email Verification',
+        
+            // Text of email body 
+            text: `Hi! There, You have recently visited 
+            our website and entered your email.
+            Please follow the given link to verify your email
+            http://localhost:3000/verify/${token} 
+            Thanks`
+        });
 
-    transporter.sendMail (mailConfigurations(req.body.email), function(error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log("register succeed"); 
-        }
-    });
-
+        transporter.sendMail (mailConfigurations(req.body.email), async function(error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                db.collection('Users').insertOne({username: req.body.username, email: req.body.email, password: req.body.password})
+            }
+        });
+    }
 });
 
 module.exports = router;

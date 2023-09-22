@@ -11,8 +11,6 @@ const app = express();
 
 app.use(express.json()); 
 
-
-
 const corsOptions = {
     origin: ["http://localhost:3001"], // accept domain list
     methods: ["GET", "POST", "PUT", "DELETE"], // accept HTTP methods list
