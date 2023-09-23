@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline'; 
 import TextField from '@mui/material/TextField'; 
 import Box from '@mui/material/Box'; 
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'; 
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider} from '@mui/material/styles'; 
@@ -18,11 +17,14 @@ const Register = () => {
     const { register, handleSubmit, getValues, formState } = useForm(); 
     const { errors } = formState; 
     const [confirmEmailMessage, setConfirmEmailMessage] = React.useState(false); 
+    const [serverValidation, setServerValidation] = React.useState(true); 
+    const [changePage, setChangePage] = React.useState(false);
     const [email, setEmail] = React.useState(""); 
+
     const onSubmit = async (data) => {
         setEmail(data.email)
-
-        const response = await fetch(`${backend}/register`, {
+  
+        await fetch(`${backend}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -30,8 +32,12 @@ const Register = () => {
             body: JSON.stringify(data)
         }).then((data) =>{
             setConfirmEmailMessage(true);
-        }).catch((err) => {        
-             
+            setServerValidation(true); 
+            setChangePage(true);
+        }).catch((err) => {             
+            setConfirmEmailMessage(false);
+            setChangePage(false);
+            setServerValidation(false); 
             console.log(`Error: ${err}`); 
         })
     }
@@ -40,10 +46,9 @@ const Register = () => {
         pageBackgroundColor: '#F0F0F0'
     });
 
-
     return (
         <>
-            {!confirmEmailMessage ?
+            {!confirmEmailMessage && !changePage ?
                 <ThemeProvider theme={defaultTheme} >
                 <Container component="main" maxWidth="xs" style={{backgroundColor: '#F0F0F0', borderRadius: '10px'}}>
                     <CssBaseline/>
@@ -56,16 +61,25 @@ const Register = () => {
                         }}
                     >
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main'}}>
-                            <LockOutlinedIcon /> 
+                       
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Register
                         </Typography>
+                 
                         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{mt: 1}}>
                             <TextField 
                                 {...register("email", {
                                     required: "Email is required",
-                                    // validate: (value) => value === getValues(confirmEmailMessage) || "Email already exists"
+                                    pattern: {
+                                        value:
+                                          /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                                        message: 'Email is invalid.',
+                                    },                          
+                                    validate: {
+                                        serverValidationFailed: () => 
+                                            serverValidation || "Email already registered",
+                                    }
                                 })}
                                 error={!!errors.email}
                                 helperText={errors.email?.message}
@@ -76,9 +90,9 @@ const Register = () => {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
-                                autoFocus 
-                                
+                                autoFocus                                 
                             /> 
+                                   
                             <TextField 
                                 {...register("username", {
                                     required: "Username is required"
@@ -92,14 +106,13 @@ const Register = () => {
                                 label="User/Blog name"
                                 name="username"
                                 autoComplete="username"
-                                autoFocus 
                             /> 
                             <TextField                                
                                 {...register("password", {
                                     required: "Password is required",
                                     pattern: {
                                         value:
-                                        /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,16}$/,
+                                        /(?=.*\d{1,50})(?=.*[~`!@#$%^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,16}$/,
                                         message:
                                         'Please use a password of 8 to 16 characters with a combination of upper and lower case letters, numbers, and special symbols'
                                     }

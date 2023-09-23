@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useContext} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -6,20 +6,21 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb'; 
+import Tooltip from '@mui/material/Tooltip'; 
+import Avatar from '@mui/material/Avatar'; 
 import {Link} from 'react-router-dom'; 
+import LoginContext from '../context/LoginContext'; 
 
 const NavigationComponent = () => {
-    const pages = [{navItem: 'About', navLink: '/about'}, {navItem: 'SignIn', navLink: '/signin'}];
-
+    const { isLoggedIn, setIsLoggedIn, loginText, setLoginText } = useContext(LoginContext); 
+    const pages = [{navItem: 'About', navLink: '/about'}, {navItem: 'Login', navLink: '/login'}];
     const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-    const [anchorElNav, setAnchorElNav] = React.useState(null); 
-    const [anchorElUser, setAnchorElUser] = React.useState(null); 
-
+    const [anchorElNav, setAnchorElNav] = useState(null); 
+    const [anchorElUser, setAnchorElUser] = useState(null); 
+    console.log(isLoggedIn);
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget); 
     };
@@ -54,6 +55,7 @@ const NavigationComponent = () => {
                             }}
                             >
                                 Divdev
+               
                             </Typography>
                             <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                                 <IconButton
@@ -108,9 +110,9 @@ const NavigationComponent = () => {
                                     Devhyun
                                 </Typography>
                                 <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end'}}>
-                                    {pages.map((page)=> (
+                                    {pages.map((page, index) => (
                                         <Button 
-                                            key={page}
+                                            key={index}
                                             onClick={handleCloseNavMenu}
                                             sx={{my: 2, display: 'block'}}
                                         >
@@ -118,11 +120,13 @@ const NavigationComponent = () => {
                                         </Button>
                                     ))}
                                     <Box sx={{flexGrow: 0}}>
-                                        {/* <Tooltip title="Open settings">
-                                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0}}>
+                                        {isLoggedIn ? 
+                                        <Tooltip title="Open settings">
+                                            <IconButton onClick={handleOpenUserMenu} sx={{marginTop:'5%'}}>
                                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
                                             </IconButton>
-                                        </Tooltip> */}
+                                        </Tooltip> : ''}
+
                                         <Menu 
                                             sx={{ mt: '45px'}}
                                             id="menu-appbar"
@@ -144,6 +148,7 @@ const NavigationComponent = () => {
                                                         <Typography textAlign="center">{setting}</Typography>
                                                     </MenuItem>
                                                 ))}
+                                                
                                             </Menu>
                                     </Box>
                                 </Box>
