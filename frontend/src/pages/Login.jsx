@@ -1,4 +1,6 @@
-import * as React from 'react'; 
+import React, { useContext} from 'react'; 
+import { useNavigate } from 'react-router-dom'; 
+import LoginContext from '../context/LoginContext'; 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline'; 
@@ -12,19 +14,35 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider} from '@mui/material/styles'; 
+import { useForm } from 'react-hook-form'; 
+
+
+const backend = 'http://localhost:3000';
 
 const SignIn = () => {
+    const navigate = useNavigate(); 
+    const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext); 
+    const { register, handleSubmit, formState } = useForm(); 
+    const { errors } = formState; 
     const defaultTheme = createTheme({
         pageBackgroundColor: '#F0F0F0'
     });
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget); 
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };
+    
+    const onSubmit = async (data) => {
+        console.log(data);
+        await fetch(`${backend}/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(data => {
+            setIsLoggedIn(true); 
+            navigate("/");
+        }).catch(err =>{
+            console.log(err);
+        })
+    }
     return (
         <>
             <ThemeProvider theme={defaultTheme} >
@@ -44,8 +62,14 @@ const SignIn = () => {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
+          
+                        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{mt: 1}}>
                             <TextField 
+                                {...register("email",{
+                                    required: "Email is required"
+                                })}
+                                error={!!errors.email}
+                                helperText={errors.email?.message}
                                 margin="normal"
                                 required
                                 fullWidth 
@@ -56,6 +80,11 @@ const SignIn = () => {
                                 autoFocus 
                             /> 
                             <TextField 
+                                {...register("password",{
+                                    required: "Password is required"
+                                })}
+                                error={!!errors.password}
+                                helperText={errors.password?.message}
                                 margin="normal"
                                 required
                                 fullWidth 
