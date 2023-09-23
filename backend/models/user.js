@@ -13,6 +13,15 @@ const UserSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
+    redirectURL: {
+        type: String, 
+        required: true
+    },
+    emailVerfied: {
+        type: Boolean,
+        required: true 
+    }
+
 }); 
 
 const User = mongoose.model("User", UserSchema);

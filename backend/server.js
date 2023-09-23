@@ -20,10 +20,11 @@ const corsOptions = {
 app.use(cors(corsOptions)); 
 
 const registerRoute = require('./routes/register'); 
+const loginRoute = require('./routes/login'); 
 
 app.use("/register", registerRoute); 
 app.use("/verify", registerRoute); 
-
+app.use("/login", loginRoute); 
 
 app.listen(3000, () => {
     console.log("Server is running at port 3000");

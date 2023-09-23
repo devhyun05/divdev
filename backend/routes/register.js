@@ -25,11 +25,17 @@ router.get('/:token', (req, res) => {
 
 
 router.post("/", async (req, res)=> {
-    
+   
     const check = await db.collection('Users').findOne(({email: req.body.email}))
     if (check) {
-        res.status(406);
+        throw new Error("Email already exists!");
     } else {
+        console.log("Succeed");
+        db.collection('Users').insertOne({ email: req.body.email,username: 
+                                           req.body.username, 
+                                           password: req.body.password, 
+                                           redirectURL: `/${req.body.username}`,
+                                           emailVerfied: true})
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -51,11 +57,11 @@ router.post("/", async (req, res)=> {
             Thanks`
         });
 
-        transporter.sendMail (mailConfigurations(req.body.email), async function(error, info) {
+        transporter.sendMail(mailConfigurations(req.body.email), function(error, info) {
             if (error) {
                 console.log(error);
             } else {
-                db.collection('Users').insertOne({username: req.body.username, email: req.body.email, password: req.body.password})
+                res.json({dataValidation: true});
             }
         });
     }
