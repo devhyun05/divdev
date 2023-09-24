@@ -116,7 +116,9 @@ const NavigationComponent = () => {
                                             onClick={handleCloseNavMenu}
                                             sx={{my: 2, display: 'block'}}
                                         >
-                                            <Link style={{textDecoration: 'none', color:'#F0F0F0'}} to={`${page.navLink}`}>{page.navItem}</Link>
+                                            {isLoggedIn && page.navItem === 'Login' ? '' : 
+                                                <Link style={{textDecoration: 'none', color:'#F0F0F0'}} to={`${page.navLink}`}>{page.navItem}</Link>
+                                            }   
                                         </Button>
                                     ))}
                                     <Box sx={{flexGrow: 0}}>
@@ -147,9 +149,9 @@ const NavigationComponent = () => {
                                                     <MenuItem key={setting} onClick={handleCloseUserMenu}>
                                                         <Typography textAlign="center">{setting}</Typography>
                                                     </MenuItem>
-                                                ))}
-                                                
-                                            </Menu>
+                                                ))}                                                
+                                        </Menu>
+
                                     </Box>
                                 </Box>
                     </Toolbar>

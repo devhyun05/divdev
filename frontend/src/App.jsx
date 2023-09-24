@@ -15,6 +15,7 @@ function App() {
         <NavigationComponent/>
         <Routes>
           <Route path="/" element={<Home />}/>
+          <Route path="/:username" element={<Home />}/>
           <Route path="/about" element={<About />}/>
           <Route path="/privacy" element={<Privacy />}/>
           <Route path="/login" element={<Login/>}/>

@@ -29,16 +29,18 @@ const SignIn = () => {
     });
     
     const onSubmit = async (data) => {
-        console.log(data);
-        await fetch(`${backend}/login`, {
+
+        const response = await fetch(`${backend}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then(data => {
+        }).then(response => response.json())
+        .then(data => {
+            console.log(data);
             setIsLoggedIn(true); 
-            navigate("/");
+            navigate(`/${data}`);
         }).catch(err =>{
             console.log(err);
         })

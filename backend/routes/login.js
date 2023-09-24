@@ -9,7 +9,8 @@ router.post("/", async (req, res) =>{
         const check = await db.collection('Users').findOne({email: req.body.email}); 
        
         if (check.password === req.body.password) {
-            res.json("succeed");
+            console.log(check);
+            res.json(check.username);
         } else {
             res.send("wrong password"); 
         }
