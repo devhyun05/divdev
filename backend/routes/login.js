@@ -4,7 +4,6 @@ const db = require('../lib/db');
 
 
 router.post("/", async (req, res) =>{
-   
     try {
         const check = await db.collection('Users').findOne({email: req.body.email}); 
        
@@ -12,10 +11,12 @@ router.post("/", async (req, res) =>{
             console.log(check);
             res.json(check.username);
         } else {
-            res.send("wrong password"); 
+            res.status(401);
+            res.json({message: "Password does not match"});
         }
     } catch {
-        res.send("wrong details");
+        res.status(401);
+        res.json({message: "User email does not exist"});
     }
 })
 module.exports = router;

@@ -26,11 +26,12 @@ router.get('/:token', (req, res) => {
 
 router.post("/", async (req, res)=> {
    
-    const check = await db.collection('Users').findOne(({email: req.body.email}))
-    if (check) {
-        throw new Error("Email already exists!");
+    const checkEmail = await db.collection('Users').findOne(({email: req.body.email}));
+    const checkUserName = await db.collection('Users').findOne({username: req.body.username});
+    if (checkEmail || checkUserName) {
+        res.status(401); 
+        res.json({message: "Email already exists"}); 
     } else {
-        console.log("Succeed");
         db.collection('Users').insertOne({ email: req.body.email,username: 
                                            req.body.username, 
                                            password: req.body.password, 
