@@ -1,4 +1,4 @@
-import React, { useContext} from 'react'; 
+import React, { useState, useContext } from 'react'; 
 import { useNavigate } from 'react-router-dom'; 
 import LoginContext from '../context/LoginContext'; 
 import Avatar from '@mui/material/Avatar';
@@ -19,9 +19,10 @@ import { useForm } from 'react-hook-form';
 
 const backend = 'http://localhost:3000';
 
-const SignIn = () => {
+const Login = () => {
+    const [loginVerification, setLoginVerification] = useState(true); 
     const navigate = useNavigate(); 
-    const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext); 
+    const { isLoggedIn, setIsLoggedIn, setUserName } = useContext(LoginContext); 
     const { register, handleSubmit, formState } = useForm(); 
     const { errors } = formState; 
     const defaultTheme = createTheme({
@@ -29,7 +30,6 @@ const SignIn = () => {
     });
     
     const onSubmit = async (data) => {
-
         const response = await fetch(`${backend}/login`, {
             method: 'POST',
             headers: {
@@ -38,10 +38,12 @@ const SignIn = () => {
             body: JSON.stringify(data)
         }).then(response => response.json())
         .then(data => {
-            console.log(data);
             setIsLoggedIn(true); 
+            setLoginVerification(true); 
+            setUserName(data);
             navigate(`/${data}`);
         }).catch(err =>{
+            setLoginVerification(false); 
             console.log(err);
         })
     }
@@ -68,7 +70,11 @@ const SignIn = () => {
                         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{mt: 1}}>
                             <TextField 
                                 {...register("email",{
-                                    required: "Email is required"
+                                    required: "Email is required",                                                       
+                                    validate: {
+                                        emailValidationFailed: () => 
+                                            loginVerification || "Email does not exist",
+                                    }
                                 })}
                                 error={!!errors.email}
                                 helperText={errors.email?.message}
@@ -83,7 +89,11 @@ const SignIn = () => {
                             /> 
                             <TextField 
                                 {...register("password",{
-                                    required: "Password is required"
+                                    required: "Password is required",
+                                    validate: {
+                                        passwordValidationFailed: () => 
+                                            loginVerification || "Password does not match",
+                                    }
                                 })}
                                 error={!!errors.password}
                                 helperText={errors.password?.message}
@@ -129,4 +139,4 @@ const SignIn = () => {
     )
 }
 
-export default SignIn; 
+export default Login; 

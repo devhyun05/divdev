@@ -1,4 +1,4 @@
-import * as React from 'react'; 
+import { useState} from 'react'; 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline'; 
@@ -16,10 +16,11 @@ const backend = 'http://localhost:3000';
 const Register = () => {
     const { register, handleSubmit, getValues, formState } = useForm(); 
     const { errors } = formState; 
-    const [confirmEmailMessage, setConfirmEmailMessage] = React.useState(false); 
-    const [serverValidation, setServerValidation] = React.useState(true); 
-    const [changePage, setChangePage] = React.useState(false);
-    const [email, setEmail] = React.useState(""); 
+    const [confirmEmailMessage, setConfirmEmailMessage] = useState(false); 
+    const [serverValidation, setServerValidation] = useState(true); 
+    const [changePage, setChangePage] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [email, setEmail] = useState(""); 
 
     const onSubmit = async (data) => {
         setEmail(data.email)
@@ -30,15 +31,16 @@ const Register = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((data) =>{
+        }).then(response => response.json())
+        .then(() =>{
             setConfirmEmailMessage(true);
             setServerValidation(true); 
             setChangePage(true);
         }).catch((err) => {             
             setConfirmEmailMessage(false);
             setChangePage(false);
-            setServerValidation(false); 
-            console.log(`Error: ${err}`); 
+            setServerValidation(false);  
+            setErrorMessage(err.message); 
         })
     }
 
@@ -132,7 +134,7 @@ const Register = () => {
                              <TextField 
                                 {...register("confirm_password", {
                                     required: "Confirm password is required",
-                                    validate: (value) => value === getValues("password") || "Password are not matching"
+                                    validate: serverValidation || errorMessage
                                 })}
                                 error={!!errors.confirm_password}
                                 helperText={errors.confirm_password?.message}
