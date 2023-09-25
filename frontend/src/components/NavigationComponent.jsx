@@ -11,27 +11,34 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb'; 
 import Tooltip from '@mui/material/Tooltip'; 
 import Avatar from '@mui/material/Avatar'; 
-import {Link} from 'react-router-dom'; 
+import { Link } from 'react-router-dom'; 
 import LoginContext from '../context/LoginContext'; 
 
 const NavigationComponent = () => {
-    const { isLoggedIn, setIsLoggedIn, loginText, setLoginText } = useContext(LoginContext); 
+    const { isLoggedIn, userName, setUserName  } = useContext(LoginContext); 
     const pages = [{navItem: 'About', navLink: '/about'}, {navItem: 'Login', navLink: '/login'}];
-    const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+    const settings = ['Profile', 'Dashboard', 'Settings', 'Logout'];
     const [anchorElNav, setAnchorElNav] = useState(null); 
     const [anchorElUser, setAnchorElUser] = useState(null); 
-    console.log(isLoggedIn);
+
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget); 
     };
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
+
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
+
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+
+    const handleUserClickMenu = (menu) => {
+        console.log(menu);
     };
     return (
         <>
@@ -54,8 +61,7 @@ const NavigationComponent = () => {
                                 textDecoration: 'none',
                             }}
                             >
-                                Divdev
-               
+                                Divdev               
                             </Typography>
                             <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                                 <IconButton
@@ -125,7 +131,7 @@ const NavigationComponent = () => {
                                         {isLoggedIn ? 
                                         <Tooltip title="Open settings">
                                             <IconButton onClick={handleOpenUserMenu} sx={{marginTop:'5%'}}>
-                                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
+                                                <Avatar alt={`${userName.charAt(0)}`} src="/static/images/avatar/2.jpg"/>
                                             </IconButton>
                                         </Tooltip> : ''}
 
@@ -147,7 +153,7 @@ const NavigationComponent = () => {
                                             >
                                                 {settings.map((setting)=> (
                                                     <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                                        <Typography textAlign="center">{setting}</Typography>
+                                                        <Typography onClick={handleUserClickMenu(setting)} textAlign="center">{setting}</Typography>
                                                     </MenuItem>
                                                 ))}                                                
                                         </Menu>
