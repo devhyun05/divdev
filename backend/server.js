@@ -23,7 +23,6 @@ const homeRoute = require('./routes/home');
 const registerRoute = require('./routes/register'); 
 const loginRoute = require('./routes/login'); 
 const profileRoute = require('./routes/profile');
-const aboutRoute = require('./routes/about');
 const settingRoute = require('./routes/settings'); 
 
 app.use("/", homeRoute); 
@@ -31,7 +30,6 @@ app.use("/register", registerRoute);
 app.use("/verify", registerRoute); 
 app.use("/login", loginRoute); 
 app.use("/profile", profileRoute); 
-app.use("/about", aboutRoute);
 app.use("/settings", settingRoute); 
 
 app.listen(3000, () => {

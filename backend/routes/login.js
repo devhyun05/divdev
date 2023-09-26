@@ -8,15 +8,12 @@ router.post("/", async (req, res) =>{
         const check = await db.collection('Users').findOne({email: req.body.email}); 
        
         if (check.password === req.body.password) {
-            console.log(check);
             res.json(check.username);
         } else {
-            res.status(401);
-            res.json({message: "Password does not match"});
+            throw new Error ("Password does not match!");
         }
     } catch {
-        res.status(401);
-        res.json({message: "User email does not exist"});
+        throw new Error ("User email does not exist!");
     }
 })
 module.exports = router;
