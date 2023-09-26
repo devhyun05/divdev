@@ -8,7 +8,7 @@ export function LoginProvider({ children }) {
     const [userName, setUserName] = useState(""); 
     const [profileLayout, setProfileLayout] = useState(); 
     const [navbarLayout, setnavbarLayout] = useState(); 
-
+    
     return (
         <LoginContext.Provider value={{
             isLoggedIn,

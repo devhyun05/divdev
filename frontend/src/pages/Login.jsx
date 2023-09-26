@@ -22,7 +22,7 @@ const backend = 'http://localhost:3000';
 const Login = () => {
     const [loginVerification, setLoginVerification] = useState(true); 
     const navigate = useNavigate(); 
-    const { isLoggedIn, setIsLoggedIn, setUserName } = useContext(LoginContext); 
+    const { setIsLoggedIn, setUserName } = useContext(LoginContext); 
     const { register, handleSubmit, formState } = useForm(); 
     const { errors } = formState; 
     const defaultTheme = createTheme({
@@ -30,7 +30,7 @@ const Login = () => {
     });
     
     const onSubmit = async (data) => {
-        const response = await fetch(`${backend}/login`, {
+        await fetch(`${backend}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
