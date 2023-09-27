@@ -4,12 +4,14 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register'; 
 import Profile from './pages/Profile';
+import ProfileUpdate from './pages/ProfileUpdate'; 
 import Posts from './pages/Posts';
-import Settings from './pages/Settings';
+import Projects from './pages/Projects'; 
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms'; 
 import { LoginProvider } from './context/LoginContext';  
 import { Route, Routes} from "react-router-dom"; 
+
 function App() {
   
  
@@ -23,8 +25,10 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/profile" element={<Profile/>}/> 
+          <Route path="/:username/profileupdate" element={<ProfileUpdate/>}/> 
+          <Route path="/:username/profile" element={<Profile/>}/>
           <Route path="/posts" element={<Posts/>}/> 
-          <Route path="/settings" element={<Settings/>}/>
+          <Route path="/projects" element={<Projects/>}/> 
           <Route path="/privacy" element={<Privacy />}/>
           <Route path="/terms" element={<Terms/>}/>
         </Routes>
