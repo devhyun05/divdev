@@ -2,9 +2,16 @@
   margin: 0;
   padding: 0;
 }
+
 .App {
   background-color: #121212;
   width: 100vw;
   height: 100vh;
 }
 
+/* Profile page */
+.uploaded-image {
+  width: 350px; 
+  height: 350px; 
+  border-radius: 50%;
+}
