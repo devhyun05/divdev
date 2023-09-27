@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import AppBar from '@mui/material/AppBar';
+import { Link, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -11,15 +11,15 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
-import { Link, useNavigate } from 'react-router-dom';
 import LoginContext from '../context/LoginContext';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
 
 const NavigationComponent = () => {
     const { isLoggedIn, setIsLoggedIn, userName } = useContext(LoginContext);
 
     const navigate = useNavigate(); 
     const pages = [{ navItem: 'Login', navLink: '/login' }];
-    const settings = ['Profile', 'Dashboard', 'Settings', 'Logout'];
+    const settings = ['Profile', 'Projects', 'Logout'];
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const path = isLoggedIn ? `/${userName}` : '/';
@@ -52,9 +52,15 @@ const NavigationComponent = () => {
     const handleButtonClick = () => {
         navigate(path); 
     }
+
+    const changeBackgroundColor = () => {
+        console.log("Button clicked!");
+        document.body.style.backgroundColor = "white";
+    }
+
     return (
         <>
-            <AppBar position="static" style={{ backgroundColor: '#121212' }}>
+
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <Button onClick={handleButtonClick}>
@@ -62,7 +68,6 @@ const NavigationComponent = () => {
                                 variant="h6"
                                 noWrap
                                 component="a"
-
                                 sx={{
                                     mr: 2,
                                     display: { xs: 'none', md: 'flex' },
@@ -73,7 +78,7 @@ const NavigationComponent = () => {
                                     textDecoration: 'none',
                                 }}
                             >
-                                Divdev
+                                {isLoggedIn ? userName : 'Divdev'}
                             </Typography>
                         </Button>
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -106,7 +111,6 @@ const NavigationComponent = () => {
                                     display: { xs: 'block', md: 'none' },
                                 }}
                             >
-
                             </Menu>
                         </Box>
                         <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -129,7 +133,9 @@ const NavigationComponent = () => {
                             Devhyun
                         </Typography>
                         <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
-
+                            <Button onClick={changeBackgroundColor}>
+                                <WbSunnyIcon/>
+                            </Button>
                             <Box sx={{ flexGrow: 0 }}>
                                 {isLoggedIn ?
                                     <Tooltip title="Open settings">
@@ -144,7 +150,6 @@ const NavigationComponent = () => {
                                         <Link style={{ textDecoration: 'none', color: '#F0F0F0' }} to={`${pages[0].navLink}`}>{pages[0].navItem}</Link>
                                     </Button>
                                 }
-
                                 <Menu
                                     sx={{ mt: '45px' }}
                                     id="menu-appbar"
@@ -164,7 +169,7 @@ const NavigationComponent = () => {
                                     {settings.map((setting) => (
                                         <MenuItem key={setting} onClick={handleCloseUserMenu}>
                                             <Button onClick={() => handleUserClickMenu(setting)}>
-                                                <Typography textAlign="center">{setting}</Typography>
+                                                <Typography textAlign="center" >{setting}</Typography>
                                             </Button>
                                         </MenuItem>
                                     ))}
@@ -174,7 +179,6 @@ const NavigationComponent = () => {
                         </Box>
                     </Toolbar>
                 </Container>
-            </AppBar>
         </>
     )
 }
