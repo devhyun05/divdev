@@ -15,7 +15,7 @@ import LoginContext from '../context/LoginContext';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 
 const NavigationComponent = () => {
-    const { isLoggedIn, setIsLoggedIn, userName } = useContext(LoginContext);
+    const { isLoggedIn, setIsLoggedIn, userName, setBgColor } = useContext(LoginContext);
 
     const navigate = useNavigate(); 
     const pages = [{ navItem: 'Login', navLink: '/login' }];
@@ -55,7 +55,7 @@ const NavigationComponent = () => {
 
     const changeBackgroundColor = () => {
         console.log("Button clicked!");
-        document.body.style.backgroundColor = "white";
+        setBgColor("white");
     }
 
     return (
