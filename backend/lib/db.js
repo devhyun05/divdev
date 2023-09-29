@@ -1,7 +1,7 @@
 const mongoose = require("mongoose"); 
 
-const { createModel } = require('mongoose-gridfs');
-const { Readable } = require('stream');
+// const { createModel } = require('mongoose-gridfs');
+// const { Readable } = require('stream');
 
 mongoose.connect(
     `mongodb+srv://${process.env.dbUsername}:${process.env.dbPassword}@${process.env.clusterName}.9aegbu2.mongodb.net/${process.env.dbName}?retryWrites=true&w=majority`,

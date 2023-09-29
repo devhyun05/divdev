@@ -14,7 +14,7 @@ app.use(express.json());
 const corsOptions = {
     origin: ["http://localhost:3001"], // accept domain list
     methods: ["GET", "POST", "PUT", "DELETE"], // accept HTTP methods list
-    allowHeaders: ["Content-Type", "Authorization"] // accept header list
+    allowHeaders: ["Content-Type", "Authorization", "text/plain"] // accept header list
 }
 
 app.use(cors(corsOptions)); 
