@@ -1,11 +1,11 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import LoginContext from '../context/LoginContext'; 
 import CircleImage from '../assets/img/circle.png'
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography'; 
-import { useNavigate } from 'react-router-dom'; 
 
 const Profile = () => {
     const { userName } = useContext(LoginContext); 
@@ -27,7 +27,7 @@ const Profile = () => {
                                     
                     </Box>
                     <Box sx={{marginTop: '10%', marginLeft: '9%'}}>
-                        <Button style={{backgroundColor: '#3e8e41', color: 'white'}}>Update Profile</Button>
+                        <Button onClick={handleRouteToUpdatePage} style={{backgroundColor: '#3e8e41', color: 'white'}}>Update Profile</Button>
                     </Box>
                 </Box> 
                
