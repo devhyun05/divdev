@@ -6,9 +6,10 @@ export function LoginProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loginText, setLoginText] = useState("sss");
     const [userName, setUserName] = useState(""); 
-    const [profileLayout, setProfileLayout] = useState(); 
-    const [navbarLayout, setnavbarLayout] = useState(); 
-    
+    const [profileLayout, setProfileLayout] = useState(""); 
+    const [navbarLayout, setnavbarLayout] = useState(""); 
+    const [bgColor, setBgColor] = useState(""); 
+
     return (
         <LoginContext.Provider value={{
             isLoggedIn,
@@ -20,7 +21,9 @@ export function LoginProvider({ children }) {
             profileLayout, 
             setProfileLayout,
             navbarLayout, 
-            setnavbarLayout 
+            setnavbarLayout,
+            bgColor,
+            setBgColor 
         }}>
             {children}
         </LoginContext.Provider>
