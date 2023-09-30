@@ -22,11 +22,10 @@ const Profile = () => {
         <>
             <Container style={{display: 'flex', flexDirection: 'row'}}>
                 <Box>
-                    <Box onClick={handleRouteToUpdatePage}sx={{width: '300px', height: '300px'}}>
-                        <img src={CircleImage} alt="Circle" className="uploaded-image"/>
-                                    
+                    <Box onClick={handleRouteToUpdatePage}sx={{width: '250px', height: '250px'}}>
+                        <img src={CircleImage} alt="Circle" className="uploaded-image"/>                                    
                     </Box>
-                    <Box sx={{marginTop: '10%', marginLeft: '9%'}}>
+                    <Box sx={{marginTop: '50%', marginLeft: '39%'}}>
                         <Button onClick={handleRouteToUpdatePage} style={{backgroundColor: '#3e8e41', color: 'white'}}>Update Profile</Button>
                     </Box>
                 </Box> 

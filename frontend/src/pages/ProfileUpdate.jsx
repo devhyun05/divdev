@@ -70,7 +70,7 @@ const ProfileUpdate = () => {
     }
 
     const handleNavigate = () => {
-        navigate(`${userName}/profile`);
+        navigate(`/${userName}/profile`);
     }
 
     const searchSkills = (value) => {
@@ -120,11 +120,11 @@ const ProfileUpdate = () => {
         <>
             <Container style={{display: 'flex', flexDirection: 'row'}}>
                 <Box>
-                    <Box onClick={handleImageClick} sx={{width: '300px', height: '300px'}}>
+                    <Box onClick={handleImageClick} sx={{width: '250px', height: '250px'}}>
                         {image ? <img src={URL.createObjectURL(image)} alt="" className="uploaded-image"/> : <img src={CircleImage} alt="Circle" className="uploaded-image"/>}
                         <input type="file" ref={inputRef} onChange={handleImageChange} style={{ display: 'none' }} />                    
                     </Box>
-                    <Box sx={{marginTop: '30%', paddingLeft: '33%'}}>
+                    <Box sx={{marginTop: '50%', paddingLeft: '39%'}}>
                         <Button style={{backgroundColor: '#3e8e41', color: 'white'}} onClick={handleNavigate}>Finish update</Button>
                     </Box>
                 </Box> 
