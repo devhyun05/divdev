@@ -12,7 +12,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select'; 
-import InputLabel from '@mui/material/InputLabel';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -45,19 +44,40 @@ const CssTextField = styled(TextField)({
     },
 });
 
-
   
 const ProfileUpdate = () => {
     const { userName } = useContext(LoginContext); 
     const inputRef = useRef(null);
-    
+
+    const [profileSummary, setProfileSummary] = useState(""); 
     const [image, setImage] = useState("");
     const [searchItem, setSearchItem] = useState([]); 
-    const [inputValue, setInputValue] = useState('');
+    const [input, setInput] = useState('');
+    const [skill, setSkill] = useState([]); 
     const [contact, setContact] = useState(''); 
     const [media, setMedia] = useState([]); 
     const [url, setURL] = useState(""); 
     const navigate = useNavigate(); 
+
+    const handleNavigate = async () => {
+        await fetch(`${backend}/${userName}/profileupdate/add-profile`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: userName, 
+                profileDesc: profileSummary, 
+                userSkills: skill, 
+                userMedia: media 
+            })
+   
+        }).then(navigate(`/${userName}/profile`))
+        .catch(err => {
+            console.log(err); 
+        })
+
+    }
 
     const handleImageClick = () => {
         inputRef.current.click();
@@ -69,27 +89,31 @@ const ProfileUpdate = () => {
         setImage(event.target.files[0]);
     }
 
-    const handleNavigate = () => {
-        navigate(`/${userName}/profile`);
+    const handleProfileDescChange = (event) => {
+        setProfileSummary(event.target.value); 
     }
 
-    const searchSkills = (value) => {
-   
+    const handleSearchSkill = (event, value) => {
+        setInput(value);
         fetch(`${backend}/${userName}/profileupdate`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
+            body: JSON.stringify({keyword: input})
             
         }).then(response => response.json())
-        .then(data =>{   
-            console.log(data)         
-            setSearchItem([data]); 
+        .then(data =>{           
+            setSearchItem(data);
         })
-        .catch(err => {
+        .catch(err => {            
             console.log(err);
         })
         
+    }
+
+    const handleSkillClick = () => {
+        setSkill([...skill, {text: input}]);     
     }
 
     const handleChange = (event) => {
@@ -100,6 +124,7 @@ const ProfileUpdate = () => {
         setURL(event.target.value); 
         console.log(url); 
     }
+
     const handleLinkAdd = (event) => {; 
         if (contact === 'Github') {
             setMedia([...media, { text: 'Github', mediaURL: url, backgroundColor: 'black', textColor: 'white', Icon: <GitHubIcon /> }]);
@@ -137,6 +162,7 @@ const ProfileUpdate = () => {
                         <CssTextField
                         id="outlined-multiline-static"
                         multiline
+                        onChange={handleProfileDescChange}
                         sx={{width: '100%'}}
                         InputProps={{
                             style: {
@@ -150,8 +176,48 @@ const ProfileUpdate = () => {
                         <Typography variant="h4" color="white">
                             Skills
                         </Typography>
-                                               
-                        
+                        <Autocomplete 
+                            options={searchItem}   
+                            getOptionLabel={(option) => option.skills}
+                            sx={{width: '100%'}}
+                            inputValue={input}
+                            onInputChange={handleSearchSkill}
+                            renderInput={(params) => 
+                            <CssTextField                           
+                                {...params}                               
+                                InputProps={{
+                                    ...params.InputProps,
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton onClick={handleSkillClick}>
+                                                <AddIcon style={{color: 'white'}}/>
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                    style:{
+                                        color: 'white'
+                                    }
+                                }}    
+                            />}                        
+                        />
+                        {skill && skill.map((item, index) => (
+                            <span key={index}>                      
+                                    <Button sx={[
+                                        {                              
+                                            backgroundColor: `white`,
+                                            marginTop: '20px',
+                                            marginRight: '15px'
+                                        },
+                                        {
+                                            '&:hover': {                                          
+                                            backgroundColor: 'lightgrey',
+                                            },
+                                        },
+                                        ]}>                                                
+                                            {item.text}                                               
+                                    </Button>
+                            </span>
+                        ))}    
                     </Box>
                     <Box>
                         <Typography variant="h4" color="white">
