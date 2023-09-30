@@ -20,8 +20,19 @@ const UserSchema = new mongoose.Schema({
     emailVerfied: {
         type: Boolean,
         required: true 
+    },
+    profileDescription: {
+        type: String,
+        required: true 
+    },
+    skills: {
+        type: Array, 
+        required: true 
+    },
+    mediaLinks: {
+        type: Array,
+        required: true 
     }
-
 }); 
 
 const User = mongoose.model("User", UserSchema);

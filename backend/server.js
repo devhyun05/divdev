@@ -30,6 +30,7 @@ app.use("/register", registerRoute);
 app.use("/verify", registerRoute); 
 app.use("/login", loginRoute); 
 app.use("/profile", profileRoute); 
+app.use("/:username/profile", profileRoute); 
 app.use("/:username/profileupdate", profileRoute); 
 app.use("/settings", settingRoute); 
 
