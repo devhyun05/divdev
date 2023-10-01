@@ -45,15 +45,10 @@ const Profile = () => {
             }, 
             body: JSON.stringify({username: userName})
         }).then(response => response.json())
-        .then(data => {
+        .then(data => {        
             setProfileDesc(data.profileDesc);
             setSkills(data.userSkills);                          
             setMedia(data.userMedia)
-            console.log(data.userMedia);
-          
-            // if (data.userMedia[0].text === 'Github') {
-            //     setIcon(<GitHubIcon/>);
-            // } 
         }).catch(err => {
             console.log(err); 
         })
@@ -67,7 +62,7 @@ const Profile = () => {
 
     return (
         <>
-            <Container style={{display: 'flex', flexDirection: 'row'}}>
+            <Container style={{display: 'flex', flexDirection: 'row', marginTop: '5%'}}>
                 <Box>
                     <Box onClick={handleRouteToUpdatePage}sx={{width: '250px', height: '250px'}}>
                         <img src={CircleImage} alt="Circle" className="uploaded-image"/>                                    
@@ -78,13 +73,15 @@ const Profile = () => {
                 </Box> 
                
 
-                <Container style={{marginLeft: '25%', display: 'flex', flexDirection: 'column', gap: '30px'}}>
+                <Container style={{marginLeft: '25%', display: 'flex', flexDirection: 'column', gap: '100px'}}>
                     <Box>
                         <Typography variant="h4" color="white">
                             Profile Summary
                         </Typography>      
-                        <Box sx={{borderColor: 'white', color: 'white'}}>
-                            {profileDesc}
+                        <Box sx={{border: 1, borderColor: 'white', height: '100%', borderRadius: '5px'}}>
+                            <Typography sx={{padding: '15px'}}color="white">
+                                {profileDesc}
+                            </Typography>
                         </Box>             
                     </Box>
                     <Box>
@@ -96,6 +93,7 @@ const Profile = () => {
                                     <Button sx={[
                                         {                              
                                             backgroundColor: `white`,
+                                            color: 'black',
                                             marginTop: '20px',
                                             marginRight: '15px'
                                         },
@@ -132,7 +130,7 @@ const Profile = () => {
                                                     },
                                                 },
                                                 ]}>                                                
-                                                    {item.text} {item.iconType && iconComponents[item.iconType]}                                                
+                                                    {item.text}&nbsp;{item.iconType && iconComponents[item.iconType]}                                                
                                             </Button>
                                         </Link>
                                     </span>

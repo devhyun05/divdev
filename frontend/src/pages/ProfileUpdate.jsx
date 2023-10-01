@@ -20,6 +20,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import ClearIcon from '@mui/icons-material/Clear';
 import { InputAdornment } from '@mui/material';
 
 const backend = 'http://localhost:3000';
@@ -49,25 +50,52 @@ const ProfileUpdate = () => {
     const { userName } = useContext(LoginContext); 
     const inputRef = useRef(null);
 
-    const [profileSummary, setProfileSummary] = useState(""); 
+    
     const [image, setImage] = useState("");
     const [searchItem, setSearchItem] = useState([]); 
     const [input, setInput] = useState('');
     const [skill, setSkill] = useState([]); 
     const [contact, setContact] = useState(''); 
     const [media, setMedia] = useState([]); 
+    const [userProfileDesc, setUserProfileDesc] = useState(""); 
     const [url, setURL] = useState(""); 
+    const [countForRender, setCountForRender] = useState(0); 
     const navigate = useNavigate(); 
 
-    const handleNavigate = async () => {
-        await fetch(`${backend}/${userName}/profileupdate/add-profile`, {
+    useEffect(()=>{
+        fetchProfile(); 
+    }, [])
+    
+    const fetchProfile = async () => {
+        await fetch(`${backend}/${userName}/profile/get-profile`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }, 
+            body: JSON.stringify({username: userName})
+        }).then(response => response.json())
+        .then(data => {
+            setUserProfileDesc(data.profileDesc);
+            if (data.userSkills.length > 0) {
+                setSkill(data.userSkills);
+            } 
+            if (data.userMedia.length > 0) {
+                setMedia(data.userMedia);
+            }            
+        }).catch(err => {
+            console.log(err); 
+        })
+    }
+
+    const handleNavigate = async () => {
+        await fetch(`${backend}/${userName}/profileupdate/update-profile`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 username: userName, 
-                profileDesc: profileSummary, 
+                profileDesc: userProfileDesc, 
                 userSkills: skill, 
                 userMedia: media 
             })
@@ -84,13 +112,11 @@ const ProfileUpdate = () => {
     }
 
     const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        console.log(file);
         setImage(event.target.files[0]);
     }
 
     const handleProfileDescChange = (event) => {
-        setProfileSummary(event.target.value); 
+        setUserProfileDesc(event.target.value);
     }
 
     const handleSearchSkill = (event, value) => {
@@ -113,6 +139,7 @@ const ProfileUpdate = () => {
     }
 
     const handleSkillClick = () => {
+        console.log(input);
         setSkill([...skill, {text: input}]);     
     }
 
@@ -122,8 +149,29 @@ const ProfileUpdate = () => {
 
     const handleURLChange = (event) => {
         setURL(event.target.value); 
-        console.log(url); 
     }
+
+    const handleSkillRemove = (item) => {
+        console.log(item);
+        for (let i = 0; i < skill.length; i++) {
+            if (skill[i].text === item.text) {
+                skill.splice(i, 1); 
+                setCountForRender(countForRender + 1);
+            }
+        }
+    }
+    const handleMediaRemove = (item) => {
+        console.log(item);
+        for (let i = 0; i < media.length; i++) {
+            if (media[i].mediaURL === item.mediaURL) {
+                media.splice(i, 1); 
+                setCountForRender(countForRender + 1); 
+              
+            }
+        }
+    
+    }
+
     const iconComponents = {
         GitHubIcon: <GitHubIcon/>, 
         LinkedinIcon: <LinkedInIcon/>, 
@@ -138,7 +186,7 @@ const ProfileUpdate = () => {
             setMedia([...media, { text: 'Github', mediaURL: url, backgroundColor: 'black', textColor: 'white', iconType: 'GitHubIcon' }]);
         } else if (contact === 'Linkedin') {
             setMedia([...media, { text: 'Linkedin', mediaURL: url, backgroundColor: '#0366c3', textColor: 'white', iconType: 'LinkedinIcon' }]);
-        } else if (contact === 'Instagram') {
+        } else if (contact === 'Instagram'){
             setMedia([...media, { text: 'Instagram', mediaURL: url, backgroundColor: '#ffb601', textColor: 'white', iconType: 'InstagramIcon' }]);
         } else if (contact === 'Facebook') {
             setMedia([...media, { text: 'Facebook', mediaURL: url, backgroundColor: '#6499E9', textColor: 'white', iconType: 'FacebookIcon' }]);
@@ -151,7 +199,7 @@ const ProfileUpdate = () => {
 
     return (
         <>
-            <Container style={{display: 'flex', flexDirection: 'row'}}>
+            <Container style={{display: 'flex', flexDirection: 'row', marginTop: '5%'}}>
                 <Box>
                     <Box onClick={handleImageClick} sx={{width: '250px', height: '250px'}}>
                         {image ? <img src={URL.createObjectURL(image)} alt="" className="uploaded-image"/> : <img src={CircleImage} alt="Circle" className="uploaded-image"/>}
@@ -162,13 +210,14 @@ const ProfileUpdate = () => {
                     </Box>
                 </Box> 
                
-                <Container style={{marginLeft: '25%', display: 'flex', flexDirection: 'column', gap: '20px'}}>
+                <Container style={{marginLeft: '25%', display: 'flex', flexDirection: 'column', gap: '50px'}}>
                     <Box>
                         <Typography variant="h4" color="white">
                             Profile Summary
                         </Typography>       
                         <CssTextField
                         id="outlined-multiline-static"
+                        defaultValue={userProfileDesc}
                         multiline
                         onChange={handleProfileDescChange}
                         sx={{width: '100%'}}
@@ -178,7 +227,8 @@ const ProfileUpdate = () => {
                             },                            
                         }}
                         rows={5}
-                        />             
+                        />
+                                
                     </Box>
                     <Box>
                         <Typography variant="h4" color="white">
@@ -210,7 +260,9 @@ const ProfileUpdate = () => {
                         />
                         {skill && skill.map((item, index) => (
                             <span key={index}>                      
-                                    <Button sx={[
+                                    <Button 
+                                    onClick={() => handleSkillRemove(item)}
+                                    sx={[
                                         {                              
                                             backgroundColor: `white`,
                                             marginTop: '20px',
@@ -222,8 +274,8 @@ const ProfileUpdate = () => {
                                             },
                                         },
                                         ]}>                                                
-                                            {item.text}                                               
-                                    </Button>
+                                            {item.text}     <ClearIcon/>                                   
+                                    </Button> 
                             </span>
                         ))}    
                     </Box>
@@ -276,9 +328,10 @@ const ProfileUpdate = () => {
                                 />  
                         : ""}                                
                                 {media && media.map((item, index) => (
-                                    <span key={index}>
-                                        <Link to={url}>
-                                            <Button sx={[
+                                    <span key={index}>                        
+                                            <Button 
+                                                 onClick={() => handleMediaRemove(item)}
+                                                sx={[
                                                 { 
                                                     color: `${item.textColor}`, 
                                                     backgroundColor: `${item.backgroundColor}`,
@@ -291,9 +344,10 @@ const ProfileUpdate = () => {
                                                     },
                                                 },
                                                 ]}>                                                
-                                                    {item.text} {item.iconType && iconComponents[item.iconType]}                                                
-                                            </Button>
-                                        </Link>
+                                                    {item.text}&nbsp;{item.iconType && iconComponents[item.iconType]}  <ClearIcon/>                              
+                                            </Button>                                                                                                               
+                                       
+                 
                                     </span>
                                 ))}                               
                     </Box>
