@@ -29,6 +29,14 @@ const Profile = () => {
         fetchProfile(); 
     }, [])
 
+    const iconComponents = {
+        GitHubIcon: <GitHubIcon/>, 
+        LinkedinIcon: <LinkedInIcon/>, 
+        InstagramIcon: <InstagramIcon/>, 
+        FacebookIcon: <FacebookIcon/>, 
+        TwitterIcon: <TwitterIcon/>,
+        YouTubeIcon: <YouTubeIcon/> 
+    }
     const fetchProfile = async () => {
         await fetch(`${backend}/${userName}/profile/get-profile`, {
             method: 'POST',
@@ -40,11 +48,12 @@ const Profile = () => {
         .then(data => {
             setProfileDesc(data.profileDesc);
             setSkills(data.userSkills);                          
-            setMedia([data.userMedia])
-    
-            if (data.userMedia[0].text === 'Github') {
-                setIcon(<GitHubIcon/>);
-            }
+            setMedia(data.userMedia)
+            console.log(data.userMedia);
+          
+            // if (data.userMedia[0].text === 'Github') {
+            //     setIcon(<GitHubIcon/>);
+            // } 
         }).catch(err => {
             console.log(err); 
         })
@@ -69,7 +78,7 @@ const Profile = () => {
                 </Box> 
                
 
-                <Container style={{marginLeft: '25%', display: 'flex', flexDirection: 'column'}}>
+                <Container style={{marginLeft: '25%', display: 'flex', flexDirection: 'column', gap: '30px'}}>
                     <Box>
                         <Typography variant="h4" color="white">
                             Profile Summary
@@ -82,6 +91,24 @@ const Profile = () => {
                         <Typography variant="h4" color="white">
                             Skills
                         </Typography>
+                        {skills && skills.map((item, index) => (
+                            <span key={index}>                      
+                                    <Button sx={[
+                                        {                              
+                                            backgroundColor: `white`,
+                                            marginTop: '20px',
+                                            marginRight: '15px'
+                                        },
+                                        {
+                                            '&:hover': {                                          
+                                            backgroundColor: 'lightgrey',
+                                            },
+                                        },
+                                        ]}>                                                
+                                            {item.text}                                               
+                                    </Button>
+                            </span>
+                        ))}   
                     </Box>
                     <Box>
                         <Typography variant="h4" color="white">
@@ -90,12 +117,12 @@ const Profile = () => {
                         
                         {media && media.map((item, index) => (
                                     <span key={index}>                                
-                                        <Link to={item[0].mediaURL}>
+                                        <Link to={item.mediaURL}>
                                         
                                             <Button sx={[
                                                 { 
-                                                    color: `${item[0].textColor}`, 
-                                                    backgroundColor: `${item[0].backgroundColor}`,
+                                                    color: `${item.textColor}`, 
+                                                    backgroundColor: `${item.backgroundColor}`,
                                                     marginTop: '20px',
                                                     marginRight: '15px'
                                                 },
@@ -105,7 +132,7 @@ const Profile = () => {
                                                     },
                                                 },
                                                 ]}>                                                
-                                                    {item[0].text} {icon}                                                
+                                                    {item.text} {item.iconType && iconComponents[item.iconType]}                                                
                                             </Button>
                                         </Link>
                                     </span>

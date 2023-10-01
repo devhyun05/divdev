@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; 
 import { styled } from '@mui/material/styles';
 import LoginContext from '../context/LoginContext'; 
@@ -124,20 +124,28 @@ const ProfileUpdate = () => {
         setURL(event.target.value); 
         console.log(url); 
     }
+    const iconComponents = {
+        GitHubIcon: <GitHubIcon/>, 
+        LinkedinIcon: <LinkedInIcon/>, 
+        InstagramIcon: <InstagramIcon/>, 
+        FacebookIcon: <FacebookIcon/>, 
+        TwitterIcon: <TwitterIcon/>,
+        YouTubeIcon: <YouTubeIcon/> 
+    }
 
     const handleLinkAdd = (event) => {; 
         if (contact === 'Github') {
-            setMedia([...media, { text: 'Github', mediaURL: url, backgroundColor: 'black', textColor: 'white', Icon: <GitHubIcon /> }]);
+            setMedia([...media, { text: 'Github', mediaURL: url, backgroundColor: 'black', textColor: 'white', iconType: 'GitHubIcon' }]);
         } else if (contact === 'Linkedin') {
-            setMedia([...media, { text: 'Linkedin', mediaURL: url, backgroundColor: '#0366c3', textColor: 'white', Icon: <LinkedInIcon /> }]);
+            setMedia([...media, { text: 'Linkedin', mediaURL: url, backgroundColor: '#0366c3', textColor: 'white', iconType: 'LinkedinIcon' }]);
         } else if (contact === 'Instagram') {
-            setMedia([...media, { text: 'Instagram', mediaURL: url, backgroundColor: '#ffb601', textColor: 'white', Icon: <InstagramIcon /> }]);
+            setMedia([...media, { text: 'Instagram', mediaURL: url, backgroundColor: '#ffb601', textColor: 'white', iconType: 'InstagramIcon' }]);
         } else if (contact === 'Facebook') {
-            setMedia([...media, { text: 'Facebook', mediaURL: url, backgroundColor: '#6499E9', textColor: 'white', Icon: <FacebookIcon /> }]);
+            setMedia([...media, { text: 'Facebook', mediaURL: url, backgroundColor: '#6499E9', textColor: 'white', iconType: 'FacebookIcon' }]);
         } else if (contact === 'Twitter') {
-            setMedia([...media, { text: 'Twitter', mediaURL: url, backgroundColor: '#9EDDFF', textColor: 'white', Icon: <TwitterIcon /> }]);
+            setMedia([...media, { text: 'Twitter', mediaURL: url, backgroundColor: '#9EDDFF', textColor: 'white', iconType: 'TwitterIcon' }]);
         } else if (contact === 'YouTube') {
-            setMedia([...media, { text: 'YouTube', mediaURL: url, backgroundColor: '#ff0000', textColor: 'white', Icon: <YouTubeIcon /> }]);
+            setMedia([...media, { text: 'YouTube', mediaURL: url, backgroundColor: '#ff0000', textColor: 'white', iconType: 'YouTubeIcon' }]);
         } 
     }
 
@@ -283,7 +291,7 @@ const ProfileUpdate = () => {
                                                     },
                                                 },
                                                 ]}>                                                
-                                                    {item.text} {item.Icon}                                                
+                                                    {item.text} {item.iconType && iconComponents[item.iconType]}                                                
                                             </Button>
                                         </Link>
                                     </span>
