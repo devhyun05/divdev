@@ -1,6 +1,7 @@
 const express = require('express'); 
 const router = express.Router(); 
-const db = require('../lib/db'); 
+
+const db = require('../lib/db');
 
 // profile 
 router.post("/get-profile", async (req, res) => {
@@ -32,7 +33,6 @@ router.post("/",  async (req, res)=>{
         const result = await response.text(); 
 
         const resultArray = result.split(',').map((skills, index) => ({
-            id: index + 1,
             skills: skills.replace(/["[\]]/g, '').trim()  // Remove double quotes and square brackets
         }));
   
@@ -43,14 +43,19 @@ router.post("/",  async (req, res)=>{
     }   
 });
 
-router.post("/add-profile", async (req, res) => {
+// router.post("/upload-image", upload.single('file'), (req, res) => {
+//     console.log("passed");
+//     // res.json({file: req.file}); 
+// }); 
+
+router.put("/update-profile", async (req, res) => {
 
     try {
         const username = req.body.username; 
         const profileSummary = req.body.profileDesc; 
         const userSkills = req.body.userSkills; 
         const userMedia = req.body.userMedia; 
-        console.log(profileSummary); 
+  
         db.collection('Users').updateOne(
             { "username": username }, 
             {
@@ -61,10 +66,21 @@ router.post("/add-profile", async (req, res) => {
                 }
             }
         );
-
+        res.json("Succeed");
     } catch (error) {
         console.error('Error', error); 
     }
 }); 
 
+router.put("/update-icon", (req, res) => {
+    try {
+        db.collection('Users').updateOne(
+            {  "mediaLinks.mediaURL": req.body.url},
+            { $pull: { "mediaLinks": { "mediaURL": req.body.url}}}
+        )
+        res.json("Succeed");
+    } catch (error) {
+        console.error('Error', error); 
+    }
+});
 module.exports = router; 

@@ -12,8 +12,8 @@ router.post("/", async (req, res) =>{
         } else {
             throw new Error ("Password does not match!");
         }
-    } catch {
-        throw new Error ("User email does not exist!");
+    } catch (error) {
+         res.json();
     }
 })
 module.exports = router;

@@ -44,9 +44,14 @@ const Login = () => {
             navigate(`/${data}`);
         }).catch(err =>{
             setLoginVerification(false); 
-            console.log(err);
         })
     }
+
+    const handleTypeEmail = (e) => {
+        console.log(e.target.value);
+        setLoginVerification(true);
+    }
+
     return (
         <>
             <ThemeProvider theme={defaultTheme} >
@@ -72,12 +77,14 @@ const Login = () => {
                                 {...register("email",{
                                     required: "Email is required",                                                       
                                     validate: {
-                                        emailValidationFailed: () => 
-                                            loginVerification || "Email does not exist",
+                                        emailValidationFailed: () => {
+                                            return loginVerification || "Email does not exist";
+                                        },
                                     }
                                 })}
                                 error={!!errors.email}
                                 helperText={errors.email?.message}
+                                onChange={handleTypeEmail}
                                 margin="normal"
                                 required
                                 fullWidth 
