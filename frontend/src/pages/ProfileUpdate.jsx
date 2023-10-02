@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom'; 
 import { styled } from '@mui/material/styles';
 import LoginContext from '../context/LoginContext'; 
 import CircleImage from '../assets/img/circle.png'
@@ -64,9 +64,9 @@ const ProfileUpdate = () => {
 
     useEffect(()=>{
         fetchProfile(); 
-    }, [])
+    })
     
-    const fetchProfile = async () => {
+    const fetchProfile = async () => {       
         await fetch(`${backend}/${userName}/profile/get-profile`, {
             method: 'POST',
             headers: {
@@ -83,11 +83,12 @@ const ProfileUpdate = () => {
                 setMedia(data.userMedia);
             }            
         }).catch(err => {
-            console.log(err); 
+            console.log(err.error); 
         })
     }
 
     const handleNavigate = async () => {
+        
         await fetch(`${backend}/${userName}/profileupdate/update-profile`, {
             method: 'PUT',
             headers: {
@@ -116,6 +117,7 @@ const ProfileUpdate = () => {
     }
 
     const handleProfileDescChange = (event) => {
+     
         setUserProfileDesc(event.target.value);
     }
 
