@@ -64,7 +64,7 @@ const ProfileUpdate = () => {
 
     useEffect(()=>{
         fetchProfile(); 
-    })
+    }, [])
     
     const fetchProfile = async () => {       
         await fetch(`${backend}/${userName}/profile/get-profile`, {
@@ -88,7 +88,7 @@ const ProfileUpdate = () => {
     }
 
     const handleNavigate = async () => {
-        
+     
         await fetch(`${backend}/${userName}/profileupdate/update-profile`, {
             method: 'PUT',
             headers: {
@@ -103,7 +103,8 @@ const ProfileUpdate = () => {
    
         }).then(navigate(`/${userName}/profile`))
         .catch(err => {
-            console.log(err); 
+            console.log("error");
+            console.log(err.message); 
         })
 
     }
@@ -117,7 +118,6 @@ const ProfileUpdate = () => {
     }
 
     const handleProfileDescChange = (event) => {
-     
         setUserProfileDesc(event.target.value);
     }
 
@@ -153,12 +153,11 @@ const ProfileUpdate = () => {
         setURL(event.target.value); 
     }
 
-    const handleSkillRemove = (item) => {
-        console.log(item);
-        for (let i = 0; i < skill.length; i++) {
-            if (skill[i].text === item.text) {
+    const handleSkillRemove = (item) => {        
+        for (let i = 0; i < skill.length; i++) {         
+            if (skill[i].text === item.text) {           
                 skill.splice(i, 1); 
-                setCountForRender(countForRender + 1);
+                setCountForRender(countForRender + 1);                
             }
         }
     }
@@ -167,8 +166,9 @@ const ProfileUpdate = () => {
         for (let i = 0; i < media.length; i++) {
             if (media[i].mediaURL === item.mediaURL) {
                 media.splice(i, 1); 
+                console.log(media);
                 setCountForRender(countForRender + 1); 
-              
+            
             }
         }
     
