@@ -19,7 +19,7 @@ const NavigationComponent = () => {
 
     const navigate = useNavigate(); 
     const pages = [{ navItem: 'Login', navLink: '/login' }];
-    const settings = ['Profile', 'Projects', 'Logout'];
+    const settings = ['Profile', 'Project', 'Logout'];
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const path = isLoggedIn ? `/${userName}` : '/';

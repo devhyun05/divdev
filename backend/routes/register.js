@@ -25,46 +25,54 @@ router.get('/:token', (req, res) => {
 
 
 router.post("/", async (req, res)=> {
-   
-    const checkEmail = await db.collection('Users').findOne(({email: req.body.email}));
-    const checkUserName = await db.collection('Users').findOne({username: req.body.username});
-    if (checkEmail || checkUserName) {
-        res.status(401); 
-        res.json({message: "Email already exists"}); 
-    } else {
-        db.collection('Users').insertOne({ email: req.body.email,username: 
-                                           req.body.username, 
-                                           password: req.body.password, 
-                                           redirectURL: `/${req.body.username}`,
-                                           emailVerfied: true})
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USERNAME,
-                pass: process.env.PASSWORD 
-            }
-        });
-        const mailConfigurations = (userMail) => ({
-            from: `${process.env.EMAIL_USERNAME}`,
-            to: `${userMail}`,
-        
-            subject: 'Email Verification',
-        
-            // Text of email body 
-            text: `Hi! There, You have recently visited 
-            our website and entered your email.
-            Please follow the given link to verify your email
-            http://localhost:3000/verify/${token} 
-            Thanks`
-        });
+    try {
+        const checkEmail = await db.collection('Users').findOne(({email: req.body.email}));
+        const checkUserName = await db.collection('Users').findOne({username: req.body.username});
+        if (checkEmail) {
+            throw new Error ("1");
+        } else if (checkUserName) {
+            throw new Error ("2"); 
+        } else {
+            db.collection('Users').insertOne({ email: req.body.email,username: 
+                                            req.body.username, 
+                                            password: req.body.password, 
+                                            redirectURL: `/${req.body.username}`,
+                                            emailVerfied: true})
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL_USERNAME,
+                    pass: process.env.PASSWORD 
+                }
+            });
+            const mailConfigurations = (userMail) => ({
+                from: `${process.env.EMAIL_USERNAME}`,
+                to: `${userMail}`,
+            
+                subject: 'Email Verification',
+            
+                // Text of email body 
+                text: `Hi! There, You have recently visited 
+                our website and entered your email.
+                Please follow the given link to verify your email
+                http://localhost:3000/verify/${token} 
+                Thanks`
+            });
 
-        transporter.sendMail(mailConfigurations(req.body.email), function(error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                res.json({dataValidation: true});
-            }
-        });
+            transporter.sendMail(mailConfigurations(req.body.email), function(error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    res.json({dataValidation: true});
+                }
+            });
+        }
+    } catch (error) {
+        if (error.message === "1") {
+            res.status(403).json("1");
+        } else if (error.message === "2") {
+            res.status(403).json("2");
+        }
     }
 });
 

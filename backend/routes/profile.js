@@ -33,6 +33,7 @@ router.post("/",  async (req, res)=>{
         const result = await response.text(); 
 
         const resultArray = result.split(',').map((skills, index) => ({
+            id: index + 1,
             skills: skills.replace(/["[\]]/g, '').trim()  // Remove double quotes and square brackets
         }));
   
@@ -43,10 +44,7 @@ router.post("/",  async (req, res)=>{
     }   
 });
 
-// router.post("/upload-image", upload.single('file'), (req, res) => {
-//     console.log("passed");
-//     // res.json({file: req.file}); 
-// }); 
+
 
 router.put("/update-profile", async (req, res) => {
 
@@ -55,7 +53,7 @@ router.put("/update-profile", async (req, res) => {
         const profileSummary = req.body.profileDesc; 
         const userSkills = req.body.userSkills; 
         const userMedia = req.body.userMedia; 
-  
+        
         db.collection('Users').updateOne(
             { "username": username }, 
             {

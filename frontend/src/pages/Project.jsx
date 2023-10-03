@@ -1,9 +1,9 @@
-const Projects = () => {
+const Project = () => {
     return (
         <>
-        <h1>This is project page!</h1>
+        <h1 style={{color: 'white'}}>This is project page!</h1>
         </>
     )
 }
 
-export default Projects; 
+export default Project; 

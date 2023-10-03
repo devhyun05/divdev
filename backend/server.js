@@ -1,8 +1,6 @@
 const express = require("express"); 
 const cors = require('cors'); 
 
-// const bodyParser = require('body-parser'); 
-// const methodOverride = require('method-override'); 
 
 // using environment variable 
 require('dotenv').config(); 
@@ -11,9 +9,6 @@ const db = require('./lib/db');
 
 const app = express(); 
 
-// middleware
-// app.use(bodyParser.json()); 
-// app.use(methodOverride('_method'));
 app.use(express.json()); 
 
 const corsOptions = {
