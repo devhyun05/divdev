@@ -14,12 +14,10 @@ import emailImage from '../assets/img/email.png';
 const backend = 'http://localhost:3000'; 
 
 const Register = () => {
-    const { register, handleSubmit, getValues, formState } = useForm(); 
+    const { register, handleSubmit, formState, setError, clearErrors} = useForm(); 
     const { errors } = formState; 
     const [confirmEmailMessage, setConfirmEmailMessage] = useState(false); 
-    const [serverValidation, setServerValidation] = useState(true); 
     const [changePage, setChangePage] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
     const [email, setEmail] = useState(""); 
 
     const onSubmit = async (data) => {
@@ -32,15 +30,31 @@ const Register = () => {
             },
             body: JSON.stringify(data)
         }).then(response => response.json())
-        .then(() =>{
-            setConfirmEmailMessage(true);
-            setServerValidation(true); 
-            setChangePage(true);
+        .then((data) =>{
+            if (data === "1") {
+                setError("email", {
+                    type: "Manual",
+                    message: "Email already exist"
+                })
+                setChangePage(false);
+                setConfirmEmailMessage(false);
+
+            } else if (data === "2") {
+                setError("username", {
+                    type: "Manual",
+                    message: "Username already exist"
+                })
+                setChangePage(false);
+                setConfirmEmailMessage(false);
+            } else {
+                setConfirmEmailMessage(true);
+                setChangePage(true);
+            }
+ 
         }).catch((err) => {             
             setConfirmEmailMessage(false);
             setChangePage(false);
-            setServerValidation(false);  
-            setErrorMessage(err.message); 
+            setError(err.message);
         })
     }
 
@@ -48,6 +62,21 @@ const Register = () => {
         pageBackgroundColor: '#F0F0F0'
     });
 
+    const handleClearEmailError = () => {
+        clearErrors("email");
+    }
+
+    const handleClearUserNameError = () => {
+        clearErrors("username");
+    }
+
+    const handleClearPasswordError = () => {
+        clearErrors("password");
+    }
+
+    const handleClearConfirmPasswordError = () => {
+        clearErrors("confirm_password")
+    }
     return (
         <>
             {!confirmEmailMessage && !changePage ?
@@ -77,14 +106,11 @@ const Register = () => {
                                         value:
                                           /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
                                         message: 'Email is invalid.',
-                                    },                          
-                                    validate: {
-                                        serverValidationFailed: () => 
-                                            serverValidation || "Email already registered",
                                     }
                                 })}
                                 error={!!errors.email}
                                 helperText={errors.email?.message}
+                                onChange={handleClearEmailError}
                                 margin="normal"
                                 required
                                 fullWidth 
@@ -101,6 +127,7 @@ const Register = () => {
                                 })}
                                 error={!!errors.username}
                                 helperText={errors.username?.message}
+                                onChange={handleClearUserNameError}
                                 margin="normal"
                                 required
                                 fullWidth 
@@ -121,6 +148,7 @@ const Register = () => {
                                 })}
                                 error={!!errors.password}
                                 helperText={errors.password?.message}
+                                onChange={handleClearPasswordError}
                                 margin="normal"
                                 required
                                 fullWidth 
@@ -134,10 +162,10 @@ const Register = () => {
                              <TextField 
                                 {...register("confirm_password", {
                                     required: "Confirm password is required",
-                                    validate: serverValidation || errorMessage
                                 })}
                                 error={!!errors.confirm_password}
                                 helperText={errors.confirm_password?.message}
+                                onChange={handleClearConfirmPasswordError}
                                 margin="normal"
                                 required 
                                 fullWidth 
