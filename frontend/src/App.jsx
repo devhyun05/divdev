@@ -29,7 +29,7 @@ function App() {
                 <Route path="/:username/profile" element={<Profile/>}/>
                 <Route path="/:username/profileupdate" element={<ProfileUpdate/>}/> 
                 <Route path="/posts" element={<Posts/>}/> 
-                <Route path="/project" element={<Project/>}/> 
+                <Route path="/:username/project" element={<Project/>}/> 
                 <Route path="/privacy" element={<Privacy />}/>
                 <Route path="/terms" element={<Terms/>}/>
               </Routes>
