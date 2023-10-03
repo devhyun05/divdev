@@ -20,36 +20,68 @@ import { useForm } from 'react-hook-form';
 const backend = 'http://localhost:3000';
 
 const Login = () => {
-    const [loginVerification, setLoginVerification] = useState(true); 
+    const [loginVerification, setLoginVerification] = useState(true);
+    const [passwordVerification, setPasswordVerification] = useState(true); 
+   
+
     const navigate = useNavigate(); 
     const { setIsLoggedIn, setUserName } = useContext(LoginContext); 
-    const { register, handleSubmit, formState } = useForm(); 
+    const { register, handleSubmit, formState, clearErrors, setError} = useForm(); 
     const { errors } = formState; 
     const defaultTheme = createTheme({
         pageBackgroundColor: '#F0F0F0'
     });
-    
+
+
     const onSubmit = async (data) => {
+
         await fetch(`${backend}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then(response => response.json())
+        }).then(response => {
+            if (response.status === 404) {
+                throw new Error (1);
+                
+            } else if (response.status === 401) {
+                throw new Error (2);
+            } else {
+                return response.json(); 
+            }
+        })
         .then(data => {
             setIsLoggedIn(true); 
             setLoginVerification(true); 
+            setPasswordVerification(true);
             setUserName(data);
             navigate(`/${data}`);
-        }).catch(err =>{
-            setLoginVerification(false); 
+            console.log("There")
+        }).catch(error =>{    
+            
+            if (error.message === "1") {            
+                setError("email", {
+                    type: "Manual",
+                    message: "Email does not exist"
+                })
+            } else if (error.message === "2") {
+                setError("password", {
+                    type: "Manual",
+                    message: "Password does not match"
+                })
+            }
+
         })
     }
 
     const handleTypeEmail = (e) => {
-        console.log(e.target.value);
-        setLoginVerification(true);
+        clearErrors("email");
+   
+    }
+
+    const handleTypePassword = (e) => {
+        clearErrors("password");       
     }
 
     return (
@@ -76,12 +108,8 @@ const Login = () => {
                             <TextField 
                                 {...register("email",{
                                     required: "Email is required",                                                       
-                                    validate: {
-                                        emailValidationFailed: () => {
-                                            return loginVerification || "Email does not exist";
-                                        },
-                                    }
-                                })}
+                                    
+                                })}                                
                                 error={!!errors.email}
                                 helperText={errors.email?.message}
                                 onChange={handleTypeEmail}
@@ -96,12 +124,9 @@ const Login = () => {
                             /> 
                             <TextField 
                                 {...register("password",{
-                                    required: "Password is required",
-                                    validate: {
-                                        passwordValidationFailed: () => 
-                                            loginVerification || "Password does not match",
-                                    }
+                                    required: "Password is required",                                    
                                 })}
+                                onChange={handleTypePassword}
                                 error={!!errors.password}
                                 helperText={errors.password?.message}
                                 margin="normal"
