@@ -88,7 +88,15 @@ const ProfileUpdate = () => {
     }
 
     const handleNavigate = async () => {
-     
+        const userImageUpload = {
+            lastModified: image.lastModified,
+            lastModifiedDate: image.lastModifiedDate, 
+            name: image.name,
+            size: image.size, 
+            type: image.type,
+            webkitRelativePath: image.webkitRelativePath
+        }
+        
         await fetch(`${backend}/${userName}/profileupdate/update-profile`, {
             method: 'PUT',
             headers: {
@@ -98,7 +106,8 @@ const ProfileUpdate = () => {
                 username: userName, 
                 profileDesc: userProfileDesc, 
                 userSkills: skill, 
-                userMedia: media 
+                userMedia: media,
+                userProfileImage: userImageUpload
             })
    
         }).then(navigate(`/${userName}/profile`))
