@@ -12,6 +12,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+
 const backend = 'http://localhost:3000';
 
 
@@ -20,8 +21,6 @@ const Profile = () => {
     const [profileDesc, setProfileDesc] = useState("");
     const [skills, setSkills] = useState([]);
     const [media, setMedia] = useState([]); 
-    const [icon, setIcon] = useState([]);
-
 
     const navigate = useNavigate(); 
     
