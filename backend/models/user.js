@@ -32,6 +32,10 @@ const UserSchema = new mongoose.Schema({
     mediaLinks: {
         type: Array,
         required: true 
+    },
+    photoURL: {
+        type: String,
+        required: true 
     }
 }); 
 

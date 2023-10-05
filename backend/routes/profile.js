@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../lib/db');
 const upload = require('../middlewares/multer'); 
 
+
 // profile 
 router.post("/get-profile", async (req, res) => {
     try {
@@ -10,7 +11,7 @@ router.post("/get-profile", async (req, res) => {
         const username = req.body.username; 
         const user = await db.collection('Users').findOne({username: username}); 
 
-        const userInfo = {profileDesc: user.profileDescription, userSkills: user.skills, userMedia: user.mediaLinks}
+        const userInfo = {profileDesc: user.profileDescription, userSkills: user.skills, userMedia: user.mediaLinks, profileImage: user.photoURL}
         res.json(userInfo); 
     } catch (error) {
         console.error('Error: ', error); 
@@ -45,12 +46,22 @@ router.post("/",  async (req, res)=>{
 });
 
 
-router.put('/update-image', upload.single('image'), (req, res) => {
-    
-    res.json(); 
+router.put('/update-image', upload.single('image'), async (req, res) => {
+   
+    console.log(req.file.location); 
+    await db.collection('Users').updateOne(
+        { "username": req.body.username }, 
+        {
+            $set: {
+                "photoURL": req.file.location
+            }
+        }
+    )
+ 
+    res.json({userImage: req.file.location}); 
 }); 
 
-router.put("/update-profile", async (req, res) => {
+router.put("/update-profile", upload.single('image'), async (req, res) => {
     try {
      
         const username = req.body.username; 
