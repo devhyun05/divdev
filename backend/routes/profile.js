@@ -1,14 +1,7 @@
 const express = require('express'); 
 const router = express.Router(); 
 const db = require('../lib/db');
-const fs = require('fs');
-const AWS = require('aws-sdk'); 
-require("aws-sdk/lib/maintenance_mode_message").suppress = true;
-
-const s3 = new AWS.S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-});
+const upload = require('../middlewares/multer'); 
 
 // profile 
 router.post("/get-profile", async (req, res) => {
@@ -36,8 +29,6 @@ let requestOptions = {
 
 router.post("/",  async (req, res)=>{           
     try {
-     
-     
         const response = await fetch(`https://api.apilayer.com/skills?q=${req.body.keyword}`, requestOptions); 
         const result = await response.text(); 
 
@@ -55,14 +46,14 @@ router.post("/",  async (req, res)=>{
 
 
 
-router.put("/update-profile", async (req, res) => {
+router.put("/update-profile", upload.single('img'),  async (req, res) => {
     try {
 
         const username = req.body.username; 
         const profileSummary = req.body.profileDesc; 
         const userSkills = req.body.userSkills; 
         const userMedia = req.body.userMedia; 
-        const userImage = req.body.userProfileImage;
+        console.log(req.file);
 
         db.collection('Users').updateOne(
             { "username": username }, 
@@ -74,20 +65,7 @@ router.put("/update-profile", async (req, res) => {
                 }
             }
         );
-        
-        const params = {
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: "user-profile-picture/",
-            Body: fs.readFileSync(userImage.name),
-            ContentType: "Image/png",
-        }
 
-        s3.upload(params, function (err, data) {
-            if (err) {
-                throw err; 
-            } 
-            console.log(`File uploaded successfully ${data}`); 
-        })
     } catch (error) {
         console.error('Error', error); 
     }
