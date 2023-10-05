@@ -15,7 +15,7 @@ import LoginContext from '../context/LoginContext';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 
 const NavigationComponent = () => {
-    const { isLoggedIn, setIsLoggedIn, userName, setBgColor } = useContext(LoginContext);
+    const { isLoggedIn, setIsLoggedIn, userName, userProfileImage, setBgColor } = useContext(LoginContext);
 
     const navigate = useNavigate(); 
     const pages = [{ navItem: 'Login', navLink: '/login' }];
@@ -142,7 +142,7 @@ const NavigationComponent = () => {
                                 {isLoggedIn ?
                                     <Tooltip title="Open settings">
                                         <IconButton onClick={handleOpenUserMenu} sx={{ marginTop: '5%' }}>
-                                            <Avatar alt={`${userName}`} src="/static/images/avatar/2.jpg" />
+                                            <Avatar alt={`${userName}`} src={userProfileImage} />
                                         </IconButton>
                                     </Tooltip> :
                                     <Button
