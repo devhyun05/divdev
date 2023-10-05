@@ -47,7 +47,7 @@ const CssTextField = styled(TextField)({
 
   
 const ProfileUpdate = () => {
-    const { userName } = useContext(LoginContext); 
+    const { userName, setUserProfileImage } = useContext(LoginContext); 
     const inputRef = useRef(null);
 
     
@@ -82,6 +82,7 @@ const ProfileUpdate = () => {
             if (data.userMedia.length > 0) {
                 setMedia(data.userMedia);
             }            
+         
         }).catch(err => {
             console.log(err.error); 
         })
@@ -92,10 +93,16 @@ const ProfileUpdate = () => {
         try {
             const formData = new FormData(); 
             formData.append('image', image); 
+            formData.append('username', userName); 
+          
             await fetch(`${backend}/${userName}/profileupdate/update-image`, {
                 method: 'PUT',
-          
                 body: formData
+            }).then(response => response.json())
+            .then(data => {
+                setUserProfileImage(data.userImage); 
+            }).catch(err => {
+                console.error('Error', err); 
             })
            await fetch(`${backend}/${userName}/profileupdate/update-profile`, {
                 method: 'PUT',

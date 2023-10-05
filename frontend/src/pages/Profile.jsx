@@ -17,7 +17,7 @@ const backend = 'http://localhost:3000';
 
 
 const Profile = () => {
-    const { userName } = useContext(LoginContext); 
+    const { userName, userProfileImage } = useContext(LoginContext); 
     const [profileDesc, setProfileDesc] = useState("");
     const [skills, setSkills] = useState([]);
     const [media, setMedia] = useState([]); 
@@ -37,6 +37,7 @@ const Profile = () => {
         YouTubeIcon: <YouTubeIcon/> 
     }
     const fetchProfile = async () => {
+        console.log(userProfileImage); 
         await fetch(`${backend}/${userName}/profile/get-profile`, {
             method: 'POST',
             headers: {
@@ -61,13 +62,15 @@ const Profile = () => {
 
     return (
         <>
+        {console.log(userProfileImage)}
             <Container style={{display: 'flex', flexDirection: 'row', marginTop: '5%'}}>
-                <Box>
-                    <Box onClick={handleRouteToUpdatePage}sx={{width: '250px', height: '250px'}}>
-                        <img src={CircleImage} alt="Circle" className="uploaded-image"/>                                    
+                <Box sx={{display: 'flex', flexDirection: 'column', gap: '100px'}}>
+                    <Box onClick={handleRouteToUpdatePage}sx={{width: '300px', height: '300px'}}>
+                        {userProfileImage ? <img src={`${userProfileImage}`} alt="" className="uploaded-image" style={{maxWidth: '100%', maxHeight: '100%'}}/> 
+                        : <img src={CircleImage} alt="Circle" className="uploaded-image" style={{maxWidth: '100%', maxHeight: '100%'}}/>}                                    
                     </Box>
-                    <Box sx={{marginTop: '50%', marginLeft: '39%'}}>
-                        <Button onClick={handleRouteToUpdatePage} style={{backgroundColor: '#3e8e41', color: 'white'}}>Update Profile</Button>
+                    <Box sx={{textAlign: 'center'}}>
+                        <Button onClick={handleRouteToUpdatePage} sx={{backgroundColor: '#3e8e41', color: 'white'}}>Update Profile</Button>
                     </Box>
                 </Box> 
                
