@@ -133,9 +133,11 @@ const NavigationComponent = () => {
                             Devhyun
                         </Typography>
                         <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
+                            {isLoggedIn &&
                             <Button onClick={changeBackgroundColor}>
                                 <WbSunnyIcon/>
-                            </Button>
+                            </Button>}
+
                             <Box sx={{ flexGrow: 0 }}>
                                 {isLoggedIn ?
                                     <Tooltip title="Open settings">
