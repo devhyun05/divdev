@@ -9,7 +9,7 @@ export function LoginProvider({ children }) {
     const [profileLayout, setProfileLayout] = useState(""); 
     const [navbarLayout, setnavbarLayout] = useState(""); 
     const [bgColor, setBgColor] = useState(""); 
-
+    const [userProfileImage, setUserProfileImage] = useState(""); 
     return (
         <LoginContext.Provider value={{
             isLoggedIn,
@@ -18,6 +18,8 @@ export function LoginProvider({ children }) {
             setLoginText,
             userName,
             setUserName,
+            userProfileImage, 
+            setUserProfileImage,
             profileLayout, 
             setProfileLayout,
             navbarLayout, 
