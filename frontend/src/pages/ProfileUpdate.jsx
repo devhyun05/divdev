@@ -47,7 +47,7 @@ const CssTextField = styled(TextField)({
 
   
 const ProfileUpdate = () => {
-    const { userName, setUserProfileImage } = useContext(LoginContext); 
+    const { userName, userProfileImage, setUserProfileImage } = useContext(LoginContext); 
     const inputRef = useRef(null);
 
     
@@ -91,19 +91,22 @@ const ProfileUpdate = () => {
     const handleSubmit = async () => {
 
         try {
-            const formData = new FormData(); 
-            formData.append('image', image); 
-            formData.append('username', userName); 
-          
-            await fetch(`${backend}/${userName}/profileupdate/update-image`, {
-                method: 'PUT',
-                body: formData
-            }).then(response => response.json())
-            .then(data => {
-                setUserProfileImage(data.userImage); 
-            }).catch(err => {
-                console.error('Error', err); 
-            })
+            console.log(image);
+            if (image !== "") {
+                const formData = new FormData(); 
+                formData.append('image', image); 
+                formData.append('username', userName); 
+            
+                await fetch(`${backend}/${userName}/profileupdate/update-image`, {
+                    method: 'PUT',
+                    body: formData
+                }).then(response => response.json())
+                .then(data => {
+                    setUserProfileImage(data.userImage); 
+                }).catch(err => {
+                    console.error('Error', err); 
+                })
+            }
            await fetch(`${backend}/${userName}/profileupdate/update-profile`, {
                 method: 'PUT',
                 headers: {
@@ -219,7 +222,7 @@ const ProfileUpdate = () => {
             <Container style={{display: 'flex', flexDirection: 'row', marginTop: '5%'}}>
                 <Box>
                     <Box onClick={handleImageClick} sx={{width: '250px', height: '250px'}}>
-                        {image ? <img src={URL.createObjectURL(image)} alt="" className="uploaded-image"/> : <img src={CircleImage} alt="Circle" className="uploaded-image"/>}
+                        {userProfileImage ? <img src={userProfileImage} alt="" className="uploaded-image"/> : <img src={CircleImage} alt="Circle" className="uploaded-image"/>}
                         <input type="file" ref={inputRef} onChange={handleImageChange} style={{ display: 'none' }} />                    
                     </Box>
                     <Box sx={{marginTop: '50%', paddingLeft: '39%'}}>

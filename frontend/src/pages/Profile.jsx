@@ -37,7 +37,7 @@ const Profile = () => {
         YouTubeIcon: <YouTubeIcon/> 
     }
     const fetchProfile = async () => {
-        console.log(userProfileImage); 
+
         await fetch(`${backend}/${userName}/profile/get-profile`, {
             method: 'POST',
             headers: {
@@ -62,7 +62,7 @@ const Profile = () => {
 
     return (
         <>
-        {console.log(userProfileImage)}
+    
             <Container style={{display: 'flex', flexDirection: 'row', marginTop: '5%'}}>
                 <Box sx={{display: 'flex', flexDirection: 'column', gap: '100px'}}>
                     <Box onClick={handleRouteToUpdatePage}sx={{width: '300px', height: '300px'}}>
