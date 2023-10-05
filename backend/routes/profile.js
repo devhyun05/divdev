@@ -45,15 +45,19 @@ router.post("/",  async (req, res)=>{
 });
 
 
+router.put('/update-image', upload.single('image'), (req, res) => {
+    
+    res.json(); 
+}); 
 
-router.put("/update-profile", upload.single('img'),  async (req, res) => {
+router.put("/update-profile", async (req, res) => {
     try {
-
+     
         const username = req.body.username; 
         const profileSummary = req.body.profileDesc; 
         const userSkills = req.body.userSkills; 
         const userMedia = req.body.userMedia; 
-        console.log(req.file);
+
 
         db.collection('Users').updateOne(
             { "username": username }, 
@@ -65,7 +69,7 @@ router.put("/update-profile", upload.single('img'),  async (req, res) => {
                 }
             }
         );
-
+        res.json();
     } catch (error) {
         console.error('Error', error); 
     }

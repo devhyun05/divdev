@@ -1,13 +1,10 @@
 const express = require("express"); 
 const cors = require('cors'); 
 
-
 // using environment variable 
 require('dotenv').config(); 
 
 const db = require('./lib/db'); 
-
-
 
 const app = express(); 
 

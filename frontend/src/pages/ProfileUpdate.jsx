@@ -87,34 +87,33 @@ const ProfileUpdate = () => {
         })
     }
 
-    const handleNavigate = async () => {
-        const userImageUpload = {
-            lastModified: image.lastModified,
-            lastModifiedDate: image.lastModifiedDate, 
-            name: image.name,
-            size: image.size, 
-            type: image.type,
-            webkitRelativePath: image.webkitRelativePath
-        }
-        
-        await fetch(`${backend}/${userName}/profileupdate/update-profile`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: userName, 
-                profileDesc: userProfileDesc, 
-                userSkills: skill, 
-                userMedia: media,
-                userProfileImage: userImageUpload
+    const handleSubmit = async () => {
+
+        try {
+            const formData = new FormData(); 
+            formData.append('image', image); 
+            await fetch(`${backend}/${userName}/profileupdate/update-image`, {
+                method: 'PUT',
+          
+                body: formData
             })
-   
-        }).then(navigate(`/${userName}/profile`))
-        .catch(err => {
-            console.log("error");
-            console.log(err.message); 
-        })
+           await fetch(`${backend}/${userName}/profileupdate/update-profile`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: userName, 
+                    profileDesc: userProfileDesc, 
+                    userSkills: skill, 
+                    userMedia: media,
+                })
+            })
+
+            navigate(`/${userName}/profile`);
+        } catch (error) {
+            console.error('Error: ', error);
+        }
 
     }
 
@@ -217,7 +216,7 @@ const ProfileUpdate = () => {
                         <input type="file" ref={inputRef} onChange={handleImageChange} style={{ display: 'none' }} />                    
                     </Box>
                     <Box sx={{marginTop: '50%', paddingLeft: '39%'}}>
-                        <Button style={{backgroundColor: '#3e8e41', color: 'white'}} onClick={handleNavigate}>Finish update</Button>
+                        <Button style={{backgroundColor: '#3e8e41', color: 'white'}} onClick={handleSubmit}>Finish update</Button>
                     </Box>
                 </Box> 
                
