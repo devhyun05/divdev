@@ -21,6 +21,7 @@ function App() {
             <LoginProvider>
               <NavigationComponent/>
               <Routes>
+                {console.log("render App.jsx")}
                 <Route path="/" element={<Home />}/>
                 <Route path="/:username" element={<Home />}/>
                 <Route path="/login" element={<Login/>}/>

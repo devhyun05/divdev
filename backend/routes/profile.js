@@ -47,8 +47,7 @@ router.post("/",  async (req, res)=>{
 
 
 router.put('/update-image', upload.single('image'), async (req, res) => {
-   
-    console.log(req.file.location); 
+    
     await db.collection('Users').updateOne(
         { "username": req.body.username }, 
         {

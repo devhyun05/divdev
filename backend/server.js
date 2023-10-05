@@ -25,6 +25,7 @@ const profileRoute = require('./routes/profile');
 const settingRoute = require('./routes/settings'); 
 
 app.use("/", homeRoute); 
+app.use("/:username", homeRoute); 
 app.use("/register", registerRoute); 
 app.use("/verify", registerRoute); 
 app.use("/login", loginRoute); 

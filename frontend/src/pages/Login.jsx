@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'; 
+import React, { useContext } from 'react'; 
 import { useNavigate } from 'react-router-dom'; 
 import LoginContext from '../context/LoginContext'; 
 import Avatar from '@mui/material/Avatar';
@@ -20,9 +20,6 @@ import { useForm } from 'react-hook-form';
 const backend = 'http://localhost:3000';
 
 const Login = () => {
-    const [loginVerification, setLoginVerification] = useState(true);
-    const [passwordVerification, setPasswordVerification] = useState(true); 
-   
 
     const navigate = useNavigate(); 
     const { setIsLoggedIn, setUserName } = useContext(LoginContext); 
@@ -32,9 +29,8 @@ const Login = () => {
         pageBackgroundColor: '#F0F0F0'
     });
 
-
     const onSubmit = async (data) => {
-
+        console.log("Submitted");
         await fetch(`${backend}/login`, {
             method: 'POST',
             headers: {
@@ -43,8 +39,7 @@ const Login = () => {
             body: JSON.stringify(data)
         }).then(response => {
             if (response.status === 404) {
-                throw new Error (1);
-                
+                throw new Error (1);                
             } else if (response.status === 401) {
                 throw new Error (2);
             } else {
@@ -52,12 +47,13 @@ const Login = () => {
             }
         })
         .then(data => {
+            console.log("Aa")
             setIsLoggedIn(true); 
-            setLoginVerification(true); 
-            setPasswordVerification(true);
             setUserName(data);
+                    
+            // window.localStorage.setItem("isLoggedIn", true); 
             navigate(`/${data}`);
-            console.log("There")
+        
         }).catch(error =>{    
             
             if (error.message === "1") {            
@@ -86,6 +82,7 @@ const Login = () => {
 
     return (
         <>
+        {console.log("render Login.jsx")}
             <ThemeProvider theme={defaultTheme} >
                 <Container component="main" maxWidth="xs" style={{backgroundColor: '#F0F0F0', borderRadius: '10px'}}>
                     <CssBaseline/>
