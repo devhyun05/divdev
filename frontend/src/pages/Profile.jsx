@@ -23,19 +23,7 @@ const Profile = () => {
     const [media, setMedia] = useState([]); 
 
     const navigate = useNavigate(); 
-    
-    useEffect(()=>{
-        fetchProfile(); 
-    }, [])
 
-    const iconComponents = {
-        GitHubIcon: <GitHubIcon/>, 
-        LinkedinIcon: <LinkedInIcon/>, 
-        InstagramIcon: <InstagramIcon/>, 
-        FacebookIcon: <FacebookIcon/>, 
-        TwitterIcon: <TwitterIcon/>,
-        YouTubeIcon: <YouTubeIcon/> 
-    }
     const fetchProfile = async () => {
 
         await fetch(`${backend}/${userName}/profile/get-profile`, {
@@ -53,6 +41,20 @@ const Profile = () => {
             console.log(err); 
         })
     }
+    
+    useEffect(()=>{
+        fetchProfile(); 
+    }, [])
+
+    const iconComponents = {
+        GitHubIcon: <GitHubIcon/>, 
+        LinkedinIcon: <LinkedInIcon/>, 
+        InstagramIcon: <InstagramIcon/>, 
+        FacebookIcon: <FacebookIcon/>, 
+        TwitterIcon: <TwitterIcon/>,
+        YouTubeIcon: <YouTubeIcon/> 
+    }
+
 
 
     const handleRouteToUpdatePage = () => {
