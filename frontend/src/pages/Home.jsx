@@ -11,6 +11,7 @@ const Home = () => {
     }); 
 
     const fetchUserInfo = async () => {
+        console.log(userName);
         try {
             await fetch(`${backend}/${userName}/set-image`, {
                 method: 'POST', 
@@ -20,7 +21,7 @@ const Home = () => {
                 body: JSON.stringify({username: userName})
             }).then(response => response.json())
             .then(data => {
-
+                
                 setUserProfileImage(data.userImage); 
             });
         } catch (error) {
@@ -29,6 +30,7 @@ const Home = () => {
     }
     return (
         <>
+     
         </>
     )
 }

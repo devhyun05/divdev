@@ -12,7 +12,7 @@ router.post("/get-profile", async (req, res) => {
         const user = await db.collection('Users').findOne({username: username}); 
 
         const userInfo = {profileDesc: user.profileDescription, userSkills: user.skills, userMedia: user.mediaLinks, profileImage: user.photoURL}
-        console.log("keep calling");
+
         res.json(userInfo); 
     } catch (error) {
         console.error('Error: ', error); 
