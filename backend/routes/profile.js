@@ -7,11 +7,12 @@ const upload = require('../middlewares/multer');
 // profile 
 router.post("/get-profile", async (req, res) => {
     try {
-
+   
         const username = req.body.username; 
         const user = await db.collection('Users').findOne({username: username}); 
 
         const userInfo = {profileDesc: user.profileDescription, userSkills: user.skills, userMedia: user.mediaLinks, profileImage: user.photoURL}
+        console.log("keep calling");
         res.json(userInfo); 
     } catch (error) {
         console.error('Error: ', error); 
@@ -62,7 +63,7 @@ router.put('/update-image', upload.single('image'), async (req, res) => {
 
 router.put("/update-profile", upload.single('image'), async (req, res) => {
     try {
-     
+        
         const username = req.body.username; 
         const profileSummary = req.body.profileDesc; 
         const userSkills = req.body.userSkills; 

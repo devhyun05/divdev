@@ -8,7 +8,7 @@ const Home = () => {
 
     useEffect(()=>{
         fetchUserInfo();
-    }, []); 
+    }); 
 
     const fetchUserInfo = async () => {
         try {
@@ -20,7 +20,7 @@ const Home = () => {
                 body: JSON.stringify({username: userName})
             }).then(response => response.json())
             .then(data => {
-                console.log(data);
+
                 setUserProfileImage(data.userImage); 
             });
         } catch (error) {

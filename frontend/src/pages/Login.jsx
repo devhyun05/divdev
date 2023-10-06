@@ -30,7 +30,7 @@ const Login = () => {
     });
 
     const onSubmit = async (data) => {
-        console.log("Submitted");
+
         await fetch(`${backend}/login`, {
             method: 'POST',
             headers: {
@@ -47,11 +47,9 @@ const Login = () => {
             }
         })
         .then(data => {
-            console.log("Aa")
             setIsLoggedIn(true); 
             setUserName(data);
                     
-            // window.localStorage.setItem("isLoggedIn", true); 
             navigate(`/${data}`);
         
         }).catch(error =>{    
@@ -80,9 +78,10 @@ const Login = () => {
         clearErrors("password");       
     }
 
+ 
+
     return (
         <>
-        {console.log("render Login.jsx")}
             <ThemeProvider theme={defaultTheme} >
                 <Container component="main" maxWidth="xs" style={{backgroundColor: '#F0F0F0', borderRadius: '10px'}}>
                     <CssBaseline/>

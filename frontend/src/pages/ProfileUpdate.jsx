@@ -63,29 +63,35 @@ const ProfileUpdate = () => {
     const navigate = useNavigate(); 
 
     useEffect(()=>{
+        console.log("called");
         fetchProfile(); 
     }, [])
     
-    const fetchProfile = async () => {       
-        await fetch(`${backend}/${userName}/profile/get-profile`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }, 
-            body: JSON.stringify({username: userName})
-        }).then(response => response.json())
-        .then(data => {
-            setUserProfileDesc(data.profileDesc);
-            if (data.userSkills.length > 0) {
-                setSkill(data.userSkills);
-            } 
-            if (data.userMedia.length > 0) {
-                setMedia(data.userMedia);
-            }            
-         
-        }).catch(err => {
-            console.log(err.error); 
-        })
+    const fetchProfile = async () => {      
+        try {
+            console.log("called");
+            await fetch(`${backend}/${userName}/profile/get-profile`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({username: userName})
+            }).then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setUserProfileDesc(data.profileDesc);
+                if (data.userSkills.length > 0) {
+                    setSkill(data.userSkills)
+                }
+                if (data.userMedia.length > 0) {
+                    setMedia(data.userMedia);
+                }
+            }).catch(err => {
+                console.log ('Error: ', err); 
+            })
+        } catch (error) {
+            console.log('Error: ', error); 
+        }
     }
 
     const handleSubmit = async () => {
