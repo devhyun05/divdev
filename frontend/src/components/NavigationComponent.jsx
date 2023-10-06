@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,7 +15,7 @@ import LoginContext from '../context/LoginContext';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 
 const NavigationComponent = () => {
-    const { isLoggedIn, setIsLoggedIn, userName, userProfileImage, setBgColor } = useContext(LoginContext);
+    const { isLoggedIn, setIsLoggedIn, userName, setUserName, userProfileImage, setBgColor } = useContext(LoginContext);
 
     const navigate = useNavigate(); 
     const pages = [{ navItem: 'Login', navLink: '/login' }];
@@ -23,6 +23,18 @@ const NavigationComponent = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const path = isLoggedIn ? `/${userName}` : '/';
+
+
+    useEffect(() => {
+        const loginState = window.localStorage.getItem('isLoggedIn');
+        const username = window.localStorage.getItem('username'); 
+        if (loginState) {
+            setIsLoggedIn(true); 
+            setUserName(username); 
+        }   
+    }, [])
+
+
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -42,6 +54,7 @@ const NavigationComponent = () => {
     const handleUserClickMenu = (menu) => {
         const routePath = menu.toLowerCase(); 
         if (routePath === 'logout') {
+            localStorage.clear(); 
             setIsLoggedIn(false);
             navigate("/");
         } else {
