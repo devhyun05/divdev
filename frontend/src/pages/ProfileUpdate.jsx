@@ -63,13 +63,11 @@ const ProfileUpdate = () => {
     const navigate = useNavigate(); 
 
     useEffect(()=>{
-        console.log("called");
         fetchProfile(); 
     }, [])
     
     const fetchProfile = async () => {      
         try {
-            console.log("called");
             await fetch(`${backend}/${userName}/profile/get-profile`, {
                 method: 'POST',
                 headers: {
@@ -78,7 +76,7 @@ const ProfileUpdate = () => {
                 body: JSON.stringify({username: userName})
             }).then(response => response.json())
             .then(data => {
-                console.log(data);
+
                 setUserProfileDesc(data.profileDesc);
                 if (data.userSkills.length > 0) {
                     setSkill(data.userSkills)

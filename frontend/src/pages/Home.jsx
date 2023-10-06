@@ -8,7 +8,7 @@ const Home = () => {
 
     useEffect(()=>{
         fetchUserInfo();
-    }); 
+    }, []); 
 
     const fetchUserInfo = async () => {
         console.log(userName);

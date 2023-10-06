@@ -26,11 +26,10 @@ router.get('/:token', (req, res) => {
 
 router.post("/", async (req, res)=> {
     try {
-        const checkEmail = await db.collection('Users').findOne(({email: req.body.email}));
-        const checkUserName = await db.collection('Users').findOne({username: req.body.username});
-        if (checkEmail) {
+        const user = await db.collection('Users').findOne({username: req.body.username});
+        if (user.email) {
             throw new Error ("1");
-        } else if (checkUserName) {
+        } else if (user.username) {
             throw new Error ("2"); 
         } else {
             db.collection('Users').insertOne({ email: req.body.email,username: 
@@ -38,6 +37,7 @@ router.post("/", async (req, res)=> {
                                             password: req.body.password, 
                                             redirectURL: `/${req.body.username}`,
                                             emailVerfied: true})
+                                            
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
