@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import ProfileUpdate from './pages/ProfileUpdate'; 
 import Project from './pages/Project'; 
+import ProjectUpdate from './pages/ProjectUpdate'; 
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms'; 
 
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/:username/profile" element={<Profile/>}/>
                 <Route path="/:username/profileupdate" element={<ProfileUpdate/>}/> 
                 <Route path="/:username/project" element={<Project/>}/> 
+                <Route path="/:username/projectupdate" element={<ProjectUpdate/>}/> 
                 <Route path="/privacy" element={<Privacy />}/>
                 <Route path="/terms" element={<Terms/>}/>
               </Routes>

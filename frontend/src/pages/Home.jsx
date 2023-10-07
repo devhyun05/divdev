@@ -4,14 +4,16 @@ import LoginContext from '../context/LoginContext';
 const backend = 'http://localhost:3000';
 
 const Home = () => {
-    const { userName, setUserProfileImage } = useContext(LoginContext); 
+    const { userName, setUserName, setUserProfileImage } = useContext(LoginContext); 
 
     useEffect(()=>{
         fetchUserInfo();
     }, []); 
 
     const fetchUserInfo = async () => {
-        console.log(userName);
+      
+        // const username = window.localStorage.getItem('username'); 
+        // setUserName(username); 
         try {
             await fetch(`${backend}/${userName}/set-image`, {
                 method: 'POST', 
@@ -30,7 +32,7 @@ const Home = () => {
     }
     return (
         <>
-     
+   
         </>
     )
 }

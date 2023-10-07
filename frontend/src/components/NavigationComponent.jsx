@@ -29,6 +29,7 @@ const NavigationComponent = () => {
         const loginState = window.localStorage.getItem('isLoggedIn');
         const username = window.localStorage.getItem('username'); 
         if (loginState) {
+         
             setIsLoggedIn(true); 
             setUserName(username); 
         }   
