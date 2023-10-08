@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; 
 import LoginContext from '../context/LoginContext'; 
-import CircleImage from '../assets/img/circle.png'
+import CircleImage from '../assets/img/circle.png';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -25,7 +25,6 @@ const Profile = () => {
     const navigate = useNavigate(); 
 
     const fetchProfile = async () => {
-
         await fetch(`${backend}/${userName}/profile/get-profile`, {
             method: 'POST',
             headers: {

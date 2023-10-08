@@ -4,7 +4,7 @@ import LoginContext from '../context/LoginContext';
 const backend = 'http://localhost:3000';
 
 const Home = () => {
-    const { userName, setUserName, setUserProfileImage } = useContext(LoginContext); 
+    const { userName,  setUserProfileImage } = useContext(LoginContext); 
 
     useEffect(()=>{
         fetchUserInfo();

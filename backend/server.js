@@ -22,7 +22,7 @@ const homeRoute = require('./routes/home');
 const registerRoute = require('./routes/register'); 
 const loginRoute = require('./routes/login'); 
 const profileRoute = require('./routes/profile');
-const settingRoute = require('./routes/settings'); 
+const projectRoute = require('./routes/project'); 
 
 app.use("/", homeRoute); 
 app.use("/:username", homeRoute); 
@@ -32,7 +32,9 @@ app.use("/login", loginRoute);
 app.use("/profile", profileRoute); 
 app.use("/:username/profile", profileRoute); 
 app.use("/:username/profileupdate", profileRoute); 
-app.use("/settings", settingRoute); 
+app.use("/:username/project", projectRoute);
+app.use("/:username/projectupdate", projectRoute); 
+
 
 app.listen(3000, () => {
     console.log("Server is running at port 3000");
