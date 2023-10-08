@@ -1,3 +1,4 @@
+import "../App.css";
 import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom'; 
 import LoginContext from '../context/LoginContext'; 
@@ -5,7 +6,7 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box'; 
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography'; 
-import PlaypalImage from '../assets/img/playpal.png'; 
+
 
 const backend = 'http://localhost:3000';
 
@@ -46,8 +47,15 @@ const Project = () => {
             </Box>
             <Box sx={{display: 'flex', flexDirection: 'column', marginTop: '5%', gap: '50px', color: 'white'}}>
                 {projectList.map((item, index) => (
-                    <Box key={index} sx={{display: 'flex', flexDirection: 'row'}}>
-                        <img src={item.project_image} alt="" style={{width:'325px', height: '225px', borderRadius: '10px'}}/> 
+                    <Box key={index} sx={{display: 'flex', flexDirection: 'row'}}>     
+                        <Box className="outside-box">                 
+                            <img src={item.project_image} alt="" className="project-image" /> 
+                            <Box className="overlay">
+                                <Box className="content">
+                                    <Link to={item.project_link}>Link to website</Link>
+                                </Box>
+                            </Box>
+                        </Box>
                         <Box sx={{display: 'flex', flexDirection: 'column', marginLeft: '10%', gap: '20px'}}>
                             <Typography variant="h5">
                                 Project Name: {item.project_name} 
