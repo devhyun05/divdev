@@ -76,7 +76,6 @@ const ProfileUpdate = () => {
                 body: JSON.stringify({username: userName})
             }).then(response => response.json())
             .then(data => {
-
                 setUserProfileDesc(data.profileDesc);
                 if (data.userSkills.length > 0) {
                     setSkill(data.userSkills)
@@ -230,7 +229,7 @@ const ProfileUpdate = () => {
                         <input type="file" ref={inputRef} onChange={handleImageChange} style={{ display: 'none' }} />                    
                     </Box>
                     <Box sx={{marginTop: '50%', paddingLeft: '39%'}}>
-                        <Button style={{backgroundColor: '#3e8e41', color: 'white'}} onClick={handleSubmit}>Finish update</Button>
+                        <Button style={{backgroundColor: '#4681f4', color: 'white'}} onClick={handleSubmit}>Finish update</Button>
                     </Box>
                 </Box> 
                

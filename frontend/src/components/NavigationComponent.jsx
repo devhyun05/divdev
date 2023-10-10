@@ -12,7 +12,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import LoginContext from '../context/LoginContext';
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
+
 
 const NavigationComponent = () => {
     const { isLoggedIn, setIsLoggedIn, userName, setUserName, userProfileImage, setBgColor } = useContext(LoginContext);
@@ -147,10 +147,7 @@ const NavigationComponent = () => {
                             Devhyun
                         </Typography>
                         <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
-                            {isLoggedIn &&
-                            <Button onClick={changeBackgroundColor}>
-                                <WbSunnyIcon/>
-                            </Button>}
+                           
 
                             <Box sx={{ flexGrow: 0 }}>
                                 {isLoggedIn ?

@@ -42,7 +42,7 @@ const Project = () => {
         <Container>
             <Box sx={{textAlign: 'right', marginTop: '30px'}}>
                 <Link to={`/${userName}/projectupdate`}>
-                    <Button sx={{backgroundColor: '#3e8e41', color: 'white'}}>Update Project</Button>     
+                    <Button sx={{backgroundColor: '#4681f4', color: 'white'}}>Update Project</Button>     
                 </Link>
             </Box>
             <Box sx={{display: 'flex', flexDirection: 'column', marginTop: '5%', gap: '50px', color: 'white'}}>

@@ -71,7 +71,7 @@ const Profile = () => {
                         : <img src={CircleImage} alt="Circle" className="uploaded-image" style={{maxWidth: '100%', maxHeight: '100%'}}/>}                                    
                     </Box>
                     <Box sx={{textAlign: 'center'}}>
-                        <Button onClick={handleRouteToUpdatePage} sx={{backgroundColor: '#3e8e41', color: 'white'}}>Update Profile</Button>
+                        <Button onClick={handleRouteToUpdatePage} sx={{backgroundColor: '#4681f4', color: 'white'}}>Update Profile</Button>
                     </Box>
                 </Box> 
                

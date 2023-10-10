@@ -190,7 +190,7 @@ const ProjectUpdate = () => {
                     {projectList && 
                         projectList.map((item, index)=>(
                             <div key={index}>
-                                    <Button sx={{backgroundColor: '#3e8e41', color: 'white', width: '60%'}}>
+                                    <Button sx={{backgroundColor: '#4681f4', color: 'white', width: '60%'}}>
                                         {item.project_name}
                                     </Button>
                                     <Button onClick={() => handleUpdateProject(item)} sx={{color: 'white'}}><ChangeCircleIcon/></Button>

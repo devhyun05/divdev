@@ -1,11 +1,19 @@
-import React, { useEffect, useContext } from 'react'; 
-import LoginContext from '../context/LoginContext'; 
+import React, { useState, useEffect, useContext } from 'react'; 
+import LoginContext from '../context/LoginContext';
+import { Link } from 'react-router-dom'; 
+import Container from '@mui/material/Container'; 
+import Box from '@mui/material/Box'; 
+import Button from '@mui/material/Button'; 
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography'; 
+import AddIcon from '@mui/icons-material/Add';
 
 const backend = 'http://localhost:3000';
 
 const Home = () => {
-    const { userName,  setUserProfileImage } = useContext(LoginContext); 
 
+    const { userName,  setUserProfileImage } = useContext(LoginContext); 
+    const [category, setCategory] = useState([]); 
     useEffect(()=>{
         fetchUserInfo();
     }, []); 
@@ -30,9 +38,35 @@ const Home = () => {
             console.error('Error: ', error); 
         }
     }
+
+    const handleAddCategory = () => {
+        
+    };
+
     return (
         <>
-   
+            <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                <Box sx={{marginTop: '5%'}}>
+                    <Button sx={{color: 'white'}}
+                            onClick={handleAddCategory}>
+                        Add Category <AddIcon/>
+                    </Button>
+                    <Button>
+                        <TextField
+                        InputProps={{
+                            style: {
+                                color: 'white'
+                            }
+                        }}
+                        />
+                    </Button>
+                </Box>
+                <Link to={`/${userName}/addpost`}>
+                    <Button sx={{backgroundColor: '#4681f4', color: 'white'}}>
+                        Upload Post
+                    </Button>
+                </Link>
+            </Box>
         </>
     )
 }
