@@ -8,12 +8,14 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography'; 
 import AddIcon from '@mui/icons-material/Add';
 
+
 const backend = 'http://localhost:3000';
 
 const Home = () => {
 
     const { userName,  setUserProfileImage } = useContext(LoginContext); 
-    const [category, setCategory] = useState([]); 
+
+
     useEffect(()=>{
         fetchUserInfo();
     }, []); 
@@ -45,11 +47,12 @@ const Home = () => {
 
     return (
         <>
-            <Box sx={{display: 'flex', flexDirection: 'row'}}>
+            <Box sx={{display: 'flex', flexDirection: 'row', gap: '100px'}}>
                 <Box sx={{marginTop: '5%'}}>
                     <Button sx={{color: 'white'}}
                             onClick={handleAddCategory}>
                         Add Category <AddIcon/>
+                        
                     </Button>
                     <Button>
                         <TextField
@@ -65,6 +68,7 @@ const Home = () => {
                     <Button sx={{backgroundColor: '#4681f4', color: 'white'}}>
                         Upload Post
                     </Button>
+                    
                 </Link>
             </Box>
         </>
