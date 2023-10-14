@@ -36,10 +36,6 @@ const UserSchema = new mongoose.Schema({
     photoURL: {
         type: String,
         required: true 
-    },
-    projects: {
-        type: Array,
-        required: true 
     }
 }); 
 

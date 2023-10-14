@@ -61,7 +61,7 @@ router.put('/update-image', upload.single('image'), async (req, res) => {
     res.json({userImage: req.file.location}); 
 }); 
 
-router.put("/update-profile", async (req, res) => {
+router.put("/update-profile", upload.single('image'), async (req, res) => {
     try {
         
         const username = req.body.username; 
@@ -70,7 +70,7 @@ router.put("/update-profile", async (req, res) => {
         const userMedia = req.body.userMedia; 
 
 
-        await db.collection('Users').updateOne(
+        db.collection('Users').updateOne(
             { "username": username }, 
             {
                 $set: {

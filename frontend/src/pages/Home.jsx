@@ -49,11 +49,11 @@ const Home = () => {
         <>
             <Box sx={{display: 'flex', flexDirection: 'row', gap: '100px'}}>
                 <Box sx={{marginTop: '5%'}}>
-                    <Button sx={{color: 'white'}}
+                    {/* <Button sx={{color: 'white'}}
                             onClick={handleAddCategory}>
                         Add Category <AddIcon/>
                         
-                    </Button>
+                    </Button> */}
                     <Button>
                         <TextField
                         InputProps={{
