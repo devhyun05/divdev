@@ -15,6 +15,24 @@
   color: white;
   padding: 10px; /* Add padding if needed */
 }
+
+input[type="file"] {
+  display: none;
+}
+
+.file-label {
+  color: white; 
+  text-align: center;
+  height: 80px; 
+  width: 250px; 
+  background-color: #025bee; 
+  font-size: 18px; 
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  margin-bottom: 3%;
+}
+
 /* Profile page */
 .uploaded-image {
   width: 350px; 
