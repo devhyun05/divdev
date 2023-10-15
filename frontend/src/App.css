@@ -1,12 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&family=Dela+Gothic+One&family=Montserrat:wght@300&family=Roboto:wght@300&display=swap');
+
 * {
   margin: 0;
   padding: 0;
+  font-family: 'DM Sans', sans-serif;
 }
 
 .App {
   background-color: #121212;
   width: 100vw;
   height: 100vh;
+}
+
+/* Home page */
+.post-container:hover {
+  background-color: red;
+  cursor: pointer; 
 }
 
 /* AddPost page*/
@@ -20,10 +29,10 @@ input[type="file"] {
   display: none;
 }
 
-.file-label {
+.post-file-label {
   color: white; 
   text-align: center;
-  height: 80px; 
+  height: 70px; 
   width: 250px; 
   background-color: #025bee; 
   font-size: 18px; 
@@ -33,6 +42,18 @@ input[type="file"] {
   margin-bottom: 3%;
 }
 
+.project-file-label {
+  color: white; 
+  text-align: center;
+  height: 40px; 
+  width: 250px; 
+  background-color: #025bee; 
+  font-size: 18px; 
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  margin-bottom: 3%;
+}
 /* Profile page */
 .uploaded-image {
   width: 350px; 
