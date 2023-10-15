@@ -67,15 +67,12 @@ const NavigationComponent = () => {
         navigate(path); 
     }
 
-    const changeBackgroundColor = () => {
-        console.log("Button clicked!");
-        setBgColor("white");
-    }
+ 
 
     return (
         <>
 
-                <Container maxWidth="xl">
+                <Container maxWidth="2xl">
                     <Toolbar disableGutters>
                         <Button onClick={handleButtonClick}>
                             <Typography
