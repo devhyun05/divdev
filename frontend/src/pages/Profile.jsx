@@ -66,7 +66,7 @@ const Profile = () => {
     
             <Container style={{display: 'flex', flexDirection: 'row', marginTop: '5%'}}>
                 <Box sx={{display: 'flex', flexDirection: 'column', gap: '100px'}}>
-                    <Box onClick={handleRouteToUpdatePage}sx={{width: '300px', height: '300px'}}>
+                    <Box onClick={handleRouteToUpdatePage}sx={{width: '350px', height: '350px'}}>
                         {userProfileImage ? <img src={`${userProfileImage}`} alt="" className="uploaded-image" style={{maxWidth: '100%', maxHeight: '100%'}}/> 
                         : <img src={CircleImage} alt="Circle" className="uploaded-image" style={{maxWidth: '100%', maxHeight: '100%'}}/>}                                    
                     </Box>
