@@ -10,9 +10,8 @@ import ProfileUpdate from './pages/ProfileUpdate';
 import Project from './pages/Project'; 
 import ProjectUpdate from './pages/ProjectUpdate'; 
 import AddPost from './pages/AddPost'; 
-import Privacy from './pages/Privacy';
-import Terms from './pages/Terms'; 
-
+import PostDetails from './pages/PostDetails';
+import PostUpdate from './pages/PostUpdate'; 
 
 function App() {
 
@@ -25,6 +24,8 @@ function App() {
                 <Route path="/" element={<Home />}/>
                 <Route path="/:username" element={<Home />}/>
                 <Route path="/:username/addpost" element={<AddPost/>}/>  
+                <Route path="/:username/:postname" element={<PostDetails/>}/> 
+                <Route path="/:username/:postname/postupdate" element={<PostUpdate/>}/> 
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/profile" element={<Profile/>}/> 
@@ -32,8 +33,6 @@ function App() {
                 <Route path="/:username/profileupdate" element={<ProfileUpdate/>}/> 
                 <Route path="/:username/project" element={<Project/>}/> 
                 <Route path="/:username/projectupdate" element={<ProjectUpdate/>}/> 
-                <Route path="/privacy" element={<Privacy />}/>
-                <Route path="/terms" element={<Terms/>}/>
               </Routes>
             </LoginProvider>
         </div>
