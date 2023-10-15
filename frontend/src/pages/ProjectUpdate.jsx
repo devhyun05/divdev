@@ -1,4 +1,5 @@
-import { useState, useEffect, useContext, useRef } from 'react'; 
+import "../App.css";
+import { useState, useEffect, useContext} from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import LoginContext from '../context/LoginContext'; 
@@ -9,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button'; 
 import ClearIcon from '@mui/icons-material/Clear';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
-
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 const backend = 'http://localhost:3000';
 
@@ -49,16 +50,15 @@ const ProjectUpdate = () => {
     const [image, setImage] = useState("");
     const [imageArray, setImageArray] = useState([]); 
     const [imageFiles, setImageFiles] = useState([]); 
+    const [imageName, setImageName] = useState('');
     const navigate = useNavigate(); 
-    const inputRef = useRef(null);
+
 
 
     useEffect(()=> {
         fetchProjects(); 
-        if (imageFiles)  {
-            
-        }
-    }, [imageFiles])
+        
+    }, [])
 
     const fetchProjects = async () => {
         try {
@@ -98,8 +98,6 @@ const ProjectUpdate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();    
         try {            
-       
-
             const uploadPromises = imageArray.map(async (image) => {          
                 const formData = new FormData();   
                 formData.append("image", image);
@@ -140,7 +138,7 @@ const ProjectUpdate = () => {
         }
 
     }
-
+    
     const handleUpdateProject = (item) => {
         setFormData({
             project_name: item.project_name, 
@@ -175,7 +173,7 @@ const ProjectUpdate = () => {
     
     const handleImageChange = (event) => {
          setImage(event.target.files[0]);
-        
+         setImageName(event.target.files[0].name);
     }
     return(
         <>
@@ -201,7 +199,7 @@ const ProjectUpdate = () => {
                     }
                     </Box>
                     <Link>
-                        <Button sx={{backgroundColor: '#3e8e41', color: 'white', margin: '5% 0 0 5%', width: '50%'}}
+                        <Button sx={{backgroundColor: '#4681f4', color: 'white', margin: '5% 0 0 5%', width: '50%'}}
                                 onClick={handleSubmit}>
                             Finish Update 
                         </Button>  
@@ -211,9 +209,20 @@ const ProjectUpdate = () => {
                     
                     <Box>
                         <Typography variant="h5">
-                            Project Image
+                            Project Image                            
                         </Typography>
-                        <input type="file" ref={inputRef} onChange={handleImageChange}  />    
+                        <input type="file" id="file"  onChange={handleImageChange}  />    
+                        <label for="file" class="project-file-label">
+                        {imageName ? (
+                            imageName
+                            ) : (
+                            <>
+                                <AddPhotoAlternateIcon />
+                                Choose Image
+                            </>
+                            )}           
+                        </label>
+              
                     </Box>
 
                     <Box>
@@ -268,12 +277,12 @@ const ProjectUpdate = () => {
           
                     <Box sx={{textAlign: 'center'}}>
                         {!displayUpdateItemBtn ? 
-                            <Button sx={{backgroundColor: '#3e8e41', color: 'white', marginTop: '5%', width: '50%'}}
+                            <Button sx={{backgroundColor: '#4681f4', color: 'white', marginTop: '5%', width: '50%'}}
                                     onClick={handleSetProject}>
                                 Add project 
                             </Button>   
                             :
-                            <Button sx={{backgroundColor: '#3e8e41', color: 'white', marginTop: '5%', width: '50%'}}
+                            <Button sx={{backgroundColor: '#4681f4', color: 'white', marginTop: '5%', width: '50%'}}
                                     onClick={handleConfirmUpdate}>
                                 Update Project
                             </Button>
