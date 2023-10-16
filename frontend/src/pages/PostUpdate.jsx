@@ -122,9 +122,9 @@ const UpdatePost = () => {
             
             await fetch(`${backend}/${userName}/post/update-post`, {
                 method: 'PUT',
-                'Content-Type': 'application/json',
                 body: formData
-            })
+            }); 
+
             console.log("done")
             navigate(`/${userName}`);
         } catch (error) {
