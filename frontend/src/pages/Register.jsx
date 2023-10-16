@@ -22,7 +22,7 @@ const Register = () => {
 
     const onSubmit = async (data) => {
         setEmail(data.email)
-  
+
         await fetch(`${backend}/register`, {
             method: 'POST',
             headers: {
@@ -206,7 +206,7 @@ const Register = () => {
                     <Typography variant='h4'>                 
                         Email Confirmation                          
                     </Typography>
-                    <Typography variant="subtitle1">
+                    <Typography variant="subtitle1" sx={{padding: '30px'}}>
                         We have sent email to <Link href={`${email}`}>{email}</Link> to confirm the validity of our email address. 
                         After receiving the email follow the link provided to complete your registration.
                     </Typography>
