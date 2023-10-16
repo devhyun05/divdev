@@ -49,14 +49,18 @@ router.post("/",  async (req, res)=>{
 
 router.put('/update-image', upload.single('image'), async (req, res) => {
     
-    await db.collection('Users').updateOne(
-        { "username": req.body.username }, 
-        {
-            $set: {
-                "photoURL": req.file.location
+    try {
+        await db.collection('Users').updateOne(
+            { "username": req.body.username }, 
+            {
+                $set: {
+                    "photoURL": req.file.location
+                }
             }
-        }
-    )
+        )
+    } catch (error) {
+        console.error(error); 
+    }
  
     res.json({userImage: req.file.location}); 
 }); 

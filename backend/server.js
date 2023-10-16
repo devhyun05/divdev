@@ -25,6 +25,7 @@ const registerRoute = require('./routes/register');
 const loginRoute = require('./routes/login'); 
 const profileRoute = require('./routes/profile');
 const projectRoute = require('./routes/project'); 
+const postRoute = require('./routes/post'); 
 
 app.use("/", homeRoute); 
 app.use("/:username", homeRoute); 
@@ -36,7 +37,7 @@ app.use("/:username/profile", profileRoute);
 app.use("/:username/profileupdate", profileRoute); 
 app.use("/:username/project", projectRoute);
 app.use("/:username/projectupdate", projectRoute); 
-
+app.use("/:username/post", postRoute); 
 
 app.listen(3000, () => {
     console.log("Server is running at port 3000");

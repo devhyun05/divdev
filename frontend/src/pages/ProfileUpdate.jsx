@@ -92,7 +92,6 @@ const ProfileUpdate = () => {
     }
 
     const handleSubmit = async () => {
-
         try {
             console.log(image);
             if (image !== "") {

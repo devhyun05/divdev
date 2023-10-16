@@ -14,7 +14,6 @@ import PostDetails from './pages/PostDetails';
 import PostUpdate from './pages/PostUpdate'; 
 
 function App() {
-
   return (
     <>
         <div className="App">

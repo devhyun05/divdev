@@ -1,14 +1,26 @@
 const mongoose = require("mongoose");
 
 const PostSchema = new mongoose.Schema({
+    userName: {
+        type: String, 
+        required: true
+    }, 
+    thumbnailImage: {
+        type: String, 
+        required: true 
+    },
+    category: {
+        type: String,
+        required: true 
+    }, 
     title: {
         type: String,
         required: true
     }, 
-    titleImage: {
-        type: String, 
-        required: true 
-    },
+    postContent: {
+        type: String,
+        required: true
+    }, 
     postTime: {
         type: Timestamp, 
         required: true
@@ -21,14 +33,6 @@ const PostSchema = new mongoose.Schema({
         type: Integer, 
         required: true 
     },
-    comments: {
-        type: Array, 
-        required: true 
-    }, 
-    author: {
-        type: Array, 
-        required: true 
-    }
 }); 
 
 const Post = mongoose.model("Post", PostSchema);
