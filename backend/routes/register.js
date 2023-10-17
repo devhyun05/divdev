@@ -9,9 +9,14 @@ const token = jwt.sign({
 }, 'ourSecretKey', { expiresIn: '10m' }
 );
 
+let userCredentials = {
+    email: "", 
+    username: "", 
+    password: "" 
+}
 router.get('/:token', (req, res) => {
     const { token } = req.params;
-    const { email, username, password } = req.query; 
+
     // Verifying the JWT token
     jwt.verify(token, 'ourSecretKey', function (err, decoded) {
         if (err) {
@@ -19,10 +24,10 @@ router.get('/:token', (req, res) => {
             res.send("Email verification failed, possibly the link is invalid or expired");
         } else {
             db.collection('Users').insertOne({
-                email: email , 
-                username: username,                     
-                password: password,
-                redirectURL: `/${username}`,
+                email: userCredentials.email, 
+                username: userCredentials.username,                     
+                password: userCredentials.password,
+                redirectURL: `/${userCredentials.username}`,
                 emailVerfied: true
             })
             res.redirect('http://localhost:3001');
@@ -35,6 +40,7 @@ router.post("/", async (req, res) => {
     console.log("Received");
     try {
         const user = await db.collection('Users').findOne({ username: req.body.username });
+        console.log(user); 
         if (user) {
             if (user.email) {
                 throw new Error("1");
@@ -62,10 +68,13 @@ router.post("/", async (req, res) => {
                 text: `Hi! There, You have recently visited 
                 our website and entered your email.
                 Please follow the given link to verify your email
-                http://localhost:3000/verify/${token}?email=${req.body.email}&username=${req.body.username}&password=${req.body.password}
+                http://localhost:3000/verify/${token}
                 Thanks`
+     
             });
 
+            userCredentials = { email: req.body.email, username: req.body.username, password: req.body.password };
+                
             transporter.sendMail(mailConfigurations(req.body.email), function (error, info) {
                 if (error) {
                     console.log(error);
