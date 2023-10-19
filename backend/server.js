@@ -1,5 +1,6 @@
 const express = require("express"); 
 const cors = require('cors'); 
+const sessionMiddleware = require('./middlewares/session'); 
 
 // using environment variable 
 require('dotenv').config(); 
@@ -9,7 +10,7 @@ const db = require('./lib/db');
 const app = express(); 
 
 app.use(express.json()); 
-
+app.use(sessionMiddleware); 
 
 
 const corsOptions = {
@@ -26,6 +27,7 @@ const loginRoute = require('./routes/login');
 const profileRoute = require('./routes/profile');
 const projectRoute = require('./routes/project'); 
 const postRoute = require('./routes/post'); 
+
 
 app.use("/", homeRoute); 
 app.use("/:username", homeRoute); 

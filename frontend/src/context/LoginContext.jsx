@@ -6,6 +6,7 @@ export function LoginProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loginText, setLoginText] = useState("sss");
     const [userName, setUserName] = useState(""); 
+    const [userEmail, setUserEmail] = useState(""); 
     const [profileLayout, setProfileLayout] = useState(""); 
     const [navbarLayout, setnavbarLayout] = useState(""); 
     const [bgColor, setBgColor] = useState(""); 
@@ -18,6 +19,8 @@ export function LoginProvider({ children }) {
             setLoginText,
             userName,
             setUserName,
+            userEmail, 
+            setUserEmail, 
             userProfileImage, 
             setUserProfileImage,
             profileLayout, 
