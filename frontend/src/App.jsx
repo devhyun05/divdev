@@ -2,9 +2,12 @@ import './App.css';
 import { LoginProvider } from './context/LoginContext';  
 import { Route, Routes} from "react-router-dom"; 
 import NavigationComponent from './components/NavigationComponent';
+import Welcome from './pages/Welcome'; 
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register'; 
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword'; 
 import Profile from './pages/Profile';
 import ProfileUpdate from './pages/ProfileUpdate'; 
 import Project from './pages/Project'; 
@@ -20,13 +23,15 @@ function App() {
             <LoginProvider>
               <NavigationComponent/>
               <Routes>
-                <Route path="/" element={<Home />}/>
+                <Route path="/" element={<Welcome />}/>
                 <Route path="/:username" element={<Home />}/>
                 <Route path="/:username/addpost" element={<AddPost/>}/>  
                 <Route path="/:username/:postname" element={<PostDetails/>}/> 
                 <Route path="/:username/:postname/postupdate" element={<PostUpdate/>}/> 
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>
+                <Route path="/forgotpassword" element={<ForgotPassword/>}/> 
+                <Route path="/resetpassword" element={<ResetPassword/>}/> 
                 <Route path="/profile" element={<Profile/>}/> 
                 <Route path="/:username/profile" element={<Profile/>}/>
                 <Route path="/:username/profileupdate" element={<ProfileUpdate/>}/> 
