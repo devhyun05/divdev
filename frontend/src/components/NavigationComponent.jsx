@@ -124,7 +124,7 @@ const NavigationComponent = () => {
                             >
                             </Menu>
                         </Box>
-                        <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+
                         <Typography
                             variant="h5"
                             noWrap
@@ -137,11 +137,11 @@ const NavigationComponent = () => {
                                 fontFamily: 'monospace',
                                 fontWeight: 700,
                                 letterSpacing: '.3rem',
-                                color: 'inherit',
+                                color: 'white',
                                 textDecoration: 'none',
                             }}
                         >
-                            Devhyun
+                            DIVDEV
                         </Typography>
                         <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
                            
