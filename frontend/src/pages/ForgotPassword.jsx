@@ -1,7 +1,8 @@
 import "../App.css"
-import { useState } from 'react'; 
-import { Link, useNavigate } from 'react-router-dom'; 
+import { useState, useContext } from 'react'; 
+import { Link } from 'react-router-dom'; 
 import { useForm } from 'react-hook-form'; 
+import LoginContext from '../context/LoginContext'; 
 import Container from '@mui/material/Container'; 
 import Box from '@mui/material/Box'; 
 import Typography from '@mui/material/Typography'; 
@@ -12,25 +13,27 @@ import emailImage from '../assets/img/email.png';
 const backend = 'http://localhost:3000';
 
 const ForgotPassword = () => {
-    const [emailAddress, setEmailAddress] = useState(''); 
+
     const [newPasswordWindow, setNewPasswordWindow] = useState(false); 
+    const { userEmail, setUserEmail } = useContext(LoginContext); 
     const { formState, setError, clearErrors } = useForm(); 
     const { errors } = formState; 
 
 
     const handleEmailChange = (event) => {
         clearErrors("email");
-        setEmailAddress(event.target.value); 
+        setUserEmail(event.target.value);
     }
 
     const handleForgotPassword = async () => {
         try {        
+            console.log(userEmail);
             const response = await fetch(`${backend}/register/forgotpassword`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({email: emailAddress})
+                body: JSON.stringify({email: userEmail})
             }); 
 
             const message = await response.json(); 
@@ -67,7 +70,7 @@ const ForgotPassword = () => {
                         <TextField
                         error={!!errors.email}
                         helperText={errors.email?.message}
-                        value={emailAddress}
+                        value={userEmail}
                         onChange={handleEmailChange}
                         name="email"
                         />
@@ -99,7 +102,7 @@ const ForgotPassword = () => {
                             Email Confirmation                          
                         </Typography>
                         <Typography variant="subtitle1" sx={{padding: '30px'}}>
-                            We have sent email to <Link href={`${emailAddress}`}>{emailAddress}</Link> to confirm the validity of our email address. 
+                            We have sent email to <Link href={`${userEmail}`}>{userEmail}</Link> to confirm the validity of our email address. 
                             After receiving the email follow the link provided to complete your registration.
                         </Typography>
                     </Box>

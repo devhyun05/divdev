@@ -1,5 +1,7 @@
+import { useContext, useEffect } from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import LoginContext from '../context/LoginContext'; 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -8,15 +10,15 @@ import Button from '@mui/material/Button';
 const backend = 'http://localhost:3000';
 
 const ResetPassword = () => {
-
-
     const { register, handleSubmit, formState, clearErrors} = useForm();
     const { errors } = formState;
-   
+    const { userEmail } = useContext(LoginContext); 
     const navigate = useNavigate(); 
 
-
-  
+    useEffect(()=>{
+        console.log(userEmail);
+    }, [])
+    
     const handleClearPassword = (event) => {
         clearErrors("password");
     }
@@ -27,14 +29,14 @@ const ResetPassword = () => {
 
     
     const onSubmit = async (data) => {    
-     
+        console.log(userEmail);
         try {
             await fetch(`${backend}/register/resetpassword`, {
                 method: "POST",
                 headers: {
                     "Content-Type": 'application.json'
                 },
-                body: JSON.stringify({ password: data.password })
+                body: JSON.stringify({ email: userEmail, password: data.password })
             })
             navigate("/login");
         } catch (error) {

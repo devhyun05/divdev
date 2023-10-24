@@ -104,8 +104,8 @@ router.post("/forgotpassword", async (req, res) => {
 // reset password
 router.post("/resetpassword", async (req, res) => {
     try {
-        console.log(req.session.email);
-        const email = req.session.email; 
+
+        const email = req.body.email; 
         const newPassword = req.body.password; 
 
         await db.collection('Users').updateOne(

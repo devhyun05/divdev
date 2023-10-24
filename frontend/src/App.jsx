@@ -1,4 +1,5 @@
 import './App.css';
+import {useState } from 'react'
 import { LoginProvider } from './context/LoginContext';  
 import { Route, Routes} from "react-router-dom"; 
 import NavigationComponent from './components/NavigationComponent';
@@ -17,9 +18,10 @@ import PostDetails from './pages/PostDetails';
 import PostUpdate from './pages/PostUpdate'; 
 
 function App() {
+
   return (
     <>
-        <div className="App">
+        <div className="App" >
             <LoginProvider>
               <NavigationComponent/>
               <Routes>
