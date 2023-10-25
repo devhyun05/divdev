@@ -75,9 +75,16 @@ const Home = () => {
                 <Button sx={{color: 'white', textTransform: 'none'}}>
                     <Typography>React.js</Typography>
                 </Button>
-                <Typography>Angular.js</Typography>
-                <Typography>Mongo DB</Typography>
-                <Typography>Express</Typography>
+                <Button sx={{color: 'white', textTransform: 'none'}}>
+                    <Typography>Node.js</Typography>
+                </Button>
+                <Button sx={{color: 'white', textTransform: 'none'}}>
+                    <Typography>MongoDB</Typography>
+                </Button>
+                <Button sx={{color: 'white', textTransform: 'none'}}>
+                    <Typography>Express.js</Typography>
+                </Button>
+
 
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4%', marginRight: '5%' }}>
