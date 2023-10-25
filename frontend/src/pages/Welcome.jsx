@@ -6,7 +6,7 @@ import SampleImage from '../assets/img/sample-image.jpg'
 const Welcome = () => {
     return (
         <>
-            <Box sx={{display: 'flex'}}>
+            <Box sx={{display: 'flex', marginTop: '10%'}}>
                 <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '50%', height: '60%'}}> 
                     <Box className="box-container" sx={{display: 'flex', flexDirection: 'column', color: 'white'}}>
                         <Typography variant="h2">
