@@ -1,8 +1,9 @@
 import '../App.css';
+import { Link } from 'react-router-dom'; 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography'; 
 import Button from '@mui/material/Button'; 
-import SampleImage from '../assets/img/sample-image.jpg'
+
 const Welcome = () => {
     return (
         <>
@@ -19,16 +20,20 @@ const Welcome = () => {
                             Build blog, profile, projects in one website
                         </Typography>
                         <Box>
-                            <Button sx={{backgroundColor: '#4681f4', color: 'white', width: '35%'}}>Get started</Button>
+                            <Link to="/login">
+                                <Button sx={{backgroundColor: '#4681f4', color: 'white', width: '35%'}}>Get started</Button>
+                            </Link>
                             <Button sx={{backgroundColor: '#4681f4', color: 'white', width: '35%', marginLeft: '4%'}}>View Demo</Button>
                         </Box>
                     </Box>
                 </Box>
-
                 <Box sx={{width: '50%'}}>
-                    <img src={SampleImage} style={{width: '70%', height: '40%'}} alt=""/>
-                </Box>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/cblMH5fxGa0?si=jxXDmBIQ9OPnSHQG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    
+                </Box>               
+                
             </Box>
+           
         </>
     )
 }
