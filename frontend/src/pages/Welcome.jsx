@@ -8,8 +8,8 @@ const Welcome = () => {
     return (
         <>
             <Box sx={{display: 'flex', marginTop: '10%'}}>
-                <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '50%', height: '60%'}}> 
-                    <Box className="box-container" sx={{display: 'flex', flexDirection: 'column', color: 'white'}}>
+                <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '50%', height: '60%', marginLeft: '5%'}}> 
+                    <Box className="box-container" sx={{display: 'flex', flexDirection: 'column'}}>
                         <Typography variant="h2">
                             Blog style 
                         </Typography>
@@ -27,7 +27,7 @@ const Welcome = () => {
                         </Box>
                     </Box>
                 </Box>
-                <Box sx={{width: '50%'}}>
+                <Box >
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/cblMH5fxGa0?si=jxXDmBIQ9OPnSHQG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     
                 </Box>               

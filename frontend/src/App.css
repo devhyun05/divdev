@@ -6,8 +6,24 @@
   font-family: 'Noto Sans Osmanya', sans-serif;
 }
 
+:root{
+  --background: #000;
+  --boxColor: #fff; 
+  --transition-duration: 0.5s; 
+}
+
+:root[color-theme='light'] {
+  --background: #fff; 
+  --boxColor: #000; 
+  --transition-duration: 0.5s; 
+}
+
+
+
 .App {
-  background-color: #121212;
+  background-color: var(--background);
+  color: var(--boxColor); 
+  transition: background-color var(--transition-duration);
   width: 100vw;
   height: 100vh;
 }

@@ -8,12 +8,11 @@ import Menu from '@mui/material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import LoginContext from '../context/LoginContext';
-
-
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
 const NavigationComponent = () => {
     const { isLoggedIn, setIsLoggedIn, userName, setUserName, userProfileImage, setBgColor } = useContext(LoginContext);
 
@@ -22,6 +21,7 @@ const NavigationComponent = () => {
     const settings = ['Profile', 'Project', 'Logout'];
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
+    const [backgroundColor, setBackgroundColor] = useState(true);
     const path = isLoggedIn ? `/${userName}` : '/';
 
 
@@ -67,8 +67,15 @@ const NavigationComponent = () => {
         navigate(path); 
     }
 
- 
+    const handleMorningChange = () => {
+        document.documentElement.setAttribute('color-theme', 'light');
+        setBackgroundColor(false); 
+    }
 
+    const handleNightChange = () => {
+        document.documentElement.setAttribute('color-theme', 'dark');
+        setBackgroundColor(true);
+    }
     return (
         <>
 
@@ -85,7 +92,7 @@ const NavigationComponent = () => {
                                     fontFamily: 'monospace',
                                     fontWeight: 700,
                                     letterSpacing: '.3rem',
-                                    color: 'white',
+                              
                                     textDecoration: 'none',
                                 }}
                             >
@@ -144,9 +151,19 @@ const NavigationComponent = () => {
                             DIVDEV
                         </Typography>
                         <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
-                           
-
+                            {backgroundColor ? 
+                            <IconButton style={{marginRight: '1%', color: 'white'}}
+                                        onClick={handleMorningChange}>
+                                <WbSunnyIcon/>
+                            </IconButton>
+                            : 
+                            <IconButton style={{marginRight: '1%'}}
+                            onClick={handleNightChange}>
+                                <DarkModeIcon/>
+                            </IconButton>
+                            }
                             <Box sx={{ flexGrow: 0 }}>
+                               
                                 {isLoggedIn ?
                                     <Tooltip title="Open settings">
                                         <IconButton onClick={handleOpenUserMenu} sx={{ marginTop: '5%' }}>

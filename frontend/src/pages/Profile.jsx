@@ -78,17 +78,17 @@ const Profile = () => {
 
                 <Container style={{marginLeft: '25%', display: 'flex', flexDirection: 'column', gap: '100px'}}>
                     <Box>
-                        <Typography variant="h4" color="white">
+                        <Typography variant="h4">
                             Profile Summary
                         </Typography>      
-                        <Box sx={{border: 1, borderColor: 'white', height: '100%', borderRadius: '5px'}}>
-                            <Typography sx={{padding: '15px'}}color="white">
+                        <Box sx={{border: 1, height: '100%', borderRadius: '5px'}}>
+                            <Typography sx={{padding: '15px'}}>
                                 {profileDesc}
                             </Typography>
                         </Box>             
                     </Box>
                     <Box>
-                        <Typography variant="h4" color="white">
+                        <Typography variant="h4" >
                             Skills
                         </Typography>
                         {skills && skills.map((item, index) => (
@@ -96,7 +96,7 @@ const Profile = () => {
                                     <Button sx={[
                                         {                              
                                             backgroundColor: `white`,
-                                            color: 'black',
+                                            color: 'black',                                        
                                             marginTop: '20px',
                                             marginRight: '15px'
                                         },
@@ -112,7 +112,7 @@ const Profile = () => {
                         ))}   
                     </Box>
                     <Box>
-                        <Typography variant="h4" color="white">
+                        <Typography variant="h4" >
                             Connect with me
                         </Typography>
                         

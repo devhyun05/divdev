@@ -67,21 +67,21 @@ const Home = () => {
     return (
         <>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', position: 'absolute', height: '92%', width: '10vw', color: 'white' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', position: 'absolute', height: '92%', width: '10vw' }}>
                 <Box sx={{ display: 'flex' , marginTop: '65%', marginBottom: '15%', fontWeight: 'bold'}}>
                     Category                   
                 </Box>
                 
-                <Button sx={{color: 'white', textTransform: 'none'}}>
+                <Button sx={{textTransform: 'none'}}>
                     <Typography>React.js (2)</Typography>
                 </Button>
-                <Button sx={{color: 'white', textTransform: 'none'}}>
+                <Button sx={{ textTransform: 'none'}}>
                     <Typography>Node.js</Typography>
                 </Button>
-                <Button sx={{color: 'white', textTransform: 'none'}}>
+                <Button sx={{ textTransform: 'none'}}>
                     <Typography>MongoDB</Typography>
                 </Button>
-                <Button sx={{color: 'white', textTransform: 'none'}}>
+                <Button sx={{textTransform: 'none'}}>
                     <Typography>Express.js</Typography>
                 </Button>
 
