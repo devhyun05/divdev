@@ -73,7 +73,7 @@ const Home = () => {
                 </Box>
                 
                 <Button sx={{color: 'white', textTransform: 'none'}}>
-                    <Typography>React.js</Typography>
+                    <Typography>React.js (2)</Typography>
                 </Button>
                 <Button sx={{color: 'white', textTransform: 'none'}}>
                     <Typography>Node.js</Typography>
