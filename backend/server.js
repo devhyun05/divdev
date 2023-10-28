@@ -1,4 +1,5 @@
 const express = require("express"); 
+const path = require('path'); 
 const cors = require('cors'); 
 const sessionMiddleware = require('./middlewares/session'); 
 
@@ -11,7 +12,7 @@ const app = express();
 
 app.use(express.json()); 
 app.use(sessionMiddleware); 
-
+app.use(express.static(path.join(__dirname + "/public"))); 
 
 const corsOptions = {
     origin: ["http://localhost:3001"], // accept domain list
