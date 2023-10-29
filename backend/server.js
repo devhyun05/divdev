@@ -16,6 +16,8 @@ app.use(express.static(path.join(__dirname + "/public")));
 
 const corsOptions = {
     origin: ["https://divdev-d22537adf889.herokuapp.com",
+             "https://divdev-d22537adf889.herokuapp.com/*",
+             "https://divdev-d22537adf889.herokuapp.com/login",
              "https://www.divdev.pro",
              "http://localhost:3001"], // accept domain list
     methods: ["GET", "POST", "PUT", "DELETE"], // accept HTTP methods list
