@@ -13,6 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import LoginContext from '../context/LoginContext';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
+
 const NavigationComponent = () => {
     const { isLoggedIn, setIsLoggedIn, userName, setUserName, userProfileImage, setBgColor } = useContext(LoginContext);
 
