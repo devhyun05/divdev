@@ -4,15 +4,38 @@ const db = require('../lib/db');
 
 router.post('/:username/set-image', async (req, res) => {
     try {
-   
-        const user = await db.collection('Users').findOne({username: req.body.username}); 
+        const username = req.body.username; 
+        const user = await db.collection('Users').findOne({username: username}); 
         const userInfo = {userImage: user.photoURL}
+        const categoryList = user ? user.category : []; 
 
-        res.json(userInfo); 
+        
+        res.json({userInfo: userInfo, categoryList: categoryList}); 
     } catch (error) {
         console.error('Error: ' + error); 
     }
-
 });    
+
+router.post('/:username/add-category', async (req, res) => {
+    try {
+        const category = req.body.category; 
+        const username = req.body.username; 
+        db.collection('Users').updateOne(
+            { "username" : username },
+            {
+                $push: {
+                    "category": category 
+                }
+            }
+        )        
+
+        const user = await db.collection('Users').findOne({ "username": username}); 
+        const categoryList = user ? user.category : []; 
+  
+        res.json(categoryList); 
+    } catch (error) {
+        console.error(error);
+    }
+});
 
 module.exports = router;

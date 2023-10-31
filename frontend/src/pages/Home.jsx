@@ -1,7 +1,7 @@
 import "../App.css";
 import React, { useState, useEffect, useContext } from 'react';
 import LoginContext from '../context/LoginContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -9,18 +9,37 @@ import Avatar from '@mui/material/Avatar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import AddIcon from '@mui/icons-material/Add';
+import IconButton from '@mui/material/IconButton'; 
+import Dialog from '@mui/material/Dialog'; 
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent'; 
+import DialogActions from '@mui/material/DialogActions'; 
+import Input from '@mui/material/Input';
 const backend = 'http://localhost:3000';
 
 const Home = () => {
 
     const { userName, userProfileImage, setUserProfileImage } = useContext(LoginContext);
+
     const [blogPostInfo, setBlogPostInfo] = useState([]);
+    const [openDialog, setOpenDialog] = useState(false); 
+    const [newCategory, setNewCategory] = useState('');
+    const [categoryList, setCategoryList] = useState([]); 
+
     const navigate = useNavigate();
+    const location = useLocation(); 
+    const params = new URLSearchParams(location.search); 
+
+    const category = params.get('category'); 
+    console.log(category);
     useEffect(() => {
         fetchUserInfo();
-        fetchBlogPost();
+        fetchBlogPost();        
     }, []);
 
+    useEffect(() => {
+
+    }, [categoryList])
     const fetchUserInfo = async () => {
 
         try {
@@ -31,8 +50,9 @@ const Home = () => {
                 },
                 body: JSON.stringify({ username: userName })
             }).then(response => response.json())
-                .then(data => {
-                    setUserProfileImage(data.userImage);
+                .then(data => {    
+                    setUserProfileImage(data.userInfo.userImage);
+                    setCategoryList(data.categoryList);
                 });
         } catch (error) {
             console.error('Error: ', error);
@@ -42,8 +62,7 @@ const Home = () => {
     const fetchBlogPost = async () => {
 
         try {
-            console.log("called");
-            console.log(userName);
+
             const response = await fetch(`${backend}/${userName}/post/get-blog-post`, {
                 method: 'POST',
                 headers: {
@@ -64,26 +83,75 @@ const Home = () => {
         navigate(`/${userName}/${postTitle}`);
     };
 
+    const handleOpenDialog = () => {
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+
+    const handleNewCategoryChange = (event) => {
+        setNewCategory(event.target.value); 
+    };
+    
+    const handleAddCategory = async () => {
+        try {
+            const response = await fetch(`${backend}/${userName}/add-category`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }, 
+                body: JSON.stringify({username: userName, category: newCategory})
+            }); 
+            const categories = await response.json();
+            setCategoryList(categories); 
+
+        } catch (error) {
+            console.error(error); 
+        }
+        
+        handleCloseDialog(); 
+    }
+
     return (
         <>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', position: 'absolute', height: '92%', width: '10vw' }}>
                 <Box sx={{ display: 'flex' , marginTop: '65%', marginBottom: '15%', fontWeight: 'bold'}}>
-                    Category                   
+                    Category 
+                    <IconButton style={{color: 'white', padding: '0'}} onClick={handleOpenDialog}>                    
+                        <AddIcon/>
+                    </IconButton>
+                    <Dialog open={openDialog} onClose={handleCloseDialog}>
+                        <DialogTitle>Add New Category</DialogTitle>
+                        <DialogContent>
+                        <Input
+                            placeholder="Enter new category"
+                            value={newCategory}
+                            onChange={handleNewCategoryChange}
+                        />
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={handleCloseDialog} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={handleAddCategory} color="primary">
+                            Add
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
                 </Box>
                 
-                <Button sx={{textTransform: 'none'}}>
-                    <Typography className="responsive-color">React.js (2)</Typography>
-                </Button>
-                <Button sx={{ textTransform: 'none'}}>
-                    <Typography className="responsive-color">Node.js</Typography>
-                </Button>
-                <Button sx={{ textTransform: 'none'}}>
-                    <Typography className="responsive-color">MongoDB</Typography>
-                </Button>
-                <Button sx={{textTransform: 'none'}}>
-                    <Typography className="responsive-color">Express.js</Typography>
-                </Button>
+               <Box>
+                    {categoryList && categoryList.map((category, index) => (
+                        <Button key={index} sx={{ display: 'flex', textTransform: 'none'}}>
+                            <Typography className="responsive-color">
+                                {category}
+                            </Typography>
+                        </Button>
+                    ))}
+               </Box>
 
 
             </Box>

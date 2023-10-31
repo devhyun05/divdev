@@ -27,6 +27,17 @@ router.post("/get-post-details", async (req, res) => {
     }
 });
 
+router.post("/get-category-lists", async (req, res) => {
+    try {
+        console.log(req.body.username);
+        const username = req.body.username;    
+        const user = await db.collection('Users').findOne({username: username});  
+        const categoryList = user ? user.category : [];
+        res.json(categoryList);  
+    } catch (error) {
+        console.error(error); 
+    }
+}); 
 router.post("/add-post-info", upload.single('image'), async (req, res) => { 
     const userName = req.body.username;
     const title = req.body.title; 

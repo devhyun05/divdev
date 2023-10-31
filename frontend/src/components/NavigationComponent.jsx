@@ -196,7 +196,7 @@ const NavigationComponent = () => {
                                     {settings.map((setting) => (
                                         <MenuItem key={setting} onClick={handleCloseUserMenu}>
                                             <Button onClick={() => handleUserClickMenu(setting)}>
-                                                <Typography textAlign="center" >{setting}</Typography>
+                                                <Typography textAlign="center" style={{color: 'black'}} >{setting}</Typography>
                                             </Button>
                                         </MenuItem>
                                     ))}

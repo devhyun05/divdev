@@ -46,8 +46,7 @@ const Login = () => {
             setIsLoggedIn(true); 
             setUserName(data);                    
             navigate(`/${data}`);
-            window.localStorage.setItem('isLoggedIn', true); 
-            window.localStorage.setItem('username', data);
+
         }).catch(error =>{    
             
             if (error.message === "1") {            

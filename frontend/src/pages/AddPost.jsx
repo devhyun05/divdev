@@ -1,5 +1,5 @@
 import "../App.css";
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import LoginContext from '../context/LoginContext';
@@ -49,13 +49,35 @@ const AddPost = () => {
     const [imageName, setImageName] = useState('');
     const [base64ImageString, setBase64ImageString] = useState(''); 
     const [category, setCategory] = useState('');
+    const [categoryList, setCategoryList] = useState([]); 
     const [postContent, setPostContent] = useState([]);
     const [postTime, setPostTime] = useState(''); 
     const [title, setTitle] = useState('');
     const [switchPreview, setSwitchPreview] = useState(false);
     const navigate = useNavigate();
 
-  
+    useEffect(()=>{
+        fetchCategoryList(); 
+    }, []);
+    
+    const fetchCategoryList = async () => {
+        try {
+            const response = await fetch(`${backend}/${userName}/post/get-category-lists`, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({username: userName})
+            });
+
+            const categories = await response.json(); 
+            console.log(categories);
+            setCategoryList(categories); 
+        } catch (error) {
+            console.error(error); 
+        }
+    }; 
+
     const toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],
         ['blockquote', 'code-block'],
@@ -167,12 +189,11 @@ const AddPost = () => {
                                 style={{ color: '#E0E3E7' }}
                             >
                                 <MenuItem value={"No Category"}>No Category</MenuItem>
-                                <MenuItem value={"Github"}>Github</MenuItem>
-                                <MenuItem value={"Linkedin"}>Linkedin</MenuItem>
-                                <MenuItem value={"Instagram"}>Instagram</MenuItem>
-                                <MenuItem value={"Facebook"}>Facebook</MenuItem>
-                                <MenuItem value={"Twitter"}>Twitter</MenuItem>
-                                <MenuItem value={"YouTube"}>YouTube</MenuItem>
+                                {categoryList && categoryList.map((category, index) => (
+                                    <MenuItem key={index} value={category}>
+                                        {category}
+                                    </MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
 
