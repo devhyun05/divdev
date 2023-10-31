@@ -96,7 +96,8 @@ const Profile = () => {
                                     <Button sx={[
                                         {                              
                                             backgroundColor: `white`,
-                                            color: 'black',                                        
+                                            color: 'black',                         
+                                            border: '1px solid black',                                    
                                             marginTop: '20px',
                                             marginRight: '15px'
                                         },

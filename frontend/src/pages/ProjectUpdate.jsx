@@ -179,11 +179,12 @@ const ProjectUpdate = () => {
         <>
             <Container sx={{display: 'flex', flexDirection: 'row'}}>
                 <Box  sx={{width: '50%',  marginTop: '5%'}}>
-                    <Typography variant="h5" color="white" sx={{marginLeft: '14%', marginBottom: '5%'}}>
+                    <Typography variant="h5" className="responsive-color" sx={{marginLeft: '14%', marginBottom: '5%'}}>
                         Displaying Order
                     </Typography>
                     <Box
                     sx={{border: 1, borderColor: 'white', width: '60%', height: '100%', color: 'white', textAlign: 'left'}}
+         
                     >
                     {projectList && 
                         projectList.map((item, index)=>(
@@ -206,13 +207,23 @@ const ProjectUpdate = () => {
                     </Link>
                 </Box>
                 <Box  sx={{display: 'flex', flexDirection:'column', color: 'white', gap: '30px',borderRadius: '10px', padding: '50px 20px', width: '50%'}}>
-                    
+  
                     <Box>
-                        <Typography variant="h5">
+                        <Typography variant="h5" className="responsive-color">
                             Project Image                            
                         </Typography>
                         <input type="file" id="file"  onChange={handleImageChange}  />    
-                        <label for="file" class="project-file-label">
+                        <label for="file" class="project-file-label" style={{color: 'white', 
+                                                                             textAlign: 'center', 
+                                                                             height: '40px', 
+                                                                             width: '250px', 
+                                                                             backgroundColor: '#025bee',
+                                                                             fontSize: '18px',
+                                                                             display: 'flex',
+                                                                             justifyContent: 'center',
+                                                                             alignItems: 'center',
+                                                                             marginBottom: '3%'
+                                                                             }}>
                         {imageName ? (
                             imageName
                             ) : (
@@ -226,7 +237,7 @@ const ProjectUpdate = () => {
                     </Box>
 
                     <Box>
-                        <Typography variant="h5">
+                        <Typography variant="h5" className="responsive-color">
                             Project Name
                         </Typography>
                         <CssTextField 
@@ -242,7 +253,7 @@ const ProjectUpdate = () => {
                     </Box>
 
                     <Box>
-                        <Typography variant="h5">
+                        <Typography variant="h5" className="responsive-color">
                             Project Description
                         </Typography>
                         <CssTextField 
@@ -259,7 +270,7 @@ const ProjectUpdate = () => {
                     </Box>
 
                     <Box>
-                        <Typography variant="h5">
+                        <Typography variant="h5" className="responsive-color">
                             Project Link
                         </Typography>
                         <CssTextField

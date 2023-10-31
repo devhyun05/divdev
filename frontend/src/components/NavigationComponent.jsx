@@ -91,10 +91,10 @@ const NavigationComponent = () => {
                                     display: { xs: 'none', md: 'flex' },
                                     fontFamily: 'monospace',
                                     fontWeight: 700,
-                                    letterSpacing: '.3rem',
-                              
-                                    textDecoration: 'none',
+                                    letterSpacing: '.3rem',                                
+                                    textDecoration: 'none',                                    
                                 }}
+                                className="responsive-color"
                             >
                                 {isLoggedIn ? userName : 'Divdev'}
                             </Typography>
@@ -174,7 +174,7 @@ const NavigationComponent = () => {
                                         onClick={handleCloseNavMenu}
                                         sx={{ my: 2, display: 'block' }}
                                     >
-                                        <Link style={{ textDecoration: 'none', color: '#F0F0F0' }} to={`${pages[0].navLink}`}>{pages[0].navItem}</Link>
+                                        <Link className="responsive-color" style={{ textDecoration: 'none',  }} to={`${pages[0].navLink}`}>{pages[0].navItem}</Link>
                                     </Button>
                                 }
                                 <Menu

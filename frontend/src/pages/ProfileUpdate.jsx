@@ -234,7 +234,7 @@ const ProfileUpdate = () => {
                
                 <Container style={{marginLeft: '25%', display: 'flex', flexDirection: 'column', gap: '50px'}}>
                     <Box>
-                        <Typography variant="h4" color="white">
+                        <Typography variant="h4" className="responsive-color">
                             Profile Summary
                         </Typography>       
                         <CssTextField
@@ -253,7 +253,7 @@ const ProfileUpdate = () => {
                                 
                     </Box>
                     <Box>
-                        <Typography variant="h4" color="white">
+                        <Typography variant="h4" className="responsive-color">
                             Skills
                         </Typography>
                         <Autocomplete 
@@ -284,11 +284,14 @@ const ProfileUpdate = () => {
                             <span key={index}>                      
                                     <Button 
                                     onClick={() => handleSkillRemove(item)}
+                                           
                                     sx={[
                                         {                              
+                                            border:'1px solid black',
                                             backgroundColor: `white`,
                                             marginTop: '20px',
-                                            marginRight: '15px'
+                                            marginRight: '15px',
+                                    
                                         },
                                         {
                                             '&:hover': {                                          
@@ -302,7 +305,7 @@ const ProfileUpdate = () => {
                         ))}    
                     </Box>
                     <Box>
-                        <Typography variant="h4" color="white">
+                        <Typography variant="h4" className="responsive-color">
                             Connect with me
                         </Typography>
                         <FormControl fullWidth style={{border: '1px solid #E0E3E7', borderRadius: '4px'}}>                       

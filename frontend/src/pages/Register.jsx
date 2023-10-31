@@ -94,7 +94,7 @@ const Register = () => {
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main'}}>
                        
                         </Avatar>
-                        <Typography component="h1" variant="h5">
+                        <Typography component="h1" variant="h5" style={{color: 'black'}}>
                             Register
                         </Typography>
                  
@@ -181,6 +181,7 @@ const Register = () => {
                                 fullWidth 
                                 variant="contained"
                                 sx={{mt: 3, mb: 2}}
+                            
                             >
                                 Register
                             </Button>

@@ -90,7 +90,7 @@ const Login = () => {
                         }}
                     >
                        
-                        <Typography component="h1" variant="h5">
+                        <Typography component="h1" variant="h5" style={{color: 'black'}}>
                             Sign in
                         </Typography>
           

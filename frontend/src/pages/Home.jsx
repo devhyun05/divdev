@@ -73,16 +73,16 @@ const Home = () => {
                 </Box>
                 
                 <Button sx={{textTransform: 'none'}}>
-                    <Typography>React.js (2)</Typography>
+                    <Typography className="responsive-color">React.js (2)</Typography>
                 </Button>
                 <Button sx={{ textTransform: 'none'}}>
-                    <Typography>Node.js</Typography>
+                    <Typography className="responsive-color">Node.js</Typography>
                 </Button>
                 <Button sx={{ textTransform: 'none'}}>
-                    <Typography>MongoDB</Typography>
+                    <Typography className="responsive-color">MongoDB</Typography>
                 </Button>
                 <Button sx={{textTransform: 'none'}}>
-                    <Typography>Express.js</Typography>
+                    <Typography className="responsive-color">Express.js</Typography>
                 </Button>
 
 

@@ -28,6 +28,18 @@
   height: 100vh;
 }
 
+/* Navigation Bar*/
+.responsive-color {
+  color: var(--boxColor);
+}
+
+.responsive-background {
+  color: black;
+}
+
+.responsive-border {
+  color: black;
+}
 /* Home page */
 .post-container:hover {
   background-color: red;
@@ -82,6 +94,7 @@ input[type="file"] {
   width:325px;
   height: 225px; 
   border-radius: 10px;
+
 }
 
 .outside-box:hover .overlay {

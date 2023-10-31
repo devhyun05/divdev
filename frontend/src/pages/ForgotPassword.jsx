@@ -58,13 +58,13 @@ const ForgotPassword = () => {
             {!newPasswordWindow ? <>            
                 <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '80%'}}>
                     <Box sx={{display: 'flex', flexDirection: 'column', width: '30%', height: '45%', backgroundColor:'white', borderRadius: '10px', padding: '50px'}}>
-                        <Typography variant="h4">
+                        <Typography variant="h4"sx={{color: 'black'}}>
                             Forgot Your Password? 
                         </Typography>
-                        <Typography sx={{marginTop: '3%'}}>
+                        <Typography sx={{marginTop: '3%', color: 'black'}}>
                             Please enter the email address that you registered to get reset information
                         </Typography>
-                        <Typography sx={{marginTop: '5%'}}>
+                        <Typography sx={{marginTop: '5%', color: 'black'}}>
                             Enter email address
                         </Typography>
                         <TextField

@@ -57,10 +57,10 @@ const Project = () => {
                             </Box>
                         </Box>
                         <Box sx={{display: 'flex', flexDirection: 'column', marginLeft: '10%', gap: '20px'}}>
-                            <Typography variant="h5">
+                            <Typography variant="h5" className="responsive-color">
                                 Project Name: {item.project_name} 
                             </Typography>
-                            <Typography variant="h6">
+                            <Typography variant="h6" className="responsive-color">
                                 {item.project_desc}
                             </Typography>
                   
