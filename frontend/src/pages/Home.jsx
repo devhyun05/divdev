@@ -28,10 +28,7 @@ const Home = () => {
 
     const navigate = useNavigate();
     const location = useLocation(); 
-    const params = new URLSearchParams(location.search); 
 
-    const category = params.get('category'); 
-    console.log(category);
     useEffect(() => {
         fetchUserInfo();
         fetchBlogPost();        

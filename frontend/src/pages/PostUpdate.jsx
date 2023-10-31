@@ -50,6 +50,7 @@ const UpdatePost = () => {
     const [thumbnailImage, setThumbNailImage] = useState('');
     const [imageName, setImageName] = useState('');
     const [base64ImageString, setBase64ImageString] = useState(''); 
+
     const [category, setCategory] = useState('');
     const [postContent, setPostContent] = useState([]);
     const [postTime, setPostTime] = useState(''); 
