@@ -10,7 +10,7 @@ import UpdateIcon from '@mui/icons-material/Update';
 const backend = 'http://localhost:3000';
 
 const PostDetails = () => {
-    const { userName } = useContext(LoginContext); 
+    const { userName, userRole } = useContext(LoginContext); 
     const [postDetails, setPostDetails] = useState([]); 
     const navigate = useNavigate(); 
     const location = useLocation(); 
@@ -68,11 +68,17 @@ const PostDetails = () => {
 
     return (
         <>
+
             <Box sx={{display: 'flex', justifyContent: 'flex-end', marginTop: '3%', marginRight: '10%'}}>
+            {userRole === "LoggedInUser" ? 
+                <>
                 <Button style={{backgroundColor: '#4681f4', color: 'white'}} onClick={handleUpdate} >Update &nbsp;<UpdateIcon/></Button>
                 &nbsp;&nbsp;&nbsp;
                 <Button style={{backgroundColor: '#4681f4', color: 'white'}} onClick={handleDelete}>Delete &nbsp;<HighlightOffIcon/></Button>
+                </>
+                : ""}
             </Box>
+  
             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white'}}>
                 <Box sx={{width: '50%', textAlign: 'left'}}>
                     <Typography variant="h3" sx={{fontWeight: 'bold'}}>

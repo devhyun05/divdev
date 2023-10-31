@@ -204,10 +204,10 @@ const Register = () => {
                         backgroundColor: '#ffffff',
                         borderRadius: '10px'}}>
                     <img src={emailImage} alt="" style={{width: '120px'}}/>
-                    <Typography variant='h4'>                 
+                    <Typography variant='h4' sx={{color: 'black'}}>                 
                         Email Confirmation                          
                     </Typography>
-                    <Typography variant="subtitle1" sx={{padding: '30px'}}>
+                    <Typography variant="subtitle1" sx={{padding: '30px', color: 'black'}} >
                         We have sent email to <Link href={`${email}`}>{email}</Link> to confirm the validity of our email address. 
                         After receiving the email follow the link provided to complete your registration.
                     </Typography>

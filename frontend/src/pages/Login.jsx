@@ -18,7 +18,7 @@ const backend = 'http://localhost:3000';
 const Login = () => {
 
     const navigate = useNavigate(); 
-    const { setIsLoggedIn, setUserName } = useContext(LoginContext); 
+    const { setIsLoggedIn, setUserName, setUserRole } = useContext(LoginContext); 
     const { register, handleSubmit, formState, clearErrors, setError} = useForm(); 
     const { errors } = formState; 
     const defaultTheme = createTheme({
@@ -26,7 +26,6 @@ const Login = () => {
     });
 
     const onSubmit = async (data) => {
-
         await fetch(`${backend}/login`, {
             method: 'POST',
             headers: {
@@ -44,9 +43,10 @@ const Login = () => {
         })
         .then(data => {
             setIsLoggedIn(true); 
-            setUserName(data);                    
-            navigate(`/${data}`);
-
+            setUserName(data.username);   
+            setUserRole("LoggedInUser"); 
+            console.log(data);
+            navigate(`/${data.username}`);
         }).catch(error =>{    
             
             if (error.message === "1") {            
@@ -66,7 +66,6 @@ const Login = () => {
 
     const handleTypeEmail = (e) => {
         clearErrors("email");
-   
     }
 
     const handleTypePassword = (e) => {

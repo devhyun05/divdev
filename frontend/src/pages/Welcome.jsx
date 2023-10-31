@@ -23,7 +23,9 @@ const Welcome = () => {
                             <Link to="/login">
                                 <Button sx={{backgroundColor: '#4681f4', color: 'white', width: '35%'}}>Get started</Button>
                             </Link>
-                            <Button sx={{backgroundColor: '#4681f4', color: 'white', width: '35%', marginLeft: '4%'}}>View Demo</Button>
+                            <Link to="/tester_blog">
+                                <Button sx={{backgroundColor: '#4681f4', color: 'white', width: '35%', marginLeft: '4%'}}>View Demo</Button>
+                            </Link>
                         </Box>
                     </Box>
                 </Box>

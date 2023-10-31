@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 const backend = 'http://localhost:3000';
 
 const Project = () => {
-    const { userName } = useContext(LoginContext); 
+    const { userName, userRole } = useContext(LoginContext); 
     const [projectList, setProjectList] = useState([]); 
 
     useEffect(()=>{
@@ -40,11 +40,13 @@ const Project = () => {
     return (
         <>
         <Container>
+            {userRole === "LoggedInUser" ? 
             <Box sx={{textAlign: 'right', marginTop: '30px'}}>
                 <Link to={`/${userName}/projectupdate`}>
                     <Button sx={{backgroundColor: '#4681f4', color: 'white'}}>Update Project</Button>     
                 </Link>
             </Box>
+            : ""}
             <Box sx={{display: 'flex', flexDirection: 'column', marginTop: '5%', gap: '50px', color: 'white'}}>
                 {projectList.map((item, index) => (
                     <Box key={index} sx={{display: 'flex', flexDirection: 'row'}}>     
@@ -52,7 +54,9 @@ const Project = () => {
                             <img src={item.project_image} alt="" className="project-image" /> 
                             <Box className="overlay">
                                 <Box className="content">
-                                    <Link to={item.project_link}>Link to website</Link>
+                                    <Link to={`https://${item.project_link}`} target="_blank" rel="noopener noreferrer" style={{textDecoration: 'none'}}>
+                                        Link to website
+                                    </Link>
                                 </Box>
                             </Box>
                         </Box>

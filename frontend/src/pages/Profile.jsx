@@ -17,7 +17,7 @@ const backend = 'http://localhost:3000';
 
 
 const Profile = () => {
-    const { userName, userProfileImage } = useContext(LoginContext); 
+    const { userName, userRole, userProfileImage } = useContext(LoginContext); 
     const [profileDesc, setProfileDesc] = useState("");
     const [skills, setSkills] = useState([]);
     const [media, setMedia] = useState([]); 
@@ -70,9 +70,11 @@ const Profile = () => {
                         {userProfileImage ? <img src={`${userProfileImage}`} alt="" className="uploaded-image" style={{maxWidth: '100%', maxHeight: '100%'}}/> 
                         : <img src={CircleImage} alt="Circle" className="uploaded-image" style={{maxWidth: '100%', maxHeight: '100%'}}/>}                                    
                     </Box>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Button onClick={handleRouteToUpdatePage} sx={{backgroundColor: '#4681f4', color: 'white'}}>Update Profile</Button>
-                    </Box>
+                    {userRole === "LoggedInUser" ? 
+                        <Box sx={{textAlign: 'center'}}>
+                            <Button onClick={handleRouteToUpdatePage} sx={{backgroundColor: '#4681f4', color: 'white'}}>Update Profile</Button>
+                        </Box>
+                    : ""}
                 </Box> 
                
 

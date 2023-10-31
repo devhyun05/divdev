@@ -4,12 +4,16 @@ const db = require('../lib/db');
 
 
 router.post("/", async (req, res) =>{
-    try {
-        const check = await db.collection('Users').findOne({email: req.body.email}); 
-       
-        if (check) {
-            if (check.password === req.body.password) {
-                res.json(check.username);
+    try {       
+        const email = req.body.email; 
+        const password = req.body.password;
+
+        const user = await db.collection('Users').findOne({email: email}); 
+
+        if (user) {
+            if (user.password === password) {
+            
+                res.json({username: user.username, email: user.email, password: user.password});
             } else {
                 throw new Error ("Password does not match!");
             }
