@@ -20,7 +20,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 
-const backend = 'http://localhost:3000';
+const backend = 'https://www.divdev.pro';
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
