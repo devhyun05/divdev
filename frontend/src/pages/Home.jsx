@@ -1,7 +1,7 @@
 import "../App.css";
 import React, { useState, useEffect, useContext } from 'react';
 import LoginContext from '../context/LoginContext';
-import { Link, useNavigate, useLocation} from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -21,13 +21,14 @@ const Home = () => {
 
     const { userName, userProfileImage, setUserProfileImage } = useContext(LoginContext);
 
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const [blogPostInfo, setBlogPostInfo] = useState([]);
     const [openDialog, setOpenDialog] = useState(false); 
     const [newCategory, setNewCategory] = useState('');
     const [categoryList, setCategoryList] = useState([]); 
-
+    
     const navigate = useNavigate();
-    const location = useLocation(); 
+
 
     useEffect(() => {
         fetchUserInfo();
@@ -37,8 +38,9 @@ const Home = () => {
     useEffect(() => {
 
     }, [categoryList])
-    const fetchUserInfo = async () => {
 
+
+    const fetchUserInfo = async () => {
         try {
             await fetch(`${backend}/${userName}/set-image`, {
                 method: 'POST',
@@ -57,9 +59,7 @@ const Home = () => {
     }
 
     const fetchBlogPost = async () => {
-
         try {
-
             const response = await fetch(`${backend}/${userName}/post/get-blog-post`, {
                 method: 'POST',
                 headers: {
@@ -68,9 +68,8 @@ const Home = () => {
                 body: JSON.stringify({ username: userName })
             })
             const posts = await response.json();
-
+     
             setBlogPostInfo(posts);
-
         } catch (error) {
             console.error(error);
         }
@@ -111,6 +110,33 @@ const Home = () => {
         handleCloseDialog(); 
     }
 
+    const handleClickCategory = async (category) => {
+        try {
+            if (selectedCategory === category) {
+                setSelectedCategory(null);
+                fetchBlogPost(); 
+          
+            } else {
+                setSelectedCategory(category); 
+
+                const response = await fetch(`${backend}/${userName}/sort-post`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({category: category})
+                }); 
+    
+                const postArray = await response.json();
+                setBlogPostInfo(postArray);
+            }
+
+        } catch (error) {
+            console.error(error); 
+        }
+
+    }; 
+
     return (
         <>
 
@@ -142,8 +168,14 @@ const Home = () => {
                 
                <Box>
                     {categoryList && categoryList.map((category, index) => (
-                        <Button key={index} sx={{ display: 'flex', textTransform: 'none'}}>
-                            <Typography className="responsive-color">
+                        <Button key={index} 
+                                sx={{ 
+                                      display: 'flex', 
+                                      textTransform: 'none', 
+                                      backgroundColor: category === selectedCategory ? '#4681f4' : 'inherit',                            
+                                    }}
+                                onClick={() => handleClickCategory(category)}>
+                            <Typography className="responsive-color" >
                                 {category}
                             </Typography>
                         </Button>

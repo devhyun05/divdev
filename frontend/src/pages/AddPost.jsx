@@ -121,7 +121,7 @@ const AddPost = () => {
                 body: formData
             })
 
-            navigate(`/${userName}?category=${category}`);
+            navigate(`/${userName}`);
         } catch (error) {
             console.error(error);
         }

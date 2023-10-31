@@ -21,7 +21,7 @@ router.post("/get-post-details", async (req, res) => {
 
         const postTitle = req.body.title;
         const post = await db.collection('Posts').findOne({title: postTitle}); 
-     
+
         res.json(post); 
     } catch (error) {
         console.error(error); 
@@ -30,7 +30,7 @@ router.post("/get-post-details", async (req, res) => {
 
 router.post("/get-category-lists", async (req, res) => {
     try {
-        console.log(req.body.username);
+
         const username = req.body.username;    
         const user = await db.collection('Users').findOne({username: username});  
         const categoryList = user ? user.category : [];
