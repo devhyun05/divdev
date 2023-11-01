@@ -1,10 +1,10 @@
 import { useContext } from 'react'; 
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, Link } from 'react-router-dom'; 
 import LoginContext from '../context/LoginContext'; 
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline'; 
 import TextField from '@mui/material/TextField'; 
-import Link from '@mui/material/Link';
+
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box'; 
 import Typography from '@mui/material/Typography';
@@ -136,16 +136,16 @@ const Login = () => {
                                 Sign In
                             </Button>
                             <Grid container>
-                                <Grid item xs>
-                                    <Link to="/forgotpassword" variant="body2">
-                                        Forgot password? 
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link to="/register" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
-                                </Grid>
+                            <Grid item xs>
+                                <Link to="/forgotpassword" variant="body3" style={{ fontSize: '0.8rem' }}>
+                                    Forgot password? 
+                                </Link>
+                            </Grid>
+                            <Grid item>
+                                <Link to="/register" variant="body3" style={{ fontSize: '0.8rem' }}>
+                                    {"Don't have an account? Sign Up"}
+                                </Link>
+                            </Grid>
                             </Grid>
                         </Box>
                     </Box>
