@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-const backend = 'https://www.divdev.pro';
+const backend = 'http://localhost:3000';
 
 const ResetPassword = () => {
     const { register, handleSubmit, formState, clearErrors} = useForm();
@@ -15,10 +15,7 @@ const ResetPassword = () => {
     const { userEmail } = useContext(LoginContext); 
     const navigate = useNavigate(); 
 
-    useEffect(()=>{
-        console.log(userEmail);
-    }, [])
-    
+
     const handleClearPassword = (event) => {
         clearErrors("password");
     }
