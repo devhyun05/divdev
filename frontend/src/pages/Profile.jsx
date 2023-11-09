@@ -66,10 +66,16 @@ const Profile = () => {
     
             <Container style={{display: 'flex', flexDirection: 'row', marginTop: '5%'}}>
                 <Box sx={{display: 'flex', flexDirection: 'column', gap: '100px'}}>
+                {userRole === "LoggedInUser" ? 
                     <Box onClick={handleRouteToUpdatePage}sx={{width: '350px', height: '350px'}}>
                         {userProfileImage ? <img src={`${userProfileImage}`} alt="" className="uploaded-image" style={{maxWidth: '100%', maxHeight: '100%'}}/> 
                         : <img src={CircleImage} alt="Circle" className="uploaded-image" style={{maxWidth: '100%', maxHeight: '100%'}}/>}                                    
-                    </Box>
+                    </Box> : 
+                     <Box sx={{width: '350px', height: '350px'}}>
+                     {userProfileImage ? <img src={`${userProfileImage}`} alt="" className="uploaded-image" style={{maxWidth: '100%', maxHeight: '100%'}}/> 
+                     : <img src={CircleImage} alt="Circle" className="uploaded-image" style={{maxWidth: '100%', maxHeight: '100%'}}/>}                                    
+                    </Box> 
+                    }
                     {userRole === "LoggedInUser" ? 
                         <Box sx={{textAlign: 'center'}}>
                             <Button onClick={handleRouteToUpdatePage} sx={{backgroundColor: '#4681f4', color: 'white'}}>Update Profile</Button>
