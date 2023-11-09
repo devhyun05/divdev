@@ -15,7 +15,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 
 const NavigationComponent = () => {
-    const { isLoggedIn, setIsLoggedIn, userName, setUserName, userProfileImage, setBgColor } = useContext(LoginContext);
+    const { isLoggedIn, setIsLoggedIn, userName, setUserName, userProfileImage} = useContext(LoginContext);
 
     const navigate = useNavigate(); 
     const pages = [{ navItem: 'Login', navLink: '/login' }];

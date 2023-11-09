@@ -16,7 +16,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Input from '@mui/material/Input';
 
-const backend = 'https://www.divdev.pro';
+const backend = 'http://localhost:3000';
 
 
 const Home = () => {

@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom'; 
 import emailImage from '../assets/img/email.png'; 
 
-const backend = 'https://www.divdev.pro'; 
+const backend = 'http://localhost:3000'; 
 
 const Register = () => {
     const { register, handleSubmit, formState, setError, clearErrors} = useForm(); 
