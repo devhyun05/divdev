@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button'; 
 import emailImage from '../assets/img/email.png'; 
 
-const backend = 'http://localhost:3000';
+const backend = 'https://www.divdev.pro';
 
 const ForgotPassword = () => {
 

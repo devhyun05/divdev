@@ -12,9 +12,9 @@ import ClearIcon from '@mui/icons-material/Clear';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
-const backend = 'http://localhost:3000';
+const backend = 'https://www.divdev.pro';
 
-const CssTextField = styled(TextField)({
+const CssTextField = styled(TextField)({ 
     '& label.Mui-focused': {
       color: '#A0AAB4',
     },

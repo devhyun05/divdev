@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-const backend = 'http://localhost:3000';
+const backend = 'https://www.divdev.pro';
 
 const ResetPassword = () => {
     const { register, handleSubmit, formState, clearErrors} = useForm();
