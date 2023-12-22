@@ -16,7 +16,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Input from '@mui/material/Input';
 
-const backend = import.meta.env.MODE === "development" ? "http://localhost:8000" : "https://www.divdev.pro";
+const backend = "http://localhost:8000" 
 
 const Home = () => {
     const { username } = useParams();
@@ -37,14 +37,7 @@ const Home = () => {
         fetchBlogPost();
     }, [userName]);
 
-    useEffect(() => {
-
-    }, [categoryList])
-
-    useEffect(() => {
-
-    }, [userName])
-    
+  
     const visitorUserCheck = () => {
         if (userRole !== "LoggedInUser") {
             setUserRole("Visitor");

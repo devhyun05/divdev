@@ -23,7 +23,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import ClearIcon from '@mui/icons-material/Clear';
 import { InputAdornment } from '@mui/material';
 
-const backend = import.meta.env.MODE === "development" ? "http://localhost:8000" : "https://www.divdev.pro";
+const backend = "http://localhost:8000" 
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {

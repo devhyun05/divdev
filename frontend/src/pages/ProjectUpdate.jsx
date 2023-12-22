@@ -12,7 +12,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
-const backend = import.meta.env.MODE === "development" ? "http://localhost:8000" : "https://www.divdev.pro";
+const backend = "http://localhost:8000" 
 
 const CssTextField = styled(TextField)({ 
     '& label.Mui-focused': {
@@ -58,7 +58,7 @@ const ProjectUpdate = () => {
     useEffect(()=> {
         fetchProjects(); 
         
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const fetchProjects = async () => {
         try {

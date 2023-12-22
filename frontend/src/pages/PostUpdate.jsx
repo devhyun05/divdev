@@ -20,7 +20,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 
-const backend = import.meta.env.MODE === "development" ? "http://localhost:8000" : "https://www.divdev.pro";
+const backend = "http://localhost:8000" 
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
@@ -61,7 +61,7 @@ const UpdatePost = () => {
 
     useEffect(()=>{
         fetchPost(); 
-    }, []);
+    }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
     const fetchPost = async () => {
         try {

@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import UpdateIcon from '@mui/icons-material/Update';
 
-const backend = import.meta.env.MODE === "development" ? "http://localhost:8000" : "https://www.divdev.pro";
+const backend = "http://localhost:8000" 
 
 const PostDetails = () => {
     const { userName, userRole } = useContext(LoginContext); 

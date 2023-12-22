@@ -30,7 +30,7 @@ const Welcome = () => {
                     </Box>
                 </Box>
                 <Box sx={{border: '1px solid white', borderRadius: '5px'}}>
-                <iframe src="https://www.veed.io/embed/aa0c1440-9ceb-4833-8628-df474c963578" width="560" height="315" frameborder="0" title="Divdev demo" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe>
+                <iframe src="https://www.veed.io/embed/aa0c1440-9ceb-4833-8628-df474c963578" width="560" height="315" frameBorder="0" title="Divdev demo" webkitallowfullscreen="true" mozallowfullscreen="true" allowFullScreen={true}></iframe>
                 </Box>               
                 
             </Box>
