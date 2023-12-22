@@ -11,7 +11,7 @@ seamlessly integrating blog, profile, and side projects uploads into a cohesive 
 
 **Backend:** Node, Express, MongoDB
 
-**Cloud & Others:** AWS, skills API 
+**Cloud & API:** AWS, skills API 
 
 ## Pre-requisite
 
