@@ -2,12 +2,11 @@ const express = require('express');
 const router = express.Router(); 
 const db = require('../lib/db');
 const upload = require('../middlewares/multer'); 
-
+const _ = require('lodash');
 
 // profile 
 router.post("/get-profile", async (req, res) => {
     try {
-   
         const username = req.body.username; 
         const user = await db.collection('Users').findOne({username: username}); 
 
@@ -29,7 +28,7 @@ let requestOptions = {
     headers: myHeaders 
 };
 
-router.post("/",  async (req, res)=>{           
+router.post("/",  _.debounce(async (req, res)=>{           
     try {
         const response = await fetch(`https://api.apilayer.com/skills?q=${req.body.keyword}`, requestOptions); 
         const result = await response.text(); 
@@ -44,7 +43,7 @@ router.post("/",  async (req, res)=>{
         console.error('Error: ', error); 
         res.status(500).json({error: 'Internal Server Error'});
     }   
-});
+}, 1000));
 
 
 router.put('/update-image', upload.single('image'), async (req, res) => {

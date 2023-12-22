@@ -30,7 +30,7 @@ router.get('/:token', (req, res) => {
             res.send("Email verification failed, possibly the link is invalid or expired");
         } else {
             if (forgotPasswordState) {                  
-                res.redirect('http://localhost:3000/resetpassword');
+                res.redirect('http://localhost:8000/resetpassword');
             } else {
                 db.collection('Users').insertOne({
                     email: userCredentials.email, 
@@ -39,7 +39,7 @@ router.get('/:token', (req, res) => {
                     redirectURL: `/${userCredentials.username}`,
                     emailVerfied: true
                 })
-                res.redirect('http://localhost:3000');
+                res.redirect('http://localhost:8000');
             }       
         }
     })
@@ -74,7 +74,7 @@ router.post("/forgotpassword", async (req, res) => {
                 // Text of email body 
                 text: `Hi! click below link to reset
                 your password
-                http://localhost:3000/verify/${token}
+                http://localhost:8000/verify/${token}
                 Thanks`     
             });     
       
@@ -153,7 +153,7 @@ router.post("/", async (req, res) => {
                 text: `Hi! There, You have recently visited 
                 our website and entered your email.
                 Please follow the given link to verify your email
-                http://localhost:3000/verify/${token}
+                http://localhost:8000/verify/${token}
                 Thanks`     
             });
 
