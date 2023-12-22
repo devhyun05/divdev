@@ -23,7 +23,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import ClearIcon from '@mui/icons-material/Clear';
 import { InputAdornment } from '@mui/material';
 
-const backend = 'https://www.divdev.pro';
+const backend = import.meta.env.MODE === "development" ? "http://localhost:8000" : "https://www.divdev.pro";
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
@@ -47,7 +47,7 @@ const CssTextField = styled(TextField)({
 
   
 const ProfileUpdate = () => {
-    const { userName, userProfileImage, setUserProfileImage } = useContext(LoginContext); 
+    const { userName, userProfileImage, setUserProfileImage} = useContext(LoginContext); 
     const inputRef = useRef(null);
 
     

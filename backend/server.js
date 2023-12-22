@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname + "/public")));
 const corsOptions = {
     origin: ["https://divdev-d22537adf889.herokuapp.com",
              "https://www.divdev.pro",
-             "http://localhost:3001"], // accept domain list
+             "http://localhost:3000"], // accept domain list
     methods: ["GET", "POST", "PUT", "DELETE"], // accept HTTP methods list
     allowHeaders: ["Content-Type", "Authorization", "text/plain"] // accept header list
 }
@@ -44,6 +44,6 @@ app.use("/:username/project", projectRoute);
 app.use("/:username/projectupdate", projectRoute); 
 app.use("/:username/post", postRoute); 
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log("Server is running at port 3000");
+app.listen(process.env.PORT || 8000, () => {
+    console.log("Server is running at port 8000");
 });

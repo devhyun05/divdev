@@ -12,7 +12,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
-const backend = 'https://www.divdev.pro';
+const backend = import.meta.env.MODE === "development" ? "http://localhost:8000" : "https://www.divdev.pro";
 
 const CssTextField = styled(TextField)({ 
     '& label.Mui-focused': {

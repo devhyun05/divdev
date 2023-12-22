@@ -7,8 +7,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography'; 
 
-
-const backend = 'https://www.divdev.pro';
+const backend = import.meta.env.MODE === "development" ? "http://localhost:8000" : "https://www.divdev.pro";
 
 const Project = () => {
     const { userName, userRole } = useContext(LoginContext); 

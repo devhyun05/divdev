@@ -13,7 +13,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 
-const backend = 'https://www.divdev.pro';
+const backend = import.meta.env.MODE === "development" ? "http://localhost:8000" : "https://www.divdev.pro";
 
 
 const Profile = () => {
