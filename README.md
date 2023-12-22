@@ -9,7 +9,9 @@ seamlessly integrating blog, profile, and side projects uploads into a cohesive 
 
 **Frontend:** React, Material UI
 
-**Backend:** Node, Express, MongoDB
+**Backend:** Node, Express, 
+
+**Database:** MongoDB
 
 **Cloud & API:** AWS, skills API 
 
