@@ -19,8 +19,9 @@ import MenuItem from '@mui/material/MenuItem';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
+import defaultImage from '../assets/img/default-image.jpg';
 
-const backend = "http://localhost:8000" 
+const backend = "http://localhost:8000";
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
@@ -47,36 +48,46 @@ const AddPost = () => {
     const { userName, userProfileImage } = useContext(LoginContext);
     const [image, setImage] = useState('');
     const [imageName, setImageName] = useState('');
-    const [base64ImageString, setBase64ImageString] = useState(''); 
+    const [base64ImageString, setBase64ImageString] = useState('');
     const [category, setCategory] = useState('');
-    const [categoryList, setCategoryList] = useState([]); 
+    const [categoryList, setCategoryList] = useState([]);
     const [postContent, setPostContent] = useState([]);
-    const [postTime, setPostTime] = useState(''); 
+    const [postTime, setPostTime] = useState('');
     const [title, setTitle] = useState('');
     const [switchPreview, setSwitchPreview] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        fetchCategoryList(); 
-    }, []);
-    
+    useEffect(() => {
+        fetch(defaultImage)
+        .then(response => response.blob())
+        .then(blob => {
+            const file = new File([blob], 'defaultImage.png', { type: 'image/png', lastModified: Date.now() });                   
+            setImage(file); 
+        })
+        .catch(error => {
+            console.error('Error fetching default image:', error);
+        });
+
+        fetchCategoryList();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
     const fetchCategoryList = async () => {
         try {
             const response = await fetch(`${backend}/${userName}/post/get-category-lists`, {
-                method: 'POST', 
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({username: userName})
+                body: JSON.stringify({ username: userName })
             });
 
-            const categories = await response.json(); 
+            const categories = await response.json();
             console.log(categories);
-            setCategoryList(categories); 
+            setCategoryList(categories);
         } catch (error) {
-            console.error(error); 
+            console.error(error);
         }
-    }; 
+    };
 
     const toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],
@@ -104,6 +115,7 @@ const AddPost = () => {
         const currentDate = new Date().toLocaleDateString('en-us', { year: "numeric", month: "short", day: "numeric" });
 
         try {
+    
             const formData = new FormData();
             formData.append('username', userName);
             formData.append('image', image);
@@ -114,7 +126,7 @@ const AddPost = () => {
             formData.append('noOfLikes', 0);
             formData.append('noOfComments', 0);
 
-            
+
             await fetch(`${backend}/${userName}/post/add-post-info`, {
                 method: 'POST',
                 'Content-Type': 'application/json',
@@ -132,25 +144,26 @@ const AddPost = () => {
     }
 
     const handleTitle = (event) => {
-        setTitle(event.target.value);            
+        setTitle(event.target.value);
     };
 
     const handleImageChange = (event) => {
-        const file = event.target.files[0]; 
-        const reader = new FileReader(); 
+        const file = event.target.files[0];
+        console.log(file);
+        const reader = new FileReader();
 
         reader.readAsDataURL(file)
-        reader.onload = () => {      
+        reader.onload = () => {
             setBase64ImageString(reader.result)
         }
- 
+
         setImage(file);
         setImageName(file.name);
     };
 
     const handleNavigatePreview = () => {
         const currentDate = new Date().toLocaleDateString('en-us', { year: "numeric", month: "short", day: "numeric" });
-        setPostTime(currentDate); 
+        setPostTime(currentDate);
         setSwitchPreview(true);
     }
 
@@ -231,21 +244,21 @@ const AddPost = () => {
                     </AppBar>
                 </>
                 :
-                <>                    
+                <>
                     <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%', color: 'white' }}>
                         <Box sx={{ width: '50%', height: '70%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '90px' }}>
                             <Typography variant="h4">
-                                Preview 
+                                Preview
                             </Typography>
-                            <Box sx={{ backgroundColor: '#1f1f23', borderRadius: '10px'}}>
+                            <Box sx={{ backgroundColor: '#1f1f23', borderRadius: '10px' }}>
                                 <img src={base64ImageString} alt="" style={{ width: '300px', height: '170px', borderRadius: '10px', objectFit: 'cover' }} />
-                                <Typography variant="h5" sx={{ textAlign: 'center', maxWidth: '300px'}}>
-                                    {title} <br />                                   
+                                <Typography variant="h5" sx={{ textAlign: 'center', maxWidth: '300px' }}>
+                                    {title} <br />
                                 </Typography>
-                                <Typography sx={{ textAlign: 'center', color: '#C0C0C0', maxWidth: '300px'}} dangerouslySetInnerHTML={{ __html: postContent }} />
+                                <Typography sx={{ textAlign: 'center', color: '#C0C0C0', maxWidth: '300px' }} dangerouslySetInnerHTML={{ __html: postContent }} />
                                 <br /><hr />
                                 <Box sx={{ display: 'flex', flexDirection: 'row', height: '30px', marginLeft: '10px', marginTop: '10px' }}>
-                                    <Avatar alt={`${userName}`} src={userProfileImage} style={{ width: '25px', height: '25px', marginRight: '10px'}} />
+                                    <Avatar alt={`${userName}`} src={userProfileImage} style={{ width: '25px', height: '25px', marginRight: '10px' }} />
                                     <Typography sx={{ marginRight: '90px' }}>{userName}</Typography>
                                     <FavoriteIcon sx={{ color: 'red', width: '20px', height: '20px', marginRight: '5px' }} /> {'0'}
                                     <CommentIcon sx={{ width: '20px', height: '20px', marginLeft: '10px', marginRight: '5px' }} /> {'0'}
@@ -253,24 +266,24 @@ const AddPost = () => {
                             </Box>
                         </Box>
 
-                        <Box sx={{position: 'absolute', borderLeft: '6px solid white', height: '90%', top: '5%', left:'50%'}}/>                        
-                        
-                        <Box sx={{display: 'flex', flexDirection: 'column', marginTop: '6%', marginLeft: '15%', width: '30%'}}>
+                        <Box sx={{ position: 'absolute', borderLeft: '6px solid white', height: '90%', top: '5%', left: '50%' }} />
+
+                        <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: '6%', marginLeft: '15%', width: '30%' }}>
                             <Typography variant="h4">
                                 Details View
                             </Typography>
-                            <Box sx={{width: '100%', textAlign: 'left', marginTop: '10%'}}>
-                                <Typography variant="h3" sx={{fontWeight: 'bold'}}>
-                                    {title} 
+                            <Box sx={{ width: '100%', textAlign: 'left', marginTop: '10%' }}>
+                                <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
+                                    {title}
                                 </Typography>
                             </Box>
-                            <Box sx={{width: '50%', textAlign: 'left', marginTop: '1%', color: '#C0C0C0'}}>
+                            <Box sx={{ width: '50%', textAlign: 'left', marginTop: '1%', color: '#C0C0C0' }}>
                                 <Typography>
                                     {userName}, {postTime}
                                 </Typography>
                             </Box>
-                            <Box sx={{ width: '80%', textAlign: 'left', marginTop: '2%'}}>
-                                <Typography  dangerouslySetInnerHTML={{ __html: postContent }} />
+                            <Box sx={{ width: '80%', textAlign: 'left', marginTop: '2%' }}>
+                                <Typography dangerouslySetInnerHTML={{ __html: postContent }} />
                             </Box>
                         </Box>
                     </Box>
