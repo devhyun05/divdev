@@ -50,8 +50,8 @@ const UpdatePost = () => {
     const [thumbnailImage, setThumbNailImage] = useState('');
     const [imageName, setImageName] = useState('');
     const [base64ImageString, setBase64ImageString] = useState(''); 
-
     const [category, setCategory] = useState('');
+    const [categoryList, setCategoryList] = useState([]);
     const [postContent, setPostContent] = useState([]);
     const [postTime, setPostTime] = useState(''); 
     const [title, setTitle] = useState('');
@@ -61,6 +61,7 @@ const UpdatePost = () => {
 
     useEffect(()=>{
         fetchPost(); 
+        fetchCategoryList();
     }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
     const fetchPost = async () => {
@@ -77,8 +78,9 @@ const UpdatePost = () => {
                 body: JSON.stringify({title: secondToLastElement})
             });
             
-            const fetchDetails = await response.json(); 
+            const fetchDetails = await response.json();             
             setPrevPostId(fetchDetails._id); 
+            setCategory(fetchDetails.category); 
             setTitle(fetchDetails.title);
             setPostContent(fetchDetails.postContent); 
             setThumbNailImage(fetchDetails.thumbnailImage);
@@ -86,6 +88,25 @@ const UpdatePost = () => {
             console.error(error); 
         }
     }; 
+
+    const fetchCategoryList = async () => {
+        try {
+            const response = await fetch(`${backend}/${userName}/post/get-category-lists`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username: userName })
+            });
+
+            const categories = await response.json();
+
+            setCategoryList(categories);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],
         ['blockquote', 'code-block'],
@@ -112,10 +133,12 @@ const UpdatePost = () => {
 
         try {
             const formData = new FormData();
-            
+
             formData.append('prevPostId', prevPostId);
             formData.append('username', userName);
-            formData.append('image', image);
+            if (image === '') {
+                formData.append('image', image);
+            }
             formData.append('category', category);
             formData.append('postContent', postContent);
             formData.append('title', title);
@@ -190,17 +213,16 @@ const UpdatePost = () => {
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 placeholder="Category"
-                                defaultValue="No Category"
+                                defaultValue={category}
                                 onChange={handleCategory}
                                 style={{ color: '#E0E3E7' }}
                             >
                                 <MenuItem value={"No Category"}>No Category</MenuItem>
-                                <MenuItem value={"Github"}>Github</MenuItem>
-                                <MenuItem value={"Linkedin"}>Linkedin</MenuItem>
-                                <MenuItem value={"Instagram"}>Instagram</MenuItem>
-                                <MenuItem value={"Facebook"}>Facebook</MenuItem>
-                                <MenuItem value={"Twitter"}>Twitter</MenuItem>
-                                <MenuItem value={"YouTube"}>YouTube</MenuItem>
+                                {categoryList && categoryList.map((category, index) => (
+                                    <MenuItem key={index} value={category}>
+                                        {category}
+                                    </MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
 
