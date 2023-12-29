@@ -19,7 +19,6 @@ import MenuItem from '@mui/material/MenuItem';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
-import defaultImage from '../assets/img/default-image.jpg';
 
 const backend = "http://localhost:8000";
 
@@ -58,16 +57,6 @@ const AddPost = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(defaultImage)
-        .then(response => response.blob())
-        .then(blob => {
-            const file = new File([blob], 'defaultImage.png', { type: 'image/png', lastModified: Date.now() });                   
-            setImage(file); 
-        })
-        .catch(error => {
-            console.error('Error fetching default image:', error);
-        });
-
         fetchCategoryList();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
