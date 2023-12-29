@@ -65,7 +65,7 @@ Start the frontend
 
 ## Patch Notes
 2023-12-29
-- Added default image when the user does not select image for uploading post
+Added default image when the user does not select image for uploading post
 
 
 
