@@ -12,6 +12,7 @@ describe('Login success', () => {
     test('login success with correct credentials', async () => {
         
       let data = {email: 'devhyun05@gmail.com', password: '@@AQZswx123'}
+      
       const response = await fetch(`${backend}/login`, {
         method: 'POST',
         headers: {
@@ -44,8 +45,7 @@ describe('Login fail', () => {
             const passwordError = screen.getByText(/Password is required/i);
     
             // Assert that both error messages are present
-            expect(emailError).toBeInTheDocument();
-            expect(passwordError).toBeInTheDocument();
+            expect([emailError, passwordError]).toEqual(expect.arrayContaining([expect.toBeInTheDocument(), expect.toBeInTheDocument()]));
         });
       });
 

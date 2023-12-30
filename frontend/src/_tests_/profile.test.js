@@ -56,7 +56,33 @@ describe('Profile Update', () => {
         expect(result.userSkills).toContainEqual({ text: 'React.js' });
         expect(result).toHaveProperty('userMedia');
         expect(result.userMedia).toContainEqual({text: "Github", mediaURL: "https://github.com/devhyun05", backgroundColor: "black", textColor: "white", iconType: "GitHubIcon"})
-
     });
+});
 
+describe('API call check', () => {
+    test('debounce check', async () => {
+
+    }); 
+
+    test('Call only last mount', async () => {
+
+    }); 
+}); 
+
+describe('Profile Update Error', () => {
+    test('image size error', async () => {
+
+    }); 
+
+    test('profile Description max length exceed', async () => {
+
+    }); 
+
+    test('skills max exceed', async () => {
+
+    }); 
+
+    test('Connect with me max exceed', async () => {
+
+    }); 
 });
