@@ -15,6 +15,8 @@ seamlessly integrating blog, profile, and side projects uploads into a cohesive 
 
 **Cloud & API:** AWS, skills API 
 
+**Testing:** Jest
+
 ## Pre-requisite
 
 To run this project, you will need to add the following environment variables to your .env file
