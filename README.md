@@ -17,6 +17,7 @@ seamlessly integrating blog, profile, and side projects uploads into a cohesive 
 
 **Testing:** Jest
 
+**CI/CD:** Docker, Jenkins
 ## Pre-requisite
 
 To run this project, you will need to add the following environment variables to your .env file
