@@ -13,7 +13,7 @@ seamlessly integrating blog, profile, and side projects uploads into a cohesive 
 
 **Database:** MongoDB
 
-**Cloud & API:** AWS, skills API 
+**Cloud & API:** AWS S3 bucket, skills API 
 
 **Testing:** Jest
 
