@@ -40,6 +40,10 @@ const UserSchema = new mongoose.Schema({
     category: {
         type: Array, 
         required: true
+    },
+    projects: {
+        type: Array, 
+        required: true 
     }
 }); 
 

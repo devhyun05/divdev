@@ -1,7 +1,7 @@
 const express = require('express'); 
 const router = express.Router(); 
 const db = require('../lib/db');
-const upload = require('../middlewares/multer'); 
+const {upload, deleteFromS3} = require('../middlewares/s3Operations'); 
 const { ObjectId } = require('mongodb');
 
 router.post("/get-blog-post", async (req, res) => {
@@ -42,7 +42,11 @@ router.post("/get-category-lists", async (req, res) => {
 router.post("/add-post-info", upload.single('image'), async (req, res) => { 
     const userName = req.body.username;
     const title = req.body.title; 
-    const thumbnailImage = req.file.location; 
+    let thumbnailImage;  // Initialize thumbnailImage variable
+
+    if (req.file) {
+        thumbnailImage = req.file.location;         
+    }
     const category = req.body.category; 
     const postContent = req.body.postContent; 
     const postTime = req.body.postTime; 
@@ -60,7 +64,7 @@ router.post("/add-post-info", upload.single('image'), async (req, res) => {
                             noOfLikes: noOfLikes,
                             noOfComments: noOfComments 
                         }; 
-        const result = await db.collection('Posts').insertOne(newPost); 
+        await db.collection('Posts').insertOne(newPost); 
      
         res.json(); 
     } catch (error) {
@@ -72,26 +76,37 @@ router.put("/update-post", upload.single('image'), async (req, res) => {
     const prevPostId = req.body.prevPostId; 
     const userName = req.body.username;
     const title = req.body.title; 
-    const thumbnailImage = req.file.location; 
+    let thumbnailImage; 
+
+    if (req.file) {
+        thumbnailImage = req.file.location;         
+    }
+
     const category = req.body.category; 
     const postContent = req.body.postContent; 
     const postTime = req.body.postTime; 
 
 
     try {       
+        const updateFields = {
+            "userName": userName, 
+            "title": title, 
+            "category": category, 
+            "postContent": postContent, 
+            "postTime": postTime,
+        };
+
+        if (thumbnailImage) {
+            // Only add "thumbnailImage" to updateFields if it exists
+            updateFields.thumbnailImage = thumbnailImage;
+        }
+
         await db.collection('Posts').updateOne(
             { "_id": new ObjectId(prevPostId) }, 
             {
-                $set: {
-                    "userName": userName, 
-                    "title": title, 
-                    "thumbnailImage": thumbnailImage, 
-                    "category": category, 
-                    "postContent": postContent, 
-                    "postTime": postTime,                     
-                }
+                $set: updateFields
             }
-        )
+        );
 
         res.json(); 
     } catch (error) {

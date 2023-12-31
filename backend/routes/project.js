@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router(); 
 const db = require('../lib/db');
-const upload = require('../middlewares/multer'); 
+const {upload, deleteFromS3} = require('../middlewares/s3Operations'); 
 
 router.post("/get-project", async (req, res) => {
     try {
@@ -16,31 +16,56 @@ router.post("/get-project", async (req, res) => {
     }
 }); 
 
-router.put("/upload-image", upload.single('image'), async(req, res) => {
+router.post("/add-project", upload.single('image'), async (req, res)=>{
     try {
+        let projectImage; 
 
-        res.json(req.file.location);
-    } catch (error) {
-        console.error("Error: ", error); 
-    }
-}); 
-
-router.put("/update-project",  async (req, res)=>{
-    try {
+        if (req.file) {
+            projectImage = req.file.location; 
+        }
+        const userName = req.body.userName; 
+        const projectName = req.body.projectName; 
+        const projectDesc = req.body.projectDesc; 
+        const projectLink = req.body.projectLink; 
 
         await db.collection('Users').updateOne(
-            {"username": req.body.username}, 
+            { "username": userName },
             {
-                $set: {
-                    "projects": req.body.projects
+              $push: {
+                "projects": {
+                  "project_image": projectImage,
+                  "project_name": projectName,
+                  "project_desc": projectDesc,
+                  "project_link": projectLink
                 }
+              }
             }
-        )
+          );
 
         res.json();
     } catch (error) {
         console.error("Error: ", error);
     }
 })
+
+router.delete("/delete-project", async(req, res) => {
+    try {
+
+        const userName = req.body.username; 
+        const projectImageLink = req.body.projectImage; 
+
+        const result = await db.collection('Users').updateOne(
+            { username: userName },  
+            { $pull: {projects: {project_image: projectImageLink}}}
+        ); 
+        const s3Filename = projectImageLink.split('/').pop();
+        console.log(s3Filename); 
+        await deleteFromS3(); 
+
+        res.json(); 
+    } catch (error) {
+        console.error("Error: ", error); 
+    }
+}); 
 
 module.exports = router; 

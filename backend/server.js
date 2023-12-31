@@ -41,7 +41,7 @@ app.use("/profile", profileRoute);
 app.use("/:username/profile", profileRoute); 
 app.use("/:username/profileupdate", profileRoute); 
 app.use("/:username/project", projectRoute);
-app.use("/:username/projectupdate", projectRoute); 
+app.use("/:username/projectadd", projectRoute); 
 app.use("/:username/post", postRoute); 
 
 app.listen(process.env.PORT || 8000, () => {

@@ -1,7 +1,7 @@
 const express = require('express'); 
 const router = express.Router(); 
 const db = require('../lib/db');
-const upload = require('../middlewares/multer'); 
+const {upload} = require('../middlewares/s3Operations'); 
 const _ = require('lodash');
 
 // profile 
