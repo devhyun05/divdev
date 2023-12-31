@@ -17,23 +17,23 @@ const PostDetails = () => {
 
     useEffect(()=>{
         fetchPostInfo();
-    }, []); 
+    }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
     const fetchPostInfo = async () => {
         try {
             const path = decodeURIComponent(location.pathname); 
-            const title = path.split("/").pop();
+            const postId = path.split("/").pop();
             
             const response = await fetch(`${backend}/${userName}/post/get-post-details`, {
                 method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({title: title}) 
+                body: JSON.stringify({postId: postId}) 
             }); 
 
             const blogDetails = await response.json();
-
+  
             setPostDetails(blogDetails); 
 
         } catch (error) {
@@ -43,21 +43,21 @@ const PostDetails = () => {
     
     const handleUpdate = () => {
         const path = decodeURIComponent(location.pathname); 
-        const title = path.split("/").pop();
-        navigate(`/${userName}/${title}/postupdate`);
+        const id = path.split("/").pop();
+        navigate(`/${userName}/${id}/postupdate`);
     }; 
 
     const handleDelete = async () => {
         try {
             const path = decodeURIComponent(location.pathname); 
-            const title = path.split("/").pop();
-
+            const postId = path.split("/").pop();
+            console.log(postId); 
             await fetch(`${backend}/${userName}/post/delete-post`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({title: title})
+                body: JSON.stringify({postId: postId})
             }); 
 
             navigate(`/${userName}`);
@@ -79,6 +79,7 @@ const PostDetails = () => {
                 : ""}
             </Box>
   
+            {postDetails &&
             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'white'}}>
                 <Box sx={{width: '50%', textAlign: 'left'}}>
                     <Typography variant="h3" sx={{fontWeight: 'bold'}}>
@@ -94,6 +95,7 @@ const PostDetails = () => {
                     <Typography  dangerouslySetInnerHTML={{ __html: postDetails.postContent }} />
                 </Box>
             </Box>
+            }
         </>
     )
 }

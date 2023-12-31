@@ -1,6 +1,6 @@
 import "../App.css";
 import { useState, useEffect, useContext } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import LoginContext from '../context/LoginContext';
 import ReactQuill from 'react-quill';
@@ -20,7 +20,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 
-const backend = "http://localhost:8000" 
+const backend = "http://localhost:8000";
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
@@ -43,52 +43,22 @@ const CssTextField = styled(TextField)({
 });
 
 
-const UpdatePost = () => {
+const AddPost = () => {
     const { userName, userProfileImage } = useContext(LoginContext);
-    const [currPostId, setCurrPostId] = useState(''); 
     const [image, setImage] = useState('');
-    const [thumbnailImage, setThumbNailImage] = useState('');
     const [imageName, setImageName] = useState('');
-    const [base64ImageString, setBase64ImageString] = useState(''); 
+    const [base64ImageString, setBase64ImageString] = useState('');
     const [category, setCategory] = useState('');
     const [categoryList, setCategoryList] = useState([]);
     const [postContent, setPostContent] = useState([]);
-    const [postTime, setPostTime] = useState(''); 
+    const [postTime, setPostTime] = useState('');
     const [title, setTitle] = useState('');
     const [switchPreview, setSwitchPreview] = useState(false);
     const navigate = useNavigate();
-    const location = useLocation(); 
 
-    useEffect(()=>{
-        fetchPost(); 
+    useEffect(() => {
         fetchCategoryList();
-    }, []);  // eslint-disable-line react-hooks/exhaustive-deps
-
-    const fetchPost = async () => {
-        try {
-           
-            const path = decodeURIComponent(location.pathname); 
-            const pathTitle = path.split("/");
-            const postId = pathTitle[pathTitle.length - 2]; 
-     
-            const response = await fetch(`${backend}/${userName}/post/get-post-details`, {
-                method: 'POST', 
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({postId: postId})
-            });
-            
-            const fetchDetails = await response.json();             
-            setCurrPostId(fetchDetails._id); 
-            setCategory(fetchDetails.category); 
-            setTitle(fetchDetails.title);
-            setPostContent(fetchDetails.postContent); 
-            setThumbNailImage(fetchDetails.thumbnailImage);
-        } catch (error) {
-            console.error(error); 
-        }
-    }; 
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const fetchCategoryList = async () => {
         try {
@@ -101,7 +71,7 @@ const UpdatePost = () => {
             });
 
             const categories = await response.json();
-
+            console.log(categories);
             setCategoryList(categories);
         } catch (error) {
             console.error(error);
@@ -121,37 +91,36 @@ const UpdatePost = () => {
         [{ 'color': [] }, { 'background': [] }],
         [{ 'font': [] }],
         [{ 'align': [] }],
-        ['link', 'image'], 
+        ['link', 'image'], // Added link and image options
         ['clean']
     ];
 
     const module = {
         toolbar: toolbarOptions,
+
     };
 
-    const handleUpdate = async () => {
+    const handleSubmit = async () => {
         const currentDate = new Date().toLocaleDateString('en-us', { year: "numeric", month: "short", day: "numeric" });
 
         try {
+    
             const formData = new FormData();
-
-            formData.append('postId', currPostId);
             formData.append('username', userName);
-            if (image) {
-                console.log("set");
-                formData.append('image', image);
-            }
+            formData.append('image', image);
             formData.append('category', category);
             formData.append('postContent', postContent);
             formData.append('title', title);
             formData.append('postTime', currentDate);
- 
-            await fetch(`${backend}/${userName}/post/update-post`, {
-                method: 'PUT',
-                body: formData
-            }); 
+            formData.append('noOfLikes', 0);
+            formData.append('noOfComments', 0);
 
-            console.log("done")
+
+            await fetch(`${backend}/${userName}/post/add-post-info`, {
+                method: 'POST',
+                body: formData
+            })
+
             navigate(`/${userName}`);
         } catch (error) {
             console.error(error);
@@ -163,25 +132,26 @@ const UpdatePost = () => {
     }
 
     const handleTitle = (event) => {
-        setTitle(event.target.value);            
+        setTitle(event.target.value);
     };
 
     const handleImageChange = (event) => {
-        const file = event.target.files[0]; 
-        const reader = new FileReader(); 
+        const file = event.target.files[0];
+        
+        const reader = new FileReader();
 
         reader.readAsDataURL(file)
-        reader.onload = () => {      
+        reader.onload = () => {
             setBase64ImageString(reader.result)
         }
- 
+
         setImage(file);
         setImageName(file.name);
     };
 
     const handleNavigatePreview = () => {
         const currentDate = new Date().toLocaleDateString('en-us', { year: "numeric", month: "short", day: "numeric" });
-        setPostTime(currentDate); 
+        setPostTime(currentDate);
         setSwitchPreview(true);
     }
 
@@ -189,13 +159,13 @@ const UpdatePost = () => {
         setSwitchPreview(false);
     }
 
+
     return (
         <>
             {!switchPreview ?
                 <>
-                {title && <>
                     <Box sx={{ display: 'flex', flexDirection: 'column', width: '60%', height: '70%', margin: '0 auto', color: 'white' }}>
-                        
+
                         <input type="file" id="file" onChange={handleImageChange} />
                         <label for="file" class="post-file-label">
                             {imageName ? (
@@ -215,7 +185,7 @@ const UpdatePost = () => {
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 placeholder="Category"
-                                defaultValue={category}
+                                defaultValue="No Category"
                                 onChange={handleCategory}
                                 style={{ color: '#E0E3E7' }}
                             >
@@ -255,30 +225,28 @@ const UpdatePost = () => {
                                 Preview
                             </Button>
                             <Button sx={{ color: 'black', backgroundColor: '#F5F5DC', borderRadius: '10px', width: '100px', marginTop: '1%' }}
-                                onClick={handleUpdate}>
-                                Update
+                                onClick={handleSubmit}>
+                                Post
                             </Button>
                         </Toolbar>
                     </AppBar>
-                    </>
-                }
                 </>
                 :
-                <>                    
+                <>
                     <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%', color: 'white' }}>
                         <Box sx={{ width: '50%', height: '70%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '90px' }}>
                             <Typography variant="h4">
-                                Preview 
+                                Preview
                             </Typography>
-                            <Box sx={{ backgroundColor: '#1f1f23', borderRadius: '10px'}}>
-                                <img src={thumbnailImage} alt="" style={{ width: '300px', height: '170px', borderRadius: '10px', objectFit: 'cover' }} />
-                                <Typography variant="h5" sx={{ textAlign: 'center', maxWidth: '300px'}}>
-                                    {title} <br />                                   
+                            <Box sx={{ backgroundColor: '#1f1f23', borderRadius: '10px' }}>
+                                <img src={base64ImageString} alt="" style={{ width: '300px', height: '170px', borderRadius: '10px', objectFit: 'cover' }} />
+                                <Typography variant="h5" sx={{ textAlign: 'center', maxWidth: '300px' }}>
+                                    {title} <br />
                                 </Typography>
-                                <Typography sx={{ textAlign: 'center', color: '#C0C0C0', maxWidth: '300px'}} dangerouslySetInnerHTML={{ __html: postContent }} />
+                                <Typography sx={{ textAlign: 'center', color: '#C0C0C0', maxWidth: '300px' }} dangerouslySetInnerHTML={{ __html: postContent }} />
                                 <br /><hr />
                                 <Box sx={{ display: 'flex', flexDirection: 'row', height: '30px', marginLeft: '10px', marginTop: '10px' }}>
-                                    <Avatar alt={`${userName}`} src={userProfileImage} style={{ width: '25px', height: '25px', marginRight: '10px'}} />
+                                    <Avatar alt={`${userName}`} src={userProfileImage} style={{ width: '25px', height: '25px', marginRight: '10px' }} />
                                     <Typography sx={{ marginRight: '90px' }}>{userName}</Typography>
                                     <FavoriteIcon sx={{ color: 'red', width: '20px', height: '20px', marginRight: '5px' }} /> {'0'}
                                     <CommentIcon sx={{ width: '20px', height: '20px', marginLeft: '10px', marginRight: '5px' }} /> {'0'}
@@ -286,24 +254,24 @@ const UpdatePost = () => {
                             </Box>
                         </Box>
 
-                        <Box sx={{position: 'absolute', borderLeft: '6px solid white', height: '90%', top: '5%', left:'50%'}}/>                        
-                        
-                        <Box sx={{display: 'flex', flexDirection: 'column', marginTop: '6%', marginLeft: '15%', width: '30%'}}>
+                        <Box sx={{ position: 'absolute', borderLeft: '6px solid white', height: '90%', top: '5%', left: '50%' }} />
+
+                        <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: '6%', marginLeft: '15%', width: '30%' }}>
                             <Typography variant="h4">
                                 Details View
                             </Typography>
-                            <Box sx={{width: '100%', textAlign: 'left', marginTop: '10%'}}>
-                                <Typography variant="h3" sx={{fontWeight: 'bold'}}>
-                                    {title} 
+                            <Box sx={{ width: '100%', textAlign: 'left', marginTop: '10%' }}>
+                                <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
+                                    {title}
                                 </Typography>
                             </Box>
-                            <Box sx={{width: '50%', textAlign: 'left', marginTop: '1%', color: '#C0C0C0'}}>
+                            <Box sx={{ width: '50%', textAlign: 'left', marginTop: '1%', color: '#C0C0C0' }}>
                                 <Typography>
                                     {userName}, {postTime}
                                 </Typography>
                             </Box>
-                            <Box sx={{ width: '80%', textAlign: 'left', marginTop: '2%'}}>
-                                <Typography  dangerouslySetInnerHTML={{ __html: postContent }} />
+                            <Box sx={{ width: '80%', textAlign: 'left', marginTop: '2%' }}>
+                                <Typography dangerouslySetInnerHTML={{ __html: postContent }} />
                             </Box>
                         </Box>
                     </Box>
@@ -314,7 +282,7 @@ const UpdatePost = () => {
                                 Go Back
                             </Button>
                             <Button sx={{ color: 'black', backgroundColor: '#F5F5DC', borderRadius: '10px', width: '100px', marginTop: '1%' }}
-                                onClick={handleUpdate}>
+                                onClick={handleSubmit}>
                                 Post
                             </Button>
                         </Toolbar>
@@ -325,4 +293,4 @@ const UpdatePost = () => {
     )
 }
 
-export default UpdatePost; 
+export default AddPost; 
