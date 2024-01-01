@@ -27,8 +27,9 @@ pipeline {
         stage("deploy") {
             steps {
                   echo 'Deploying the application...'
-                dir('frontend') {
-                    sh 'cp -r build/* ../backend/public'
+                dir('frontend/build') {
+                    echo 'get inside of the build'
+                    // sh 'cp -r build/* ../backend/public'
                 }
               
             }
