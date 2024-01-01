@@ -2,11 +2,17 @@ pipeline {
     agent any
 
     stages {
+        stage('Prepare') {
+            echo 'Installing dependencies...'
+            sh "npm install -g yarn"
+            sh 'yarn install' 
+        }
+
         stage("build") {
             steps {
                 dir('frontend'){
                     echo 'Building the application...'                    
-                    sh 'yarn install' 
+
                     sh 'yarn build' 
                 }
             }
