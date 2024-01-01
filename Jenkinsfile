@@ -4,7 +4,6 @@ pipeline {
     tools {nodejs "nodejs"}
 
     stages {
-       
         stage("build") {
             steps {
                 dir('frontend'){
@@ -20,14 +19,18 @@ pipeline {
              steps {
                 dir('frontend/src/_tests_'){
                     echo 'testing the application...'
-                    sh 'yarn test register.test.js'                
+                    sh 'yarn test'              
                 }
             }
         }
 
         stage("deploy") {
             steps {
-                echo 'Deploying the application...'
+                  echo 'Deploying the application...'
+                dir('frontend') {
+                    sh 'cp -r build/* ../backend/public'
+                }
+              
             }
         }
     }
