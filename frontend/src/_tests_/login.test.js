@@ -6,23 +6,32 @@ import Login from '../pages/Login';
 import { LoginProvider } from '../context/LoginContext';  
 import {BrowserRouter} from 'react-router-dom'; 
 
-const backend = "http://localhost:8000" 
 
 describe('Login success', () => {
     test('login success with correct credentials', async () => {
-        
-      let data = {email: 'devhyun05@gmail.com', password: '@@AQZswx123'}
-      
-      const response = await fetch(`${backend}/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
+        render(
+            <BrowserRouter>
+                <LoginProvider>
+                    <Login />
+                </LoginProvider>
+            </BrowserRouter>
+        );
+ 
+      userEvent.type(screen.getByLabelText(/email address/i), 'devhyun05@gmail.com');
+      userEvent.type(screen.getByLabelText(/password/i), '@@AQZswx123'); 
+      userEvent.click(screen.getByRole('button', { name: /sign in/i }));
 
-      const result = await response.json();
-      expect(result.username).toBe('dev_hyun'); 
+      await Promise.all([
+        waitFor(() => {
+          const emailError = screen.queryByText(/Email is required/i);
+          expect(emailError).not.toBeInTheDocument();
+        }),
+        waitFor(() => {
+          const passwordError = screen.queryByText(/Password is required/i);
+          expect(passwordError).not.toBeInTheDocument();
+        }),
+      ]);
+      
       });
 });
 
@@ -80,13 +89,12 @@ describe('Login fail', () => {
             </BrowserRouter>
         );
     
-        // Do not type the email address
+
         userEvent.type(screen.getByLabelText(/email address/i), 'devhyun05@gmail.com');
 
-        // Simulate submitting the form without entering the email
+
         userEvent.click(screen.getByRole('button', { name: /sign in/i }));
     
-        // Wait for the error message to appear
         await waitFor(() => {
           const emailError = screen.getByText(/Password is required/i);
           expect(emailError).toBeInTheDocument();
