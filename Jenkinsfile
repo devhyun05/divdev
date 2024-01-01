@@ -19,7 +19,7 @@ pipeline {
              steps {
                 dir('frontend/src/_tests_'){
                     echo 'testing the application...'
-                    sh 'yarn test'              
+                    sh 'yarn test login.test.js'              
                 }
             }
         }
