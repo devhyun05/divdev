@@ -12,7 +12,7 @@ describe('Login success', () => {
     test('login success with correct credentials', async () => {
         
       let data = {email: 'devhyun05@gmail.com', password: '@@AQZswx123'}
-      
+
       const response = await fetch(`${backend}/login`, {
         method: 'POST',
         headers: {
@@ -22,6 +22,7 @@ describe('Login success', () => {
       });
 
       const result = await response.json();
+      console.log(result); 
       expect(result.username).toBe('dev_hyun'); 
       });
 });
