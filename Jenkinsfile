@@ -1,16 +1,12 @@
 pipeline {
     agent {
-        docker {
-            image 'node:lts' 
-            args '-p 3000:3000' 
-        }
+        docker { image 'node:14' }
     }
 
     stages {
         stage("build") {
             steps {
                 echo 'Building the application...'
-                sh 'npm install -g yarn'
                 sh 'yarn install'
                 sh 'yarn build'
             }
