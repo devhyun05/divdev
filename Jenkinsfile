@@ -5,7 +5,7 @@ pipeline {
         stage("build") {
             steps {
                 echo 'Building the application...'
-                sh 'yarn global add yarn'
+                sh 'npm install -g yarn'
                 sh 'yarn install'
                 sh 'yarn build'
             }
