@@ -1,14 +1,17 @@
 pipeline {
     agent {
+        label 'docker'
         docker { image 'node:14' }
     }
 
     stages {
         stage("build") {
             steps {
-                echo 'Building the application...'
-                sh 'yarn install'
-                sh 'yarn build'
+                dir('frontend'){
+                    echo 'Building the application...'                    
+                    sh 'yarn install' 
+                    sh 'yarn build' 
+                }
             }
         }
 
