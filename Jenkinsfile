@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {nodejs "nodejs"}
-    
+
     stages {
        
         stage("build") {
@@ -17,8 +17,11 @@ pipeline {
         }
 
         stage("test") {
-            steps {
-                echo 'testing the application...'
+             steps {
+                dir('frontend/src/_tests_'){
+                    echo 'testing the application...'
+                    sh 'yarn test'                
+                }
             }
         }
 
