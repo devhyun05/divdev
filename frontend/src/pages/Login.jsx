@@ -11,7 +11,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider} from '@mui/material/styles'; 
 import { useForm } from 'react-hook-form'; 
 
-const backend = "http://localhost:8000" 
+const backend = process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://www.divdev.pro"; 
 
 const Login = () => {
 
@@ -24,6 +24,7 @@ const Login = () => {
     });
 
     const onSubmit = async (data) => {
+       
         await fetch(`${backend}/login`, {
             method: 'POST',
             headers: {
@@ -43,10 +44,8 @@ const Login = () => {
             setIsLoggedIn(true); 
             setUserName(data.username);   
             setUserRole("LoggedInUser"); 
-            console.log(data);
             navigate(`/${data.username}`);
-        }).catch(error =>{    
-            
+        }).catch(error =>{                
             if (error.message === "1") {            
                 setError("email", {
                     type: "Manual",
@@ -69,7 +68,12 @@ const Login = () => {
     const handleTypePassword = (e) => {
         clearErrors("password");       
     }
-
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          document.getElementById('login-button').click();
+        }
+      };
  
 
     return (
@@ -90,7 +94,7 @@ const Login = () => {
                             Sign in
                         </Typography>
           
-                        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{mt: 1}}>
+                        <Box component="form" onSubmit={handleSubmit(onSubmit)}  noValidate sx={{mt: 1}}>
                             <TextField 
                                 {...register("email",{
                                     required: "Email is required",                                                       
@@ -112,7 +116,8 @@ const Login = () => {
                                 {...register("password",{
                                     required: "Password is required",                                    
                                 })}
-                                onChange={handleTypePassword}
+                                onChange={handleTypePassword}  
+                                onKeyPress={handleKeyDown}                      
                                 error={!!errors.password}
                                 helperText={errors.password?.message}
                                 margin="normal"
@@ -126,8 +131,9 @@ const Login = () => {
                              />
                           
                             <Button 
+                                id="login-button"
                                 type="submit"
-                                fullWidth 
+                                fullWidth             
                                 variant="contained"
                                 sx={{mt: 3, mb: 2}}
                             >
@@ -135,13 +141,13 @@ const Login = () => {
                             </Button>
                             <Grid container>
                             <Grid item xs>
-                                <Link to="/forgotpassword" variant="body3" style={{ fontSize: '0.8rem' }}>
+                                <Link to="/forgotpassword" variant="body3" style={{ fontSize: '0.8rem', color: 'blue' }}>
                                     Forgot password? 
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link to="/register" variant="body3" style={{ fontSize: '0.8rem' }}>
-                                    {"Don't have an account? Sign Up"}
+                                <Link to="/register" variant="body3" style={{ fontSize: '0.8rem', color: 'blue' }}>
+                                    Don't have an account? Sign up
                                 </Link>
                             </Grid>
                             </Grid>

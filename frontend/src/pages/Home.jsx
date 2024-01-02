@@ -15,8 +15,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Input from '@mui/material/Input';
+import defaultImage from '../assets/img/default-image.jpg'; 
+import BackspaceIcon from '@mui/icons-material/Backspace';
 
-const backend = "http://localhost:8000" 
+const backend = process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://www.divdev.pro"; 
+
 
 const Home = () => {
     const { username } = useParams();
@@ -35,7 +38,7 @@ const Home = () => {
         visitorUserCheck();
         fetchUserInfo();
         fetchBlogPost();
-    }, [userName]);
+    }, [userName, categoryList]); // eslint-disable-line react-hooks/exhaustive-deps
 
   
     const visitorUserCheck = () => {
@@ -48,7 +51,6 @@ const Home = () => {
 
     const fetchUserInfo = async () => {
         try {
-            console.log(userName); 
             await fetch(`${backend}/${userName}/set-image`, {
                 method: 'POST',
                 headers: {
@@ -83,8 +85,8 @@ const Home = () => {
         }
     };
 
-    const handleNavigatePostDetails = (postTitle) => {
-        navigate(`/${userName}/${postTitle}`);
+    const handleNavigatePostDetails = (id) => {
+        navigate(`/${userName}/${id}`);
     };
 
     const handleOpenDialog = () => {
@@ -120,7 +122,6 @@ const Home = () => {
 
     const handleClickCategory = async (category) => {
         try {
-
             setSelectedCategory(category);
             if (category === "All") {
                 fetchBlogPost();
@@ -144,9 +145,26 @@ const Home = () => {
 
     };
 
+    const handleRemoveCategory = async (category) => {
+        try {
+            const updatedCategoryList = categoryList.filter((c) => c !== category); 
+
+            await fetch(`${backend}/${userName}/remove-category`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userName: username, categoryList: updatedCategoryList})
+            });
+        } catch (error) {
+            console.error("Error: ", error); 
+        }
+    }; 
+
+
     return (
         <>
-
+    
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', position: 'absolute', height: '92%', width: '10vw' }}>
                 <Box sx={{ display: 'flex', marginTop: '65%', marginBottom: '15%', fontWeight: 'bold' }}>
                     Category
@@ -180,15 +198,18 @@ const Home = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <Button
                         sx={{
+                            display: 'flex',
                             textTransform: 'none',
+                            paddingLeft: '30px',
                             backgroundColor:
                                 "All" === selectedCategory
                                     ? '#4681f4'
                                     : 'inherit',
+                          
                         }}
                         onClick={() => handleClickCategory("All")} // Add this line
                     >
-                        <Typography className="responsive-color">
+                        <Typography className="responsive-color" sx={{ marginRight: 'auto' }}>
                             All
                         </Typography>
                     </Button>
@@ -198,12 +219,18 @@ const Home = () => {
                                 display: 'flex',
                                 textTransform: 'none',
                                 backgroundColor: category === selectedCategory ? '#4681f4' : 'inherit',
+                                paddingLeft: '30px'
                             }}
                             onClick={() => handleClickCategory(category)}>
-                            <Typography className="responsive-color" >
-                                {category}
+                            <Typography className="responsive-color"  sx={{ marginRight: 'auto' }}>
+                                {category} 
                             </Typography>
+                            {userRole === "LoggedInUser" &&
+                            <BackspaceIcon style={{color: 'white'}}
+                                           onClick={() => handleRemoveCategory(category)}/>
+                            }
                         </Button>
+                        
                     ))}
                 </Box>
 
@@ -221,10 +248,13 @@ const Home = () => {
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: '50px', width: '75%', margin: '0 auto', color: 'white', marginLeft: '20%' }}>
                 {blogPostInfo && blogPostInfo.map((item, index) => (
 
-                    <div onClick={() => handleNavigatePostDetails(item.title)} className="post-container" key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <div onClick={() => handleNavigatePostDetails(item._id)} className="post-container" key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Box sx={{ backgroundColor: '#1f1f23', borderRadius: '10px', }}>
+                            {item.thumbnailImage ?
                             <img src={item.thumbnailImage} alt="" style={{ width: '300px', height: '170px', borderRadius: '10px' }} />
-
+                            :
+                            <img src={defaultImage} alt="" style={{ width: '300px', height: '170px', borderRadius: '10px' }} /> 
+                            }
                             <Typography variant="h5" sx={{ textAlign: 'center', maxWidth: '300px' }}>
                                 {item.title}
                             </Typography>
