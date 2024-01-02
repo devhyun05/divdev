@@ -13,7 +13,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 
-const backend = "http://localhost:8000" 
+const backend = process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://www.divdev.pro";  
 
 
 const Profile = () => {
@@ -34,7 +34,7 @@ const Profile = () => {
         }).then(response => response.json())
         .then(data => {        
             setProfileDesc(data.profileDesc);
-            setSkills(data.userSkills);                          
+            setSkills(data.userSkills);                     
             setMedia(data.userMedia)
         }).catch(err => {
             console.log(err); 
@@ -43,7 +43,7 @@ const Profile = () => {
     
     useEffect(()=>{
         fetchProfile(); 
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const iconComponents = {
         GitHubIcon: <GitHubIcon/>, 

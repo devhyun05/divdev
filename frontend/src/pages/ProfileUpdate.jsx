@@ -23,7 +23,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import ClearIcon from '@mui/icons-material/Clear';
 import { InputAdornment } from '@mui/material';
 
-const backend = "http://localhost:8000" 
+const backend = process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://www.divdev.pro"; 
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
@@ -58,13 +58,14 @@ const ProfileUpdate = () => {
     const [contact, setContact] = useState(''); 
     const [media, setMedia] = useState([]); 
     const [userProfileDesc, setUserProfileDesc] = useState(""); 
+    const [base64ImageString, setBase64ImageString] = useState('');
     const [url, setURL] = useState(""); 
     const [countForRender, setCountForRender] = useState(0); 
     const navigate = useNavigate(); 
 
     useEffect(()=>{
         fetchProfile(); 
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
     
     const fetchProfile = async () => {      
         try {
@@ -76,6 +77,7 @@ const ProfileUpdate = () => {
                 body: JSON.stringify({username: userName})
             }).then(response => response.json())
             .then(data => {
+                console.log(data);
                 setUserProfileDesc(data.profileDesc);
                 if (data.userSkills.length > 0) {
                     setSkill(data.userSkills)
@@ -135,6 +137,15 @@ const ProfileUpdate = () => {
 
     const handleImageChange = (event) => {
         setImage(event.target.files[0]);
+        const file = event.target.files[0];
+        
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+            setBase64ImageString(reader.result)
+        }
+
     }
 
     const handleProfileDescChange = (event) => {
@@ -161,7 +172,7 @@ const ProfileUpdate = () => {
     }
 
     const handleSkillClick = () => {
-        console.log(input);
+  
         setSkill([...skill, {text: input}]);     
     }
 
@@ -182,13 +193,10 @@ const ProfileUpdate = () => {
         }
     }
     const handleMediaRemove = (item) => {
-        console.log(item);
         for (let i = 0; i < media.length; i++) {
             if (media[i].mediaURL === item.mediaURL) {
-                media.splice(i, 1); 
-                console.log(media);
-                setCountForRender(countForRender + 1); 
-            
+                media.splice(i, 1);                             
+                setCountForRender(countForRender + 1);             
             }
         }
     
@@ -224,7 +232,10 @@ const ProfileUpdate = () => {
             <Container style={{display: 'flex', flexDirection: 'row', marginTop: '5%'}}>
                 <Box>
                     <Box onClick={handleImageClick} sx={{width: '250px', height: '250px'}}>
-                        {userProfileImage ? <img src={userProfileImage} alt="" className="uploaded-image"/> : <img src={CircleImage} alt="Circle" className="uploaded-image"/>}
+                        {base64ImageString ? <img src={base64ImageString} alt="" className="uploaded-image"/> : 
+                        userProfileImage ? <img src={userProfileImage} alt="Circle" className="uploaded-image"/> :
+                        <img src={CircleImage} alt="Circle" className="uploaded-image"/>
+                        }
                         <input type="file" ref={inputRef} onChange={handleImageChange} style={{ display: 'none' }} />                    
                     </Box>
                     <Box sx={{marginTop: '50%', paddingLeft: '39%'}}>
