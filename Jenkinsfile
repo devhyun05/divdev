@@ -31,6 +31,7 @@ pipeline {
                     cd /var/jenkins_home
                     git config --global --add safe.directory '*'
                     git --version
+                    git remote -v
                 '''
                 
                 dir('frontend') {
