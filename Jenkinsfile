@@ -30,7 +30,9 @@ pipeline {
                          
                 dir('backend') {
                     sh '''                        
-                        git config --global --add safe.directory '*'                 
+                        git config --global --add safe.directory '*'   
+                        git config --global user.email "devhyun05@gmail.com"
+                        git config --global user.name "HyunSeongLee"              
                         git add .
                         git commit -am "jenkins commit"
                         git push heroku main
