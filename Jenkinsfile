@@ -33,17 +33,18 @@ pipeline {
                         git config --global --add safe.directory '*'
                         git remote add heroku https://git.heroku.com/divdev.git
                         git remote -v
+                        git push heroku main
                     '''
                 }
 
                 
-                dir('frontend') {
-                    sh 'yarn build'
-                    sh 'cp -r build/* ../backend/public'
-                }
-                dir('../backend') {
-                    sh 'git push heroku main'
-                }
+                // dir('frontend') {
+                //     sh 'yarn build'
+                //     sh 'cp -r build/* ../backend/public'
+                // }
+                // dir('../backend') {
+                //     sh 'git push heroku main'
+                // }
               
             }
         }
