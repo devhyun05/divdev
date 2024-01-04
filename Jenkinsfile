@@ -28,12 +28,16 @@ pipeline {
             steps {
                 echo 'Deploying the application...'   
                          
-                sh '''
-                    pwd
-                    git config --global --add safe.directory '*'
-                    git --version
-                    git remote -v
-                '''
+                dir('backend') {
+                    sh '''
+                        pwd
+                        ls
+                        git config --global --add safe.directory '*'
+                        git --version
+                        git remote -v
+                    '''
+                }
+
                 
                 dir('frontend') {
                     sh 'yarn build'
