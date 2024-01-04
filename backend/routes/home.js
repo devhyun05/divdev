@@ -50,4 +50,24 @@ router.post('/:username/sort-post', async (req, res) => {
         console.error(error); 
     }
 });
+
+router.delete('/:username/remove-category', async (req, res) => {
+    try {
+        const userName = req.body.userName; 
+        const categoryList = req.body.categoryList;
+        db.collection('Users').updateOne(
+            { "username": userName }, 
+            {
+                $set: {
+                    "category": categoryList
+                }
+            }
+        );
+        res.json(); 
+        
+    } catch (error) {
+        console.error(error); 
+    }
+}); 
+
 module.exports = router;

@@ -1,7 +1,7 @@
 const express = require('express'); 
 const router = express.Router(); 
 const db = require('../lib/db');
-const {upload} = require('../middlewares/s3Operations'); 
+const { upload, deleteFromS3} = require('../middlewares/s3Operations'); 
 const _ = require('lodash');
 
 // profile 
@@ -47,16 +47,23 @@ router.post("/",  _.debounce(async (req, res)=>{
 
 
 router.put('/update-image', upload.single('image'), async (req, res) => {
-    
     try {
+        const userName = req.body.username; 
+
+        const user = await db.collection('Users').findOne({username: userName}); 
+        
+        const s3Filename = "user-profile-picture/" + user.photoURL.split('/').pop();
+        await deleteFromS3(s3Filename); 
+
         await db.collection('Users').updateOne(
-            { "username": req.body.username }, 
+            { "username": userName }, 
             {
                 $set: {
                     "photoURL": req.file.location
                 }
             }
         )
+
     } catch (error) {
         console.error(error); 
     }
