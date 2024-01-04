@@ -30,7 +30,11 @@ const Home = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const [newCategory, setNewCategory] = useState('');
     const [categoryList, setCategoryList] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1); 
 
+
+ 
+    
     const navigate = useNavigate();
 
 
@@ -47,7 +51,16 @@ const Home = () => {
             setUserName(username);
             setIsLoggedIn(true);
         }
-    }
+    };
+
+    // pagniation
+    const handlePaginationPrev = () => {
+        setCurrentPage(currentPage - 1);
+    };
+
+    const handlePaginationNext = () => {
+        setCurrentPage(currentPage + 1); 
+    }; 
 
     const fetchUserInfo = async () => {
         try {
@@ -236,7 +249,7 @@ const Home = () => {
 
 
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4%', marginRight: '5%' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1%', marginRight: '5%' }}>
                 <Link to={`/${userName}/addpost`}>
                     {userRole === "LoggedInUser" ? 
                     <Button sx={{ backgroundColor: '#4681f4', color: 'white', fontWeight: 'bold' }}>
@@ -245,15 +258,15 @@ const Home = () => {
                     : ""}
                 </Link>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', gap: '50px', width: '75%', margin: '0 auto', color: 'white', marginLeft: '20%' }}>
-                {blogPostInfo && blogPostInfo.map((item, index) => (
 
+            <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '50px', width: '75%', margin: '0 auto', color: 'white', marginLeft: '20%' }}>
+                {blogPostInfo && blogPostInfo.map((item, index) => (
                     <div onClick={() => handleNavigatePostDetails(item._id)} className="post-container" key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
-                        <Box sx={{ backgroundColor: '#1f1f23', borderRadius: '10px', }}>
-                            {item.thumbnailImage ?
-                            <img src={item.thumbnailImage} alt="" style={{ width: '300px', height: '170px', borderRadius: '10px' }} />
-                            :
-                            <img src={defaultImage} alt="" style={{ width: '300px', height: '170px', borderRadius: '10px' }} /> 
+                        <Box sx={{ backgroundColor: '#1f1f23', borderRadius: '10px'}}>
+                            {item.thumbnailImage ?                                        
+                                <img src={item.thumbnailImage} alt="" style={{ width: '300px', height: '150px', borderRadius: '10px' }} />                     
+                            :                          
+                                <img src={defaultImage} alt="" style={{ width: '300px', height: '150px', borderRadius: '10px' }} />                  
                             }
                             <Typography variant="h5" sx={{ textAlign: 'center', maxWidth: '300px' }}>
                                 {item.title}
@@ -272,8 +285,15 @@ const Home = () => {
                         </Box>
                     </div>
                 ))}
+               
+
 
             </Box>
+
+            <Box>
+                        
+            </Box>
+            
 
         </>
     )
