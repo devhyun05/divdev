@@ -1,7 +1,7 @@
 const express = require('express'); 
 const router = express.Router(); 
 const db = require('../lib/db');
-const {upload, deleteFromS3} = require('../middlewares/s3Operations'); 
+const { upload, deleteFromS3 } = require('../middlewares/s3Operations'); 
 const { ObjectId } = require('mongodb');
 
 router.post("/get-blog-post", async (req, res) => {
@@ -17,12 +17,14 @@ router.post("/get-blog-post", async (req, res) => {
 }); 
 
 router.post("/get-post-details", async (req, res) => {
-    try {        
+    try {            
+        const userName = req.body.username; 
+        const postId = req.body.postId;
+        const post = await db.collection('Posts').findOne({_id: new ObjectId(postId)}); 
+        const user = await db.collection('Users').findOne({username: userName}); 
+        const userId = user._id; 
 
-        const postTitle = req.body.title;
-        const post = await db.collection('Posts').findOne({title: postTitle}); 
-
-        res.json(post); 
+        res.json({post, userId}); 
     } catch (error) {
         console.error(error); 
     }
@@ -30,7 +32,6 @@ router.post("/get-post-details", async (req, res) => {
 
 router.post("/get-category-lists", async (req, res) => {
     try {
-
         const username = req.body.username;    
         const user = await db.collection('Users').findOne({username: username});  
         const categoryList = user ? user.category : [];
@@ -39,11 +40,62 @@ router.post("/get-category-lists", async (req, res) => {
         console.error(error); 
     }
 }); 
+
+router.post("/update-post-like", async (req, res) => {
+    try {
+        const postId = req.body.postId; 
+        const username = req.body.username; 
+        const noOfLikes = req.body.noOfLikes; 
+  
+        const user = await db.collection('Users').findOne({username: username});  
+
+        const findPostUser = await db.collection('Posts').findOne({ 'userListClickLike.userId': new ObjectId(user._id) }); 
+
+        
+        if (findPostUser) {
+            await db.collection('Posts').updateOne(
+                { "_id": new ObjectId(postId) }, 
+                {
+                    $set: {
+                        "noOfLikes": noOfLikes
+                    },
+                    $pull: {
+                        "userListClickLike": {
+                            "userId": new ObjectId(user._id) 
+                        }
+                    }
+                }            
+            );
+        } else {         
+            await db.collection('Posts').updateOne(
+                { "_id": new ObjectId(postId) }, 
+                {
+                    $set: {
+                        "noOfLikes": noOfLikes
+                    },
+                    $push: {
+                        "userListClickLike": {
+                            "userId": new ObjectId(user._id) 
+                        }
+                    }
+                }            
+            );
+        }
+
+       
+        res.json(noOfLikes); 
+    } catch (error) {
+        console.error(error); 
+    }
+}); 
+
+
+
 router.post("/add-post-info", upload.single('image'), async (req, res) => { 
     const userName = req.body.username;
     const title = req.body.title; 
     let thumbnailImage;  // Initialize thumbnailImage variable
-
+  
     if (req.file) {
         thumbnailImage = req.file.location;         
     }
@@ -64,6 +116,7 @@ router.post("/add-post-info", upload.single('image'), async (req, res) => {
                             noOfLikes: noOfLikes,
                             noOfComments: noOfComments 
                         }; 
+
         await db.collection('Posts').insertOne(newPost); 
      
         res.json(); 
@@ -72,10 +125,12 @@ router.post("/add-post-info", upload.single('image'), async (req, res) => {
     }
 });
 
+
 router.put("/update-post", upload.single('image'), async (req, res) => {
-    const prevPostId = req.body.prevPostId; 
+    const postId = req.body.postId; 
     const userName = req.body.username;
     const title = req.body.title; 
+
     let thumbnailImage; 
 
     if (req.file) {
@@ -86,7 +141,10 @@ router.put("/update-post", upload.single('image'), async (req, res) => {
     const postContent = req.body.postContent; 
     const postTime = req.body.postTime; 
 
+    const currPost = await db.collection('Posts').findOne({ "_id": new ObjectId(postId) });
+    const prevThumbnailImage = currPost.thumbnailImage;
 
+  
     try {       
         const updateFields = {
             "userName": userName, 
@@ -97,16 +155,19 @@ router.put("/update-post", upload.single('image'), async (req, res) => {
         };
 
         if (thumbnailImage) {
-            // Only add "thumbnailImage" to updateFields if it exists
             updateFields.thumbnailImage = thumbnailImage;
+            const s3Filename = "user-profile-picture/" + prevThumbnailImage.split('/').pop();
+            await deleteFromS3(s3Filename); 
         }
 
         await db.collection('Posts').updateOne(
-            { "_id": new ObjectId(prevPostId) }, 
+            { "_id": new ObjectId(postId) }, 
             {
                 $set: updateFields
             }
         );
+
+
 
         res.json(); 
     } catch (error) {
@@ -116,8 +177,15 @@ router.put("/update-post", upload.single('image'), async (req, res) => {
 
 router.delete("/delete-post", async (req, res) => {
     try {
-        const postTitle = req.body.title;  
-        await db.collection('Posts').deleteOne({title: postTitle}); 
+        const postId = req.body.postId;  
+        const currPost = await db.collection('Posts').findOne({_id: new ObjectId(postId) });
+        
+        await db.collection('Posts').deleteOne({_id: new ObjectId(postId)}); 
+
+        if (currPost.thumbnailImage) {
+            const s3Filename = "user-profile-picture/" + currPost.thumbnailImage.split('/').pop();
+            deleteFromS3(s3Filename); 
+        }
         res.json(); 
     } catch (error) {
         console.error(error); 

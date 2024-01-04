@@ -33,6 +33,10 @@ const PostSchema = new mongoose.Schema({
         type: Integer, 
         required: true 
     },
+    userListClickLike: {
+        type: Array, 
+        required: true 
+    }
 }); 
 
 const Post = mongoose.model("Post", PostSchema);

@@ -58,9 +58,9 @@ router.delete("/delete-project", async(req, res) => {
             { username: userName },  
             { $pull: {projects: {project_image: projectImageLink}}}
         ); 
-        const s3Filename = projectImageLink.split('/').pop();
-        console.log(s3Filename); 
-        await deleteFromS3(); 
+        const s3Filename = "user-profile-picture/" + projectImageLink.split('/').pop();
+ 
+        await deleteFromS3(s3Filename); 
 
         res.json(); 
     } catch (error) {
