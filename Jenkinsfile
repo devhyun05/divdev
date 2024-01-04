@@ -29,11 +29,9 @@ pipeline {
                 echo 'Deploying the application...'   
                          
                 dir('backend') {
-                    sh '''
-                        pwd
-                        ls
+                    sh '''                        
                         git config --global --add safe.directory '*'
-                        git --version
+                        git remote add heroku https://git.heroku.com/divdev.git
                         git remote -v
                     '''
                 }
