@@ -29,7 +29,8 @@ pipeline {
                 echo 'Deploying the application...'                
                 sh '''
                     cd /var/jenkins_home
-                    git config --global --add safe.directory "*"
+                    git config --global --add safe.directory '*'
+                    git --version
                 '''
                 
                 dir('frontend') {
