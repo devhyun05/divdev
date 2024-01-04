@@ -27,7 +27,11 @@ pipeline {
         stage("deploy") {
             steps {
                 echo 'Deploying the application...'   
-                         
+                dir('frontend') {
+                    sh 'yarn build'
+                    sh 'cp -r build/* ../backend/public'
+                }
+
                 dir('backend') {
                     sh '''                        
                         git config --global --add safe.directory '*'   
@@ -40,13 +44,7 @@ pipeline {
                 }
 
                 
-                // dir('frontend') {
-                //     sh 'yarn build'
-                //     sh 'cp -r build/* ../backend/public'
-                // }
-                // dir('../backend') {
-                //     sh 'git push heroku main'
-                // }
+           
               
             }
         }
