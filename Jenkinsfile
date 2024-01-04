@@ -30,9 +30,9 @@ pipeline {
                 dir('frontend') {
                     sh 'cp -r build/* ../backend/public'
                 }
-                // dir('../backend') {
-                //     sh 'git push heroku main'
-                // }
+                dir('../backend') {
+                    sh 'git push heroku main'
+                }
               
             }
         }
