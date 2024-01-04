@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 const backend = process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://www.divdev.pro"; 
 
 const Project = () => {
-    const { userName, userRole } = useContext(LoginContext); 
+    const { isLoggedIn, userName, userRole } = useContext(LoginContext); 
     const [projectList, setProjectList] = useState([]); 
     const [countForRender, setCountForRender] = useState(0); 
 
@@ -86,6 +86,7 @@ const Project = () => {
                             <Typography variant="h6" className="responsive-color">
                                 {item.project_desc}
                             </Typography>
+                            {isLoggedIn &&
                             <Box sx={{marginTop: '10%'}}>
                                 <Button style={{width: '40%', backgroundColor: '#4681f4', color: 'white', marginRight: '10px'}} >Update </Button>
                                 <Button style={{width: '40%', backgroundColor: '#4681f4', color: 'white'}} 
@@ -93,6 +94,7 @@ const Project = () => {
                                             Delete 
                                 </Button>
                             </Box>
+                            }
                         </Box>
                     </Box>
                 ))}
