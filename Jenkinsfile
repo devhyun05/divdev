@@ -32,13 +32,12 @@ pipeline {
                     sh 'cp -r build/* ../backend/public'
                 }
 
-                dir('backend') {
+         
                     sh '''                   
-                        git checkout main
-
-                        git push heroku main
+                        cd backend
+                        git branch -a
                     '''
-                }
+                
 
                 
             }
