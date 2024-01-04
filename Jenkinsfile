@@ -30,9 +30,9 @@ pipeline {
                          
                 dir('backend') {
                     sh '''                        
-                        git config --global --add safe.directory '*'
-                 
-                        git remote -v
+                        git config --global --add safe.directory '*'                 
+                        git add .
+                        git commit -am "jenkins commit"
                         git push heroku main
                     '''
                 }
