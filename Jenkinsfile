@@ -34,7 +34,7 @@ pipeline {
 
                 dir('backend') {
                     sh '''                        
-                        heroku login
+                        /opt/homebrew/bin/heroku login 
                         git push -f heroku main
                     '''
                 }
