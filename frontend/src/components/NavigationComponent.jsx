@@ -34,7 +34,7 @@ const NavigationComponent = () => {
             setIsLoggedIn(true); 
             setUserName(username); 
         }   
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     const handleOpenNavMenu = (event) => {
@@ -171,12 +171,16 @@ const NavigationComponent = () => {
                                             <Avatar alt={`${userName}`} src={userProfileImage} />
                                         </IconButton>
                                     </Tooltip> :
-                                    <Button
-                                        onClick={handleCloseNavMenu}
-                                        sx={{ my: 2, display: 'block' }}
-                                    >
-                                        <Link className="responsive-color" style={{ textDecoration: 'none',  }} to={`${pages[0].navLink}`}>{pages[0].navItem}</Link>
-                                    </Button>
+             
+                                        <Button
+                                            onClick={handleCloseNavMenu}
+                                            sx={{ my: 2, display: 'block' }}
+                                        >
+                                            <Link className="responsive-color" style={{ textDecoration: 'none',  }} to={`${pages[0].navLink}`}>
+                                                {pages[0].navItem}
+                                            </Link>
+                                        </Button>
+                                  
                                 }
                                 <Menu
                                     sx={{ mt: '45px' }}
