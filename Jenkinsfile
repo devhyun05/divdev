@@ -34,8 +34,8 @@ pipeline {
 
                 dir('backend') {
                     sh '''                        
-                   
-                        git push heroku main
+                        heroku login
+                        git push -f heroku main
                     '''
                 }
 
