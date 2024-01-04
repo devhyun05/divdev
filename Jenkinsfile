@@ -26,9 +26,10 @@ pipeline {
 
         stage("deploy") {
             steps {
-                echo 'Deploying the application...'                
+                echo 'Deploying the application...'   
+                         
                 sh '''
-                    cd /var/jenkins_home
+                    pwd
                     git config --global --add safe.directory '*'
                     git --version
                     git remote -v
