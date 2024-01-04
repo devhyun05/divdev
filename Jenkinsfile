@@ -26,8 +26,12 @@ pipeline {
 
         stage("deploy") {
             steps {
-                  echo 'Deploying the application...'
+                echo 'Deploying the application...'                
+                sh 'cd /var/jenkins_home'
+                sh 'git config --global --add safe.directory ‘*’'
+                
                 dir('frontend') {
+                    sh 'yarn build'
                     sh 'cp -r build/* ../backend/public'
                 }
                 dir('../backend') {
