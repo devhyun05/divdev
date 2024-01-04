@@ -34,7 +34,7 @@ pipeline {
 
                 dir('backend') {
                     sh '''                   
-                        git branch -a     
+                        git remote -v
                         git push heroku main
                     '''
                 }
