@@ -3,9 +3,7 @@ pipeline {
 
     tools {nodejs "nodejs"}
 
-       environment {
-        HEROKU_API_KEY = credentials('my-heroku-api-key')
-    }
+  
     stages {
         stage("Build") {
             steps {
@@ -36,12 +34,9 @@ pipeline {
                     sh 'cp -r build/* ../backend/public'
                 }
                 dir('backend') {
-                    script {
-                    withCredentials([string(credentialsId: 'my-heroku-api-key', variable: 'HEROKU_API_KEY')]) {
-                        sh "heroku auth:token --write"
-                        sh "git push heroku main"
-                    }
-                }
+                    sh 'git remote remove https://git.heroku.com/divdev.git'
+                    sh 'git remote -v'
+                    sh 'git push heroku main'
                 }
               
             }
