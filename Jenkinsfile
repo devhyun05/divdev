@@ -32,7 +32,8 @@ pipeline {
                     sh 'yarn build'
                     sh 'cp -r build/* ../backend/public'
                 }
-                dir('../backend') {
+                dir('backend') {
+                    sh 'git remote -v'
                     sh 'git push heroku main'
                 }
               
