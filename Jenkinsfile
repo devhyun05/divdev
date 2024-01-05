@@ -24,32 +24,18 @@ pipeline {
             }
         }
 
-        stage("Build Docker Image") {
+         stage("deploy") {
             steps {
-                echo 'Building Docker image...'
-                script {
-                    docker.build("vigorous_lehmann:latest", "./backend")
+                echo 'Deploying the application...'                               
+                
+                dir('frontend') {
+                    sh 'yarn build'
+                    sh 'cp -r build/* ../backend/public'
                 }
-            }
-        }
-
-        stage("Push to Heroku") {
-            steps {
-                echo 'Pushing Docker image to Heroku Container Registry...'
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'my-heroku-credentials', usernameVariable: 'HEROKU_USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh "docker login --password=$PASSWORD registry.heroku.com"
-                    }
-                    sh "docker tag vigorous_lehmann:latest registry.heroku.com/divdev/web"
-                    sh "docker push registry.heroku.com/divdev/web"
+                dir('../backend') {
+                    sh 'git push heroku main'
                 }
-            }
-        }
-
-        stage("Deploy to Heroku") {
-            steps {
-                echo 'Deploying the application to Heroku...'
-                sh 'heroku container:release web -a divdev'
+              
             }
         }
     }
