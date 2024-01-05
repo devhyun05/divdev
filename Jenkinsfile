@@ -34,7 +34,7 @@ pipeline {
                     sh 'cp -r build/* ../backend/public'
                 }
                 dir('backend') {
-                    sh 'heroku auth:login'
+                    sh 'heroku login'
                     sh 'git push heroku main'
                 }
               
