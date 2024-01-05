@@ -35,7 +35,7 @@ pipeline {
          
                     sh '''                   
                         cd backend
-                        git remote -v
+                        git push heroku main
                     '''
                 
 
