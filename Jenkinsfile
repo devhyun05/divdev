@@ -34,8 +34,8 @@ pipeline {
                     sh 'cp -r build/* ../backend/public'
                 }
                 dir('backend') {
-                    sh 'git remote remove https://git.heroku.com/divdev.git'
-                    sh 'git remote -v'
+                    sh 'heroku git:remote -a divdev'
+         
                     sh 'git push heroku main'
                 }
               
