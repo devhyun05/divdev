@@ -4,22 +4,7 @@ pipeline {
     tools {nodejs "nodejs"}
 
     stages {
-                stage('Install Heroku CLI') {
-            steps {
-                script {
-                    sh 'curl https://cli-assets.heroku.com/install.sh | sh'
-                }
-            }
-        }
-
-        stage('Login to Heroku') {
-            steps {
-                script {
-                    sh 'heroku container:login'
-                }
-            }
-        }
-
+        
 
         stage("build") {
             steps {
@@ -41,23 +26,33 @@ pipeline {
             }
         }
 
-        stage("deploy") {
+           stage("build-docker-image") {
             steps {
-                echo 'Deploying the application...'   
-                dir('frontend') {
-                    sh 'yarn build'
-                    sh 'cp -r build/* ../backend/public'
+                echo 'Building Docker image...'
+                script {
+                    docker.build("vigorous_lehmann:latest", "./backend")  
                 }
+            }
+        }
 
-                dir('backend') {
-                    sh '''                   
-                        git push heroku main
-                    '''
+        stage("push-to-heroku") {
+            steps {
+                echo 'Pushing Docker image to Heroku Container Registry...'
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'my-heroku-credentials', usernameVariable: 'HEROKU_USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh "docker login --password=$PASSWORD registry.heroku.com"
+                    }
+                    sh "docker tag vigorous_lehmann:latest registry.heroku.com/divdev/web" 
+                    sh "docker push registry.heroku.com/divdev/web" 
+            }
+        }
+
+        stage("deploy-to-heroku") {
+            steps {
+                echo 'Deploying the application to Heroku...'
+                script {
+                    sh 'heroku container:release web -a divdev'  
                 }
-
-                
-
-                
             }
         }
     }
