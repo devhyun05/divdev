@@ -1,63 +1,56 @@
 pipeline {
-    
     agent any
 
     tools {nodejs "nodejs"}
 
     stages {
-        
-
-        stage("build") {
+        stage("Build") {
             steps {
-                dir('frontend'){
-                    echo 'Building the application...'                    
+                echo 'Building the application...'
+                dir('frontend') {
                     sh "npm install -g yarn"
-                    sh 'yarn install' 
-                    sh 'yarn build' 
+                    sh 'yarn install'
+                    sh 'yarn build'
                 }
             }
         }
 
-        stage("test") {
-             steps {
-                dir('frontend/src/_tests_'){
-                    echo 'testing the application...'
-                    sh 'yarn test login.test.js'              
+        stage("Test") {
+            steps {
+                echo 'Testing the application...'
+                dir('frontend/src/_tests_') {
+                    sh 'yarn test login.test.js'
                 }
             }
         }
 
-           stage("build-docker-image") {
+        stage("Build Docker Image") {
             steps {
                 echo 'Building Docker image...'
                 script {
-                    docker.build("vigorous_lehmann:latest", "./backend")  
+                    docker.build("vigorous_lehmann:latest", "./backend")
                 }
             }
         }
 
-        stage("push-to-heroku") {
+        stage("Push to Heroku") {
             steps {
                 echo 'Pushing Docker image to Heroku Container Registry...'
                 script {
                     withCredentials([usernamePassword(credentialsId: 'my-heroku-credentials', usernameVariable: 'HEROKU_USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh "docker login --password=$PASSWORD registry.heroku.com"
                     }
-                    sh "docker tag vigorous_lehmann:latest registry.heroku.com/divdev/web" 
-                    sh "docker push registry.heroku.com/divdev/web" 
-            }
-        }
-
-        stage("deploy-to-heroku") {
-            steps {
-                echo 'Deploying the application to Heroku...'
-                script {
-                    sh 'heroku container:release web -a divdev'  
+                    sh "docker tag vigorous_lehmann:latest registry.heroku.com/divdev/web"
+                    sh "docker push registry.heroku.com/divdev/web"
                 }
             }
         }
 
-
-    }
+        stage("Deploy to Heroku") {
+            steps {
+                echo 'Deploying the application to Heroku...'
+                sh 'heroku container:release web -a divdev'
+            }
+        }
     }
 }
