@@ -35,6 +35,7 @@ pipeline {
                 dir('backend') {
                     sh '''                   
                         git remote -v
+                        heroku container:login
                         git push heroku main
                     '''
                 }
