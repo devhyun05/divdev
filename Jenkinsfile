@@ -3,10 +3,7 @@ pipeline {
 
     tools {nodejs "nodejs"}
 
-    environment {
-        HEROKU_API_KEY = credentials('my-heroku-credentials')
-    }
-
+   
     stages {
         stage("Build") {
             steps {
@@ -37,7 +34,7 @@ pipeline {
                     sh 'cp -r build/* ../backend/public'
                 }
                 dir('backend') {
-                    sh "echo $HEROKU_API_KEY | heroku auth:login --api-key"
+                    sh 'heroku auth:login'
                     sh 'git push heroku main'
                 }
               
