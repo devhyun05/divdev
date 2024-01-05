@@ -4,6 +4,23 @@ pipeline {
     tools {nodejs "nodejs"}
 
     stages {
+                stage('Install Heroku CLI') {
+            steps {
+                script {
+                    sh 'curl https://cli-assets.heroku.com/install.sh | sh'
+                }
+            }
+        }
+
+        stage('Login to Heroku') {
+            steps {
+                script {
+                    sh 'heroku container:login'
+                }
+            }
+        }
+
+
         stage("build") {
             steps {
                 dir('frontend'){
@@ -34,8 +51,6 @@ pipeline {
 
                 dir('backend') {
                     sh '''                   
-                        git remote -v
-                        heroku container:login
                         git push heroku main
                     '''
                 }
