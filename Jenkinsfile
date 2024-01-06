@@ -32,8 +32,10 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'my-heroku-api-key', variable: 'HEROKU_API_KEY')]) {
-                        sh "heroku git:remote -a divdev"
-                        sh "git push heroku main"
+                        sh 'apt-get install curl'
+                        sh 'curl -sL https://deb.nodesource.com/setup_4.x | bash'
+                        sh 'apt-get install nodejs'
+             
                     }
                 }
               
