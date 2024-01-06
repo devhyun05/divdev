@@ -91,7 +91,7 @@ const Project = () => {
                                 <Button style={{width: '40%', backgroundColor: '#4681f4', color: 'white', marginRight: '10px'}} >Update </Button>
                                 <Button style={{width: '40%', backgroundColor: '#4681f4', color: 'white'}} 
                                           onClick={() => handleDeleteProject(item.project_image)}>
-                                            Delete 
+                                            Deletes
                                 </Button>
                             </Box>
                             }
