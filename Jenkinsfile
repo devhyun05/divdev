@@ -3,7 +3,10 @@ pipeline {
 
     tools {nodejs "nodejs"}
 
-  
+    environment {
+        HEROKU_API_KEY = credentials('my-heroku-api-key')
+    }
+
     stages {
         stage("Build") {
             steps {
@@ -27,16 +30,13 @@ pipeline {
 
          stage("deploy") {
             steps {
-                echo 'Deploying the application...'                               
-                
-                dir('frontend') {
-                    sh 'yarn build'
-                    sh 'cp -r build/* ../backend/public'
-                }
-                dir('backend') {
-                    sh 'heroku git:remote -a divdev'
-         
-                    sh 'git push heroku main'
+                script {
+                    withCredentials([string(credentialsId: 'my-heroku-api-key', variable: 'HEROKU_API_KEY')]) {
+                    
+                        sh "git remote add heroku https://git.heroku.com/divdev.git"
+
+                        sh "git push heroku main"
+                    }
                 }
               
             }
