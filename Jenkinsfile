@@ -14,9 +14,8 @@ pipeline {
                 dir('frontend') {
                     sh "npm install -g yarn"
                     sh 'yarn install'
-                    sh 'yarn build'
-                    sh 'pwd'
-                    // sh 'cp -r build/* ../backend/public'
+                    sh 'yarn build'                       
+                    sh 'cp -r build/* ../backend/public'
                 }
             }
         }
