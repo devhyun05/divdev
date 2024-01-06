@@ -35,13 +35,14 @@ pipeline {
                     sh 'yarn build'
                     sh 'cp -r build/* ../backend/public'
                 }
-                dir ('backend') {
-                    script {
-                        withCredentials([string(credentialsId: 'my-heroku-api-key', variable: 'HEROKU_API_KEY')]) {            
-                            sh "git push heroku development"
-                        }
-                    }
-                }
+                sh 'pwd'
+                // dir ('backend') {
+                //     script {
+                //         withCredentials([string(credentialsId: 'my-heroku-api-key', variable: 'HEROKU_API_KEY')]) {            
+                //             sh "git push heroku development"
+                //         }
+                //     }
+                // }
 
               
             }
