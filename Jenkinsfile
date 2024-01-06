@@ -31,11 +31,7 @@ pipeline {
 
          stage("deploy") {
             steps {
-                      sh 'cd backend'
-                sh 'git add .'
-                sh 'git commit -am "public updated"'
-            
-         
+  
                 sh 'git push heroku development'
                 // dir ('backend') {
                 //     script {
