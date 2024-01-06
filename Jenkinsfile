@@ -32,6 +32,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'my-heroku-api-key', variable: 'HEROKU_API_KEY')]) {
+                        sh 'git config --global user.name'
                         sh "git push heroku main"
                     }
                 }
