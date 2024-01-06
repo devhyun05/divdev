@@ -33,7 +33,7 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'my-heroku-api-key', variable: 'HEROKU_API_KEY')]) {
            
-                        sh "git push heroku main"
+                        sh "git push heroku development"
                     }
                 }
               
