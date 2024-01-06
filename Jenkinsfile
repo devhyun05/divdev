@@ -3,9 +3,9 @@ pipeline {
 
     tools {nodejs "nodejs"}
 
-    environment {
-        HEROKU_API_KEY = credentials('my-heroku-api-key')
-    }
+    // environment {
+    //     HEROKU_API_KEY = credentials('my-heroku-api-key')
+    // }
 
     stages {
         stage("Build") {
@@ -31,9 +31,11 @@ pipeline {
 
          stage("deploy") {
             steps {
-               
-                sh 'pwd'
-                sh 'cd backend'
+                      sh 'cd backend'
+                sh 'git add .'
+                sh 'git commit -am "public updated"'
+            
+         
                 sh 'git push heroku development'
                 // dir ('backend') {
                 //     script {
