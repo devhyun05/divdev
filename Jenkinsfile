@@ -32,7 +32,7 @@ pipeline {
                 dir('backend') {
                     sh 'git checkout -b temp_branch'
                     sh 'git add .'
-                    sh 'git commit -am "temp commit"'
+                  
                     sh 'git checkout main'
                     sh 'git merge -Xtheirs --no-edit temp_branch'               
                     sh 'git branch -D temp_branch'
