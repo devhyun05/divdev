@@ -32,7 +32,7 @@ pipeline {
          stage("deploy") {
             steps {
   
-                sh 'git push heroku development'
+                sh 'git push heroku main'
                 // dir ('backend') {
                 //     script {
                 //         withCredentials([string(credentialsId: 'my-heroku-api-key', variable: 'HEROKU_API_KEY')]) {            
