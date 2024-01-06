@@ -3,9 +3,7 @@ pipeline {
 
     tools {nodejs "nodejs"}
 
-    // environment {
-    //     HEROKU_API_KEY = credentials('my-heroku-api-key')
-    // }
+ 
 
     stages {
         stage("Build") {
@@ -31,20 +29,24 @@ pipeline {
 
          stage("deploy") {
             steps {
-                sh 'cd backend'
-                sh 'git add .'
-                sh 'git commit -am "deploy to heroku"'
-                sh 'git push heroku main'
-                // dir ('backend') {
-                //     script {
-                //         withCredentials([string(credentialsId: 'my-heroku-api-key', variable: 'HEROKU_API_KEY')]) {            
-                //             sh "git push heroku development"
-                //         }
-                //     }
-                // }
+                dir('backend') {
+                    sh 'git checkout -b temp_branch'
+                    sh 'git add .'
+                    sh 'git commit -am "temp commit"'
+                    sh 'git checkout main'
+                    sh 'git merge -Xtheirs --no-edit temp_branch'               
+                    sh 'git branch -D temp_branch'
+                    sh 'git push heroku main'    
+                  
+                }        
+   
+
+
 
               
+
             }
         }
     }
 }
+
