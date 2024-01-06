@@ -31,7 +31,8 @@ pipeline {
 
          stage("deploy") {
             steps {
-  
+                sh 'pwd'
+
                 sh 'git push heroku main'
                 // dir ('backend') {
                 //     script {
