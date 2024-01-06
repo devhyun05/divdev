@@ -11,10 +11,10 @@ const Welcome = () => {
                 <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '50%', height: '60%', marginLeft: '5%'}}> 
                     <Box className="box-container" sx={{display: 'flex', flexDirection: 'column'}}>
                         <Typography variant="h2">
-                            Blog style!
+                            Blog style
                         </Typography>
                         <Typography variant="h2">
-                            portfolio builder
+                            portfolio builder !
                         </Typography>
                         <Typography sx={{marginTop: '5%', marginBottom: '5%'}}>
                             Build blog, profile, projects in one website
