@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'my-heroku-api-key', variable: 'HEROKU_API_KEY')]) {
-                        sh "heroku git:remote -a divdev.git"
+                        sh "heroku git:remote -a divdev"
                         sh "git push heroku main"
                     }
                 }
