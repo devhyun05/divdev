@@ -1,6 +1,8 @@
 pipeline {
     agent any
 
+    tools {nodejs "nodejs"}
+
     environment {
         HEROKU_API_KEY = credentials('my-heroku-api-key')
     }
@@ -30,7 +32,8 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'my-heroku-api-key', variable: 'HEROKU_API_KEY')]) {
-                        sh 'git push heroku development'
+           
+                        sh "git push heroku main"
                     }
                 }
               
