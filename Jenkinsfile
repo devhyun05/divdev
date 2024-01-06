@@ -15,6 +15,8 @@ pipeline {
                     sh "npm install -g yarn"
                     sh 'yarn install'
                     sh 'yarn build'
+                    sh 'pwd'
+                    // sh 'cp -r build/* ../backend/public'
                 }
             }
         }
@@ -30,12 +32,10 @@ pipeline {
 
          stage("deploy") {
             steps {
-                 
-                dir('frontend') {
-                    sh 'yarn build'
-                    sh 'cp -r build/* ../backend/public'
-                }
+               
                 sh 'pwd'
+                sh 'cd backend'
+                sh 'git push heroku development'
                 // dir ('backend') {
                 //     script {
                 //         withCredentials([string(credentialsId: 'my-heroku-api-key', variable: 'HEROKU_API_KEY')]) {            
