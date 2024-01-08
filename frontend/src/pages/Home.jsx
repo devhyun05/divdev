@@ -31,18 +31,19 @@ const Home = () => {
     const [newCategory, setNewCategory] = useState('');
     const [categoryList, setCategoryList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1); 
-
+    const [countForRender, setCountForRender] = useState(0); 
 
  
     
     const navigate = useNavigate();
 
 
-    useEffect(() => {
+    useEffect(() => {      
+        console.log("useEffect")
         visitorUserCheck();
         fetchUserInfo();
         fetchBlogPost();
-    }, [userName, categoryList]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [countForRender]); // eslint-disable-line react-hooks/exhaustive-deps
 
   
     const visitorUserCheck = () => {
@@ -52,15 +53,6 @@ const Home = () => {
             setIsLoggedIn(true);
         }
     };
-
-    // pagniation
-    const handlePaginationPrev = () => {
-        setCurrentPage(currentPage - 1);
-    };
-
-    const handlePaginationNext = () => {
-        setCurrentPage(currentPage + 1); 
-    }; 
 
     const fetchUserInfo = async () => {
         try {
@@ -125,7 +117,7 @@ const Home = () => {
             });
             const categories = await response.json();
             setCategoryList(categories);
-
+            setCountForRender(countForRender + 1);
         } catch (error) {
             console.error(error);
         }
@@ -148,7 +140,9 @@ const Home = () => {
                 });
 
                 const postArray = await response.json();
+
                 setBlogPostInfo(postArray);
+                console.log(blogPostInfo);
             }
 
 
@@ -169,6 +163,8 @@ const Home = () => {
                 },
                 body: JSON.stringify({ userName: username, categoryList: updatedCategoryList})
             });
+
+            setCountForRender(countForRender + 1); 
         } catch (error) {
             console.error("Error: ", error); 
         }
@@ -213,7 +209,7 @@ const Home = () => {
                         sx={{
                             display: 'flex',
                             textTransform: 'none',
-                            paddingLeft: '30px',
+                            paddingLeft: '10px',
                             backgroundColor:
                                 "All" === selectedCategory
                                     ? '#4681f4'
@@ -232,14 +228,14 @@ const Home = () => {
                                 display: 'flex',
                                 textTransform: 'none',
                                 backgroundColor: category === selectedCategory ? '#4681f4' : 'inherit',
-                                paddingLeft: '30px'
+                                paddingLeft: '10px'
                             }}
                             onClick={() => handleClickCategory(category)}>
                             <Typography className="responsive-color"  sx={{ marginRight: 'auto' }}>
                                 {category} 
                             </Typography>
                             {userRole === "LoggedInUser" &&
-                            <BackspaceIcon style={{color: 'white'}}
+                            <BackspaceIcon style={{color: 'white', marginLeft: '30px'}}
                                            onClick={() => handleRemoveCategory(category)}/>
                             }
                         </Button>
