@@ -39,12 +39,14 @@ router.post('/:username/add-category', async (req, res) => {
 });
 
 router.post('/:username/sort-post', async (req, res) => {
-    try {
+    try {        
         const category = req.body.category;
 
+        console.log(category);
         const posts = db.collection('Posts').find({category: category});
-        const postsArray = await posts.toArray(); 
 
+        const postsArray = await posts.toArray(); 
+        console.log(postsArray);
         res.json(postsArray); 
     } catch (error) {
         console.error(error); 
