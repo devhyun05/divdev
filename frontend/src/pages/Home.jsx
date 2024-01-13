@@ -30,7 +30,7 @@ const Home = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const [newCategory, setNewCategory] = useState('');
     const [categoryList, setCategoryList] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1); 
+    const [isLoading, setIsLoading] = useState(true);
     const [countForRender, setCountForRender] = useState(0); 
 
  
@@ -39,11 +39,17 @@ const Home = () => {
 
 
     useEffect(() => {      
-        console.log("useEffect")
-        visitorUserCheck();
-        fetchUserInfo();
-        fetchBlogPost();
-    }, [countForRender]); // eslint-disable-line react-hooks/exhaustive-deps
+        const fetchData = async () => {
+            visitorUserCheck();
+            await fetchUserInfo();
+            await fetchBlogPost();
+            setIsLoading(false);
+        };
+    
+        fetchData();
+    }, [isLoading]);    // eslint-disable-line react-hooks/exhaustive-deps
+    
+
 
   
     const visitorUserCheck = () => {
