@@ -16,7 +16,7 @@ const Project = () => {
 
     useEffect(()=>{
         fetchProject(); 
-    }, [countForRender]);  // eslint-disable-line react-hooks/exhaustive-deps
+    }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
     const fetchProject = async () => {
         try {
@@ -86,7 +86,7 @@ const Project = () => {
                             <Typography variant="h6" className="responsive-color">
                                 {item.project_desc}
                             </Typography>
-                            {isLoggedIn &&
+                            {userRole === "LoggedInUser" &&
                             <Box sx={{marginTop: '10%'}}>
                                 <Button style={{width: '40%', backgroundColor: '#4681f4', color: 'white', marginRight: '10px'}} >Update </Button>
                                 <Button style={{width: '40%', backgroundColor: '#4681f4', color: 'white'}} 
