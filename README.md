@@ -7,9 +7,9 @@ seamlessly integrating blog, profile, and side projects uploads into a cohesive 
 
 ## Tech Stack
 
-**Frontend:** React, Material UI
+**Frontend:** React.js, Material UI
 
-**Backend:** Node, Express
+**Backend:** Node.js, Express.js
 
 **Database:** MongoDB
 
