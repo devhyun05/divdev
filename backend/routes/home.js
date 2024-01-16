@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router(); 
 const db = require('../lib/db');
 
+router.get('/:username', (req, res) => {
+    const username = req.params.username;
+
+    res.redirect(`/${username}`);
+}); 
+
 router.post('/:username/set-image', async (req, res) => {
     try {
         const username = req.body.username; 
