@@ -1,7 +1,7 @@
 
 ## Divdev
 
-Divdev is a blog-style portfolio building website, designed to address the common issue of fragmented portfolio websites by
+Divdev is a blog-style portfolio building website, and designed to address the common issue of fragmented portfolio websites by
 seamlessly integrating blog, profile, and side projects uploads into a cohesive and user-friendly experience
 
 
